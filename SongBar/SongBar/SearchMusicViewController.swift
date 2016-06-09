@@ -26,6 +26,7 @@ class SearchMusicViewController: UIViewController {
 //		db.child("key").child("subkey").setValue("hello world")
 		rootRef.child("Key1").child("subkey1").setValue("value1")
 		
+		
 
         // Do any additional setup after loading the view.
     }
@@ -89,6 +90,29 @@ extension SearchMusicViewController: UITableViewDataSource {
 		session.resume()
 		
 		return cell
+	}
+}
+
+extension SearchMusicViewController: UITableViewDelegate {
+	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+		print(tableData[indexPath.row].previewUrl)
+		print(tableData[indexPath.row].artist)
+		print(tableData[indexPath.row].imageUrl)
+		print(tableData[indexPath.row].title)
+		
+		
+		//		let name = realmUserData[0].userName
+		//		let rootRef = Firebase(url: "https://sstock.firebaseio.com/")
+		//		let data = ["sender": name, "recipient": recipient, "stock": stock]
+		//		let ref = rootRef.childByAutoId()
+		//		ref.setValue(data)
+//		rootRef.child("Key1").child("subkey1").setValue("value1")
+		let ref = rootRef.childByAutoId()
+		print(ref)
+		let data = ["artist": tableData[indexPath.row].artist, "title": tableData[indexPath.row].title,
+		            "imageURL": tableData[indexPath.row].imageUrl, "previewURL": tableData[indexPath.row].previewUrl]
+		ref.setValue(data)
+		
 	}
 }
 
