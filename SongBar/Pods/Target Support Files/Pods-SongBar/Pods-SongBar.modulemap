@@ -1,0 +1,6 @@
+framework module Pods_SongBar {
+  umbrella header "Pods-SongBar-umbrella.h"
+
+  export *
+  module * { export * }
+}

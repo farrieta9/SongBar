@@ -7,14 +7,25 @@
 //
 
 import UIKit
+import Firebase
+
 
 class SearchMusicViewController: UIViewController {
 	
 	var tableData = [SpotifyTrack]()
+//	var myRootRef = Firebase(url: "https://song-bar.firebaseio.com")  var rootRef = FIRDatabase.database().reference()
+//	var rootRef = FIRDatabase.database().reference()
+	var rootRef: FIRDatabaseReference!
 
 	@IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
+		
+		rootRef = FIRDatabase.database().reference()
+		rootRef.setValue("Test data2")
+//		db.child("key").child("subkey").setValue("hello world")
+		rootRef.child("Key1").child("subkey1").setValue("value1")
+		
 
         // Do any additional setup after loading the view.
     }
