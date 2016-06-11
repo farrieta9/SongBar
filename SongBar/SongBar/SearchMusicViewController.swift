@@ -107,9 +107,18 @@ extension SearchMusicViewController: UITableViewDelegate {
 		//		ref.setValue(data)
 //		rootRef.child("Key1").child("subkey1").setValue("value1")
 		let ref = rootRef.childByAutoId()
-		print(ref)
 		let data = ["artist": tableData[indexPath.row].artist, "title": tableData[indexPath.row].title,
 		            "imageURL": tableData[indexPath.row].imageUrl, "previewURL": tableData[indexPath.row].previewUrl]
+//
+//		let data = ["sender": name, "recipient": recipient, "stock": stock]
+		
+//		let name = realmUserData[0].userName
+//		let rootRef = Firebase(url: "https://sstock.firebaseio.com/")
+//		let data = ["sender": name, "recipient": recipient, "stock": stock]
+//		let ref = rootRef.childByAutoId()
+//		ref.setValue(data)
+//		rootRef.child("key1").child("subkey1").setValue("value1")
+		
 		ref.setValue(data)
 		
 	}

@@ -10,59 +10,25 @@ import UIKit
 import Firebase
 
 
-
-//rootRef.queryOrderedByKey().observeEventType(.ChildAdded, withBlock: {
-//	(snapshot) in
-//	print(snapshot)
-//	if let newChat = snapshot.value as? [String: String]{
-//		guard var recipient = newChat["recipient"],
-//			var sender = newChat["sender"],
-//			let stock = newChat["stock"]
-//			else{
-//				return
-//		}
-//		if sender == self.title {
-//			sender = "You recommended: " + stock + " to " + recipient
-//			recipient = ""
-//			self.tableData.insert((recipient, sender, stock), atIndex: 0)
-//			
-//		} else  if recipient == self.title {
-//			sender = sender + " recommends: " + stock
-//			recipient = ""
-//			self.tableData.insert((sender, recipient, stock), atIndex: 0)
-//		}
-//		
-//	}
-//	dispatch_async(dispatch_get_main_queue()){
-//		self.tableView.reloadData()
-//	}
-//})
-
-
 class HomeViewController: UIViewController {
 	
 	var rootRef: FIRDatabaseReference!
-	var collectionData: Dictionary<String, AnyObject> = [:]
-
+	var collectionData = [(String, String, String)]()
 	@IBOutlet weak var collectionView: UICollectionView!
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+		collectionView.backgroundColor = UIColor.clearColor()
 		rootRef = FIRDatabase.database().reference()
-		
-//		let firebase = FirebaseAPI()
-//		let data = firebase.retrieveData()
-//		print(data)
-//		print(firebase.data)
-//		print(retrieveData())
-		
-		
 		dispatch_async(dispatch_get_main_queue()){
-			self.rootRef.observeEventType(FIRDataEventType.Value, withBlock: { (snapshot) in
-				let postDict = snapshot.value as! [String : AnyObject]
-				// ...
-				self.collectionData = postDict
-				print(postDict)
+			self.rootRef.queryOrderedByKey().observeEventType(.ChildAdded, withBlock: { (snapshot) in
+				let postDict = snapshot.value as! [String : String]
+//				print(postDict!["subkey1"]!)
+				print(postDict["title"])
+				let title = postDict["title"]! as String
+				let artist = postDict["artist"]! as String
+				let imageURL = postDict["imageURL"]! as String
+				self.collectionData.append((artist, title, imageURL))
 				self.collectionView.reloadData()
 			})
 		}
@@ -78,7 +44,13 @@ class HomeViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+	
+	func getColor(red: Float, green: Float, blue: Float) -> UIColor {
+		let r: CGFloat = CGFloat(red) / 255.0
+		let g: CGFloat = CGFloat(green) / 255.0
+		let b: CGFloat = CGFloat(blue) / 255.0
+		return UIColor(red: r, green: g, blue: b, alpha: 1.0)
+	}
 }
 
 extension HomeViewController: UICollectionViewDataSource{
@@ -93,10 +65,21 @@ extension HomeViewController: UICollectionViewDataSource{
 	func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! HomeCollectionCell
 		
-		cell.song = String(indexPath.row)
+		cell.artist = collectionData[indexPath.row].0
+		cell.song = collectionData[indexPath.row].1
+		cell.backgroundColor = getColor(242, green: 226, blue: 205)
 		
-		cell.backgroundColor = UIColor.greenColor()
-		
+		let imageURL = collectionData[indexPath.row].2
+		let url = NSURL(string: imageURL)
+		let session = NSURLSession.sharedSession().dataTaskWithURL(url!) {
+			(data, response, error) in
+			if data != nil {
+				dispatch_async(dispatch_get_main_queue(), {
+					cell.albumImageView?.image = UIImage(data: data!)
+				})
+			}
+		}
+		session.resume()
 		return cell
 	}
 }
