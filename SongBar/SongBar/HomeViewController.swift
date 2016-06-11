@@ -7,20 +7,67 @@
 //
 
 import UIKit
+import Firebase
+
+
+
+//rootRef.queryOrderedByKey().observeEventType(.ChildAdded, withBlock: {
+//	(snapshot) in
+//	print(snapshot)
+//	if let newChat = snapshot.value as? [String: String]{
+//		guard var recipient = newChat["recipient"],
+//			var sender = newChat["sender"],
+//			let stock = newChat["stock"]
+//			else{
+//				return
+//		}
+//		if sender == self.title {
+//			sender = "You recommended: " + stock + " to " + recipient
+//			recipient = ""
+//			self.tableData.insert((recipient, sender, stock), atIndex: 0)
+//			
+//		} else  if recipient == self.title {
+//			sender = sender + " recommends: " + stock
+//			recipient = ""
+//			self.tableData.insert((sender, recipient, stock), atIndex: 0)
+//		}
+//		
+//	}
+//	dispatch_async(dispatch_get_main_queue()){
+//		self.tableView.reloadData()
+//	}
+//})
+
 
 class HomeViewController: UIViewController {
+	
+	var rootRef: FIRDatabaseReference!
+	var collectionData: Dictionary<String, AnyObject> = [:]
 
+	@IBOutlet weak var collectionView: UICollectionView!
+	
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+		rootRef = FIRDatabase.database().reference()
+		
+//		let firebase = FirebaseAPI()
+//		let data = firebase.retrieveData()
+//		print(data)
+//		print(firebase.data)
+//		print(retrieveData())
+		
+		
+		dispatch_async(dispatch_get_main_queue()){
+			self.rootRef.observeEventType(FIRDataEventType.Value, withBlock: { (snapshot) in
+				let postDict = snapshot.value as! [String : AnyObject]
+				// ...
+				self.collectionData = postDict
+				print(postDict)
+				self.collectionView.reloadData()
+			})
+		}
+		
+	}
 
     /*
     // MARK: - Navigation
@@ -40,7 +87,7 @@ extension HomeViewController: UICollectionViewDataSource{
 	}
 	
 	func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return 20
+		return collectionData.count
 	}
 	
 	func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

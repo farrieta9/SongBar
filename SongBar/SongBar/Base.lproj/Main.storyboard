@@ -84,6 +84,9 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Home" id="8QY-og-Spg"/>
+                    <connections>
+                        <outlet property="collectionView" destination="3HR-w7-pGR" id="r8B-ii-63F"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

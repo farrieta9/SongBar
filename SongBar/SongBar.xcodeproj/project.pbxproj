@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C421FCE1D0B576100F4A6D3 /* FirebaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C421FCD1D0B576100F4A6D3 /* FirebaseAPI.swift */; };
 		8C58322D1D09150F00E7D5AF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8C58322C1D09150F00E7D5AF /* GoogleService-Info.plist */; };
 		8CDF694C1D07B1D30024CE55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDF694B1D07B1D30024CE55 /* AppDelegate.swift */; };
 		8CDF69511D07B1D30024CE55 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CDF694F1D07B1D30024CE55 /* Main.storyboard */; };
@@ -24,6 +25,7 @@
 /* Begin PBXFileReference section */
 		76E90A5D9FC6E92CC7295C36 /* Pods-SongBar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SongBar.release.xcconfig"; path = "Pods/Target Support Files/Pods-SongBar/Pods-SongBar.release.xcconfig"; sourceTree = "<group>"; };
 		8A604E841DCA74B27652B9A1 /* Pods_SongBar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SongBar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C421FCD1D0B576100F4A6D3 /* FirebaseAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAPI.swift; sourceTree = "<group>"; };
 		8C58322C1D09150F00E7D5AF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8CDF69481D07B1D30024CE55 /* SongBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SongBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CDF694B1D07B1D30024CE55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 			children = (
 				8CDF695F1D07B4130024CE55 /* SpotifyAPI.swift */,
 				8CDF69691D07BFDB0024CE55 /* SpotifyTrack.swift */,
+				8C421FCD1D0B576100F4A6D3 /* FirebaseAPI.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 				8CDF696C1D07C34F0024CE55 /* SearchMusicTableCell.swift in Sources */,
 				8CDF694C1D07B1D30024CE55 /* AppDelegate.swift in Sources */,
 				8CDF69631D07B4D70024CE55 /* HomeViewController.swift in Sources */,
+				8C421FCE1D0B576100F4A6D3 /* FirebaseAPI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

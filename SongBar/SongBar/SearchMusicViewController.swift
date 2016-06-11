@@ -22,9 +22,8 @@ class SearchMusicViewController: UIViewController {
         super.viewDidLoad()
 		
 		rootRef = FIRDatabase.database().reference()
-		rootRef.setValue("Test data2")
-//		db.child("key").child("subkey").setValue("hello world")
-		rootRef.child("Key1").child("subkey1").setValue("value1")
+//		rootRef.setValue("Test data2")
+//		rootRef.child("Key1").child("subkey1").setValue("value1")
 		
 		
 
