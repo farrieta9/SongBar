@@ -18,13 +18,15 @@ class HomeViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+		
+		print(FIRAuth.auth()?.currentUser)
 		collectionView.backgroundColor = UIColor.clearColor()
 		rootRef = FIRDatabase.database().reference()
 		dispatch_async(dispatch_get_main_queue()){
 			self.rootRef.queryOrderedByKey().observeEventType(.ChildAdded, withBlock: { (snapshot) in
 				let postDict = snapshot.value as! [String : String]
 //				print(postDict!["subkey1"]!)
-				print(postDict["title"])
+//				print(postDict["title"])
 				let title = postDict["title"]! as String
 				let artist = postDict["artist"]! as String
 				let imageURL = postDict["imageURL"]! as String
