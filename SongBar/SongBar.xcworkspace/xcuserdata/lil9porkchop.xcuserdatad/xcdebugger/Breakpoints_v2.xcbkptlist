@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SongBar/LoginViewController.swift"
-            timestampString = "487447379.294876"
+            timestampString = "487491566.013604"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
             landmarkName = "onCreateAccount(_:)"
             landmarkType = "5">
          </BreakpointContent>

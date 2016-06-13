@@ -19,19 +19,7 @@ class LoginViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-		
-//		if let city = prefs.stringForKey("userCity"){
-//   println("The user has a city defined: " + city)
-//		}else{
-//   //Nothing stored in NSUserDefaults yet. Set a value.
-//   prefs.setValue("Berlin", forKey: "userCity")
-//		}
-//		if let city = prefs.stringForKey("uid") {
-//			print("UID = " + city)
-//		} else {
-//			print("found nothing")
-//		}
-//		
+
 		if let email = userDefaults.stringForKey("email") {
 			emailTextField.text = email
 		}
@@ -44,21 +32,23 @@ class LoginViewController: UIViewController {
 		errorLabel.textColor = UIColor.redColor()
 		
 		self.hideKeyboardWhenTappedAround()
+		
+		if areTextFieldsFilled() {
+			login()
+		}
     }
-	
-	func storeCurrentUser() {
-		userDefaults.setValue(self.emailTextField.text, forKey: "email")
-		userDefaults.setValue(self.passwordTextField.text, forKey: "password")
-	}
-	
-	func resetCurrentUser() {
-		userDefaults.setValue("", forKey: "email")
-		userDefaults.setValue("", forKey: "password")
-	}
 	
 	
 	@IBAction func onCreateAccount(sender: UIButton) {
 		if !areTextFieldsFilled(){
+			errorLabel.text = "Missing fields"
+			errorLabel.hidden = false
+			return
+		}
+		
+		if !isPasswordLengthValid() {
+			self.errorLabel.text = "Password must have 6 or more characters"
+			self.errorLabel.hidden = false
 			return
 		}
 		
@@ -66,16 +56,18 @@ class LoginViewController: UIViewController {
 			(data, error) in
 			if error != nil {
 				self.resetCurrentUser()
-				
-//				FIRAuth.auth()?.currentUser
 				// There is an error. Account is already created or improper format.
 				print("error occred. Accout is already taken maybe")
-				print(error?.userInfo)
+				let errorMessage = error?.userInfo["error_name"]!.stringByReplacingOccurrencesOfString("_", withString: " ")
+				print(errorMessage!)
 				
-				self.errorLabel.text = "Invalid email or password"
+				if errorMessage! == "ERROR EMAIL ALREADY IN USE" {
+					self.errorLabel.text = "EMAIL ALREADY IN USE"
+				} else {
+					self.errorLabel.text = "Invalid email or password"
+				}
+				
 				self.errorLabel.hidden = false
-
-				
 			} else {
 				print("Create new user")
 				self.storeCurrentUser()
@@ -86,6 +78,8 @@ class LoginViewController: UIViewController {
 	
 	@IBAction func onExistingUser(sender: UIButton) {
 		if !areTextFieldsFilled() {
+			errorLabel.text = "Missing fields"
+			errorLabel.hidden = false
 			return  // Texts are not filled
 		}
 		
@@ -95,12 +89,18 @@ class LoginViewController: UIViewController {
 	// Checks if the email and password fiels are filled
 	func areTextFieldsFilled() -> Bool {
 		if emailTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
-			errorLabel.text = "Missing fields"
-			errorLabel.hidden = false
 			return false
 		}
 		errorLabel.hidden = true
 		return true
+	}
+	
+	func isPasswordLengthValid() -> Bool {
+		if passwordTextField.text?.characters.count > 5 {
+			return true
+		} else {
+			return false
+		}
 	}
 	
 	func login() {
@@ -120,18 +120,16 @@ class LoginViewController: UIViewController {
 		})
 	}
 	
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+	func resetCurrentUser() {
+		userDefaults.setValue("", forKey: "email")
+		userDefaults.setValue("", forKey: "password")
+	}
+	
+	func storeCurrentUser() {
+		userDefaults.setValue(self.emailTextField.text, forKey: "email")
+		userDefaults.setValue(self.passwordTextField.text, forKey: "password")
+	}
+	
 }
 
 extension UIViewController {

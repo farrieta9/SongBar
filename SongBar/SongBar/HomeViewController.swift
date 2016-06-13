@@ -25,27 +25,15 @@ class HomeViewController: UIViewController {
 		dispatch_async(dispatch_get_main_queue()){
 			self.rootRef.queryOrderedByKey().observeEventType(.ChildAdded, withBlock: { (snapshot) in
 				let postDict = snapshot.value as! [String : String]
-//				print(postDict!["subkey1"]!)
-//				print(postDict["title"])
 				let title = postDict["title"]! as String
 				let artist = postDict["artist"]! as String
 				let imageURL = postDict["imageURL"]! as String
-				self.collectionData.append((artist, title, imageURL))
+				self.collectionData.insert((artist, title, imageURL), atIndex: 0)
 				self.collectionView.reloadData()
 			})
 		}
 		
 	}
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 	
 	func getColor(red: Float, green: Float, blue: Float) -> UIColor {
 		let r: CGFloat = CGFloat(red) / 255.0

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C435F391D0E8A7E002090B1 /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C435F381D0E8A7E002090B1 /* home.png */; };
+		8C435F3B1D0E8A88002090B1 /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C435F3A1D0E8A88002090B1 /* user.png */; };
 		8C58322D1D09150F00E7D5AF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8C58322C1D09150F00E7D5AF /* GoogleService-Info.plist */; };
 		8CA114EB1D0C8F680091A25F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA114EA1D0C8F680091A25F /* LoginViewController.swift */; };
 		8CDF694C1D07B1D30024CE55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDF694B1D07B1D30024CE55 /* AppDelegate.swift */; };
@@ -25,6 +27,8 @@
 /* Begin PBXFileReference section */
 		76E90A5D9FC6E92CC7295C36 /* Pods-SongBar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SongBar.release.xcconfig"; path = "Pods/Target Support Files/Pods-SongBar/Pods-SongBar.release.xcconfig"; sourceTree = "<group>"; };
 		8A604E841DCA74B27652B9A1 /* Pods_SongBar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SongBar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C435F381D0E8A7E002090B1 /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
+		8C435F3A1D0E8A88002090B1 /* user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user.png; sourceTree = "<group>"; };
 		8C58322C1D09150F00E7D5AF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8CA114EA1D0C8F680091A25F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8CDF69481D07B1D30024CE55 /* SongBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SongBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -54,6 +58,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8C435F371D0E8A43002090B1 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				8C435F381D0E8A7E002090B1 /* home.png */,
+				8C435F3A1D0E8A88002090B1 /* user.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 		8CDF693F1D07B1D30024CE55 = {
 			isa = PBXGroup;
 			children = (
@@ -75,6 +88,7 @@
 		8CDF694A1D07B1D30024CE55 /* SongBar */ = {
 			isa = PBXGroup;
 			children = (
+				8C435F371D0E8A43002090B1 /* Images */,
 				8CDF69661D07B91B0024CE55 /* CustomCells */,
 				8CDF69611D07B4B40024CE55 /* ViewControllers */,
 				8CDF695E1D07B3C20024CE55 /* Models */,
@@ -196,6 +210,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8CDF69561D07B1D30024CE55 /* LaunchScreen.storyboard in Resources */,
+				8C435F391D0E8A7E002090B1 /* home.png in Resources */,
+				8C435F3B1D0E8A88002090B1 /* user.png in Resources */,
 				8C58322D1D09150F00E7D5AF /* GoogleService-Info.plist in Resources */,
 				8CDF69531D07B1D30024CE55 /* Assets.xcassets in Resources */,
 				8CDF69511D07B1D30024CE55 /* Main.storyboard in Resources */,

@@ -6,7 +6,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Home-->
+        <!--Home View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="HomeViewController" customModule="SongBar" customModuleProvider="target" sceneMemberID="viewController">
@@ -83,14 +83,16 @@
                             <constraint firstItem="3HR-w7-pGR" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="zUX-Wd-RyT"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Home" id="8QY-og-Spg"/>
+                    <tabBarItem key="tabBarItem" title="" image="home.png" id="8QY-og-Spg">
+                        <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
+                    </tabBarItem>
                     <connections>
                         <outlet property="collectionView" destination="3HR-w7-pGR" id="r8B-ii-63F"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1080" y="138"/>
+            <point key="canvasLocation" x="-78" y="1170"/>
         </scene>
         <!--Search Music View Controller-->
         <scene sceneID="wBK-HQ-kzJ">
@@ -200,7 +202,28 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nig-xO-IRt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1080" y="812"/>
+            <point key="canvasLocation" x="550" y="1170"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="GBc-Se-CSZ">
+            <objects>
+                <viewController id="fvn-i0-rSl" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="HEg-6u-QU8"/>
+                        <viewControllerLayoutGuide type="bottom" id="fta-qo-xC0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Bst-UD-8f6">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="" image="user.png" selectedImage="user.png" id="q5w-Sf-ceg">
+                        <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
+                    </tabBarItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Qiy-um-UOh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1192" y="1170"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="C3l-5a-Abg">
@@ -320,6 +343,7 @@
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="KZe-F5-oBd"/>
                         <segue destination="400-Sv-s7b" kind="relationship" relationship="viewControllers" id="FRV-Ki-myw"/>
+                        <segue destination="fvn-i0-rSl" kind="relationship" relationship="viewControllers" id="NqI-q3-a3C"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZUU-1Y-gpm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -327,4 +351,8 @@
             <point key="canvasLocation" x="340" y="352"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="home.png" width="32" height="32"/>
+        <image name="user.png" width="32" height="32"/>
+    </resources>
 </document>
