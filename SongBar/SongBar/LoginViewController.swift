@@ -59,7 +59,6 @@ class LoginViewController: UIViewController {
 				// There is an error. Account is already created or improper format.
 				print("error occred. Accout is already taken maybe")
 				let errorMessage = error?.userInfo["error_name"]!.stringByReplacingOccurrencesOfString("_", withString: " ")
-				print(errorMessage!)
 				
 				if errorMessage! == "ERROR EMAIL ALREADY IN USE" {
 					self.errorLabel.text = "EMAIL ALREADY IN USE"
@@ -70,7 +69,7 @@ class LoginViewController: UIViewController {
 				self.errorLabel.hidden = false
 			} else {
 				print("Create new user")
-				self.storeCurrentUser()
+				self.storeCurrentUser((data?.uid)!)
 				self.login()
 			}
 		})
@@ -112,9 +111,7 @@ class LoginViewController: UIViewController {
 				self.errorLabel.hidden = false
 			} else {
 				print("Logged in successfully")
-				print(data)
-				print(error)
-				self.storeCurrentUser()
+				self.storeCurrentUser((data?.uid)!)
 				self.performSegueWithIdentifier("homeViewController", sender: self)
 			}
 		})
@@ -125,9 +122,10 @@ class LoginViewController: UIViewController {
 		userDefaults.setValue("", forKey: "password")
 	}
 	
-	func storeCurrentUser() {
+	func storeCurrentUser(uid: String) {
 		userDefaults.setValue(self.emailTextField.text, forKey: "email")
 		userDefaults.setValue(self.passwordTextField.text, forKey: "password")
+		userDefaults.setValue(uid, forKey: "uid")
 	}
 	
 }

@@ -195,7 +195,9 @@
                             <constraint firstItem="zEk-vc-bkl" firstAttribute="top" secondItem="2Qs-cL-LGt" secondAttribute="bottom" id="w7Y-9b-8kh"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" systemItem="search" id="m7K-57-O8G"/>
+                    <tabBarItem key="tabBarItem" title="" image="search.png" id="m7K-57-O8G">
+                        <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
+                    </tabBarItem>
                     <connections>
                         <outlet property="tableView" destination="2Qs-cL-LGt" id="5RV-dD-E5m"/>
                     </connections>
@@ -353,6 +355,7 @@
     </scenes>
     <resources>
         <image name="home.png" width="32" height="32"/>
+        <image name="search.png" width="32" height="32"/>
         <image name="user.png" width="32" height="32"/>
     </resources>
 </document>

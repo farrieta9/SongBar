@@ -76,6 +76,9 @@ extension SearchMusicViewController: UITableViewDelegate {
 
 		ref.setValue(data)
 		view.endEditing(true)  // Hide keyboard
+		if let uid = NSUserDefaults.standardUserDefaults().stringForKey("uid") {
+			print(uid)
+		}
 	}
 }
 
