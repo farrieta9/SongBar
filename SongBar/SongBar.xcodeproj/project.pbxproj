@@ -22,6 +22,7 @@
 		8CE082CE1D0FB73B00907395 /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CE082CD1D0FB73B00907395 /* home.png */; };
 		8CE082D01D0FB74B00907395 /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CE082CF1D0FB74B00907395 /* user.png */; };
 		8CE082D21D0FB7D400907395 /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CE082D11D0FB7D400907395 /* search.png */; };
+		8CE082D41D0FC14B00907395 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE082D31D0FC14B00907395 /* ProfileViewController.swift */; };
 		97277FB670D105552BD4BBF5 /* Pods_SongBar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A604E841DCA74B27652B9A1 /* Pods_SongBar.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,7 @@
 		8CE082CD1D0FB73B00907395 /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
 		8CE082CF1D0FB74B00907395 /* user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user.png; sourceTree = "<group>"; };
 		8CE082D11D0FB7D400907395 /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
+		8CE082D31D0FC14B00907395 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		F966F7E0FD2CDDA299873B92 /* Pods-SongBar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SongBar.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SongBar/Pods-SongBar.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -120,6 +122,7 @@
 				8CDF69621D07B4D70024CE55 /* HomeViewController.swift */,
 				8CDF69641D07B5470024CE55 /* SearchMusicViewController.swift */,
 				8CA114EA1D0C8F680091A25F /* LoginViewController.swift */,
+				8CE082D31D0FC14B00907395 /* ProfileViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -283,6 +286,7 @@
 				8CDF696A1D07BFDB0024CE55 /* SpotifyTrack.swift in Sources */,
 				8CDF69651D07B5470024CE55 /* SearchMusicViewController.swift in Sources */,
 				8CDF696C1D07C34F0024CE55 /* SearchMusicTableCell.swift in Sources */,
+				8CE082D41D0FC14B00907395 /* ProfileViewController.swift in Sources */,
 				8CDF694C1D07B1D30024CE55 /* AppDelegate.swift in Sources */,
 				8CDF69631D07B4D70024CE55 /* HomeViewController.swift in Sources */,
 			);
