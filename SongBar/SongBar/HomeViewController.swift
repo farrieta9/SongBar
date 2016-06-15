@@ -22,16 +22,17 @@ class HomeViewController: UIViewController {
 		print(FIRAuth.auth()?.currentUser)
 		collectionView.backgroundColor = UIColor.clearColor()
 		rootRef = FIRDatabase.database().reference()
-		dispatch_async(dispatch_get_main_queue()){
-			self.rootRef.queryOrderedByKey().observeEventType(.ChildAdded, withBlock: { (snapshot) in
-				let postDict = snapshot.value as! [String : String]
-				let title = postDict["title"]! as String
-				let artist = postDict["artist"]! as String
-				let imageURL = postDict["imageURL"]! as String
-				self.collectionData.insert((artist, title, imageURL), atIndex: 0)
-				self.collectionView.reloadData()
-			})
-		}
+//		dispatch_async(dispatch_get_main_queue()){
+//			self.rootRef.queryOrderedByKey().observeEventType(.ChildAdded, withBlock: { (snapshot) in
+//				let postDict = snapshot.value as! [String : String]
+//				let title = postDict["title"]! as String
+//				let artist = postDict["artist"]! as String
+//				let imageURL = postDict["imageURL"]! as String
+//				self.collectionData.insert((artist, title, imageURL), atIndex: 0)
+//				self.collectionView.reloadData()
+//			})
+//		}
+//
 		
 	}
 	

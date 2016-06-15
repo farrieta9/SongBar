@@ -8,6 +8,7 @@
 
 
 import UIKit
+import Firebase
 
 let offset_HeaderStop:CGFloat = 40.0 // At this offset the Header stops its transformations
 let distance_W_LabelHeader:CGFloat = 30.0 // The distance between the top of the screen and the top of the White Label
@@ -54,6 +55,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 		
 	}
 	
+	@IBAction func onSignOut(sender: UIButton) {
+		print("Sign out")
+		FIRUser.
+		
+		
+	}
+	
 	// MARK: Table view processing
 	
 	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -78,10 +86,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 		
 		switch contentToDisplay {
 		case .Tweets:
-			cell.textLabel?.text = "Tweet Tweet!"
+			cell.textLabel?.text = "Cool stuff!!"
 			
 		case .Media:
-			cell.textLabel?.text = "Piccies!"
+			cell.textLabel?.text = "Some texts!"
 			cell.imageView?.image = UIImage(named: "Music-Concert-Crowd")
 		}
 		
