@@ -29,9 +29,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 	@IBOutlet var handleLabel : UILabel!
 	@IBOutlet var headerLabel : UILabel!
 	
-	// MARK: class properties
 	
-	var headerBlurImageView:UIImageView!
 	var headerImageView:UIImageView!
 	var contentToDisplay : contentTypes = .Tweets
 	
@@ -39,7 +37,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		// Do any additional setup after loading the view, typically from a nib.
 		
 		tableView.contentInset = UIEdgeInsetsMake(headerView.frame.height, 0, 0, 0)
 		
@@ -53,22 +50,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 		headerImageView?.image = UIImage(named: "Music-Concert-Crowd")
 		headerImageView?.contentMode = UIViewContentMode.ScaleAspectFill
 		headerView.insertSubview(headerImageView, belowSubview: headerLabel)
-		
-		// Header - Blurred Image
-		headerBlurImageView = UIImageView(frame: headerView.bounds)
-//		headerBlurImageView?.image = UIImage(named: "Music-Concert-Crowd")?.blurredImageWithRadius(10, iterations: 20, tintColor: UIColor.clearColor())
-		headerBlurImageView.image = UIImage(named: "Music-Concert-Crowd")
-		headerBlurImageView?.contentMode = UIViewContentMode.ScaleAspectFill
-		headerBlurImageView?.alpha = 0.0
-		headerView.insertSubview(headerBlurImageView, belowSubview: headerLabel)
-		
 		headerView.clipsToBounds = true
 		
-	}
-	
-	override func didReceiveMemoryWarning() {
-		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
 	}
 	
 	// MARK: Table view processing
@@ -147,11 +130,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 			
 			headerLabel.frame.origin = CGPointMake(headerLabel.frame.origin.x, max(alignToNameLabel, distance_W_LabelHeader + offset_HeaderStop))
 			
-			
-			//  ------------ Blur
-			
-			headerBlurImageView?.alpha = min (1.0, (offset - alignToNameLabel)/distance_W_LabelHeader)
-			
 			// Avatar -----------
 			
 			let avatarScaleFactor = (min(offset_HeaderStop, offset)) / avatarImage.bounds.height / 1.4 // Slow down the animation
@@ -163,12 +141,14 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 				
 				if avatarImage.layer.zPosition < headerView.layer.zPosition{
 					headerView.layer.zPosition = 0
+					headerImageView.alpha = 1.0
 				}
 				
 				
 			}else {
 				if avatarImage.layer.zPosition >= headerView.layer.zPosition{
 					headerView.layer.zPosition = 2
+					headerImageView.alpha = 0.5
 				}
 				
 			}
@@ -216,9 +196,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 	
 	@IBAction func shamelessActionThatNowBringsYouToDeansTwitterProfile() {
 		
-		if !UIApplication.sharedApplication().openURL(NSURL(string:"twitter://user?screen_name=deanbrindley87")!){
-			UIApplication.sharedApplication().openURL(NSURL(string:"https://twitter.com/deanbrindley87")!)
-		}
+//		if !UIApplication.sharedApplication().openURL(NSURL(string:"twitter://user?screen_name=deanbrindley87")!){
+//			UIApplication.sharedApplication().openURL(NSURL(string:"https://twitter.com/deanbrindley87")!)
+//		}
+		print("Follow button pressed")
 	}
 	
 }
