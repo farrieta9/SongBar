@@ -94,10 +94,10 @@
             </objects>
             <point key="canvasLocation" x="-316" y="1170"/>
         </scene>
-        <!--Search Music View Controller-->
+        <!--Search View Controller-->
         <scene sceneID="wBK-HQ-kzJ">
             <objects>
-                <viewController id="400-Sv-s7b" customClass="SearchMusicViewController" customModule="SongBar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="400-Sv-s7b" customClass="SearchViewController" customModule="SongBar" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="pYw-5Q-7r0"/>
                         <viewControllerLayoutGuide type="bottom" id="zEk-vc-bkl"/>
@@ -177,11 +177,14 @@
                                 </connections>
                             </tableView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Xh8-LZ-Ia4">
-                                <rect key="frame" x="0.0" y="20" width="600" height="29"/>
+                                <rect key="frame" x="20" y="20" width="560" height="29"/>
                                 <segments>
                                     <segment title="Music"/>
                                     <segment title="People"/>
                                 </segments>
+                                <connections>
+                                    <action selector="onSearchOptionIndexChange:" destination="400-Sv-s7b" eventType="valueChanged" id="oxH-oP-6p6"/>
+                                </connections>
                             </segmentedControl>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="a8O-78-fdh">
                                 <rect key="frame" x="0.0" y="48" width="600" height="44"/>
@@ -195,13 +198,13 @@
                         <constraints>
                             <constraint firstItem="a8O-78-fdh" firstAttribute="top" secondItem="pYw-5Q-7r0" secondAttribute="bottom" constant="20" id="3do-Yp-1Fg"/>
                             <constraint firstAttribute="trailingMargin" secondItem="a8O-78-fdh" secondAttribute="trailing" constant="-20" id="6J3-dC-Bn6"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Xh8-LZ-Ia4" secondAttribute="trailing" constant="-20" id="Ggj-0Y-Jfq"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Xh8-LZ-Ia4" secondAttribute="trailing" id="Ggj-0Y-Jfq"/>
                             <constraint firstItem="2Qs-cL-LGt" firstAttribute="top" secondItem="a8O-78-fdh" secondAttribute="bottom" id="GwU-TL-pcK"/>
                             <constraint firstItem="2Qs-cL-LGt" firstAttribute="leading" secondItem="h2R-7r-yeV" secondAttribute="leadingMargin" constant="-20" id="MTa-hp-THf"/>
                             <constraint firstAttribute="trailingMargin" secondItem="2Qs-cL-LGt" secondAttribute="trailing" constant="-20" id="eYF-M5-fcA"/>
                             <constraint firstItem="a8O-78-fdh" firstAttribute="top" secondItem="Xh8-LZ-Ia4" secondAttribute="bottom" id="fPF-bR-9mW"/>
                             <constraint firstItem="a8O-78-fdh" firstAttribute="leading" secondItem="h2R-7r-yeV" secondAttribute="leadingMargin" constant="-20" id="hlC-xL-Ha5"/>
-                            <constraint firstItem="Xh8-LZ-Ia4" firstAttribute="leading" secondItem="h2R-7r-yeV" secondAttribute="leadingMargin" constant="-20" id="jcl-aV-RSw"/>
+                            <constraint firstItem="Xh8-LZ-Ia4" firstAttribute="leading" secondItem="h2R-7r-yeV" secondAttribute="leadingMargin" id="jcl-aV-RSw"/>
                             <constraint firstItem="Xh8-LZ-Ia4" firstAttribute="top" secondItem="pYw-5Q-7r0" secondAttribute="bottom" id="tqF-hu-bty"/>
                             <constraint firstItem="zEk-vc-bkl" firstAttribute="top" secondItem="2Qs-cL-LGt" secondAttribute="bottom" id="w7Y-9b-8kh"/>
                         </constraints>
@@ -215,6 +218,7 @@
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
                     <connections>
+                        <outlet property="searchOptionsSeg" destination="Xh8-LZ-Ia4" id="P8N-d4-QKw"/>
                         <outlet property="tableView" destination="2Qs-cL-LGt" id="5RV-dD-E5m"/>
                     </connections>
                 </viewController>
@@ -343,12 +347,18 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VKs-Vq-1jh">
                                 <rect key="frame" x="20" y="285" width="560" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="gBk-8W-Dt3" id="Ggr-st-4fE"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lf5-Ev-CaO">
                                 <rect key="frame" x="20" y="230" width="560" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                                <connections>
+                                    <outlet property="delegate" destination="gBk-8W-Dt3" id="Dz0-0S-9NC"/>
+                                </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="laE-rt-QjF">
                                 <rect key="frame" x="525" y="365" width="55" height="30"/>
@@ -373,7 +383,10 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wgi-Zq-8h3">
                                 <rect key="frame" x="20" y="175" width="560" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                                <connections>
+                                    <outlet property="delegate" destination="gBk-8W-Dt3" id="klv-nv-nm8"/>
+                                </connections>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -497,7 +510,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ELe-UD-cjZ">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@userTag" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ELe-UD-cjZ">
                                             <rect key="frame" x="0.0" y="74" width="600" height="16"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
@@ -601,6 +614,7 @@
                         <outlet property="profileView" destination="IeO-YN-567" id="BZo-NE-KDu"/>
                         <outlet property="segmentedView" destination="cn0-Mw-5hs" id="Utk-4W-xgY"/>
                         <outlet property="tableView" destination="LKX-Be-zI1" id="2CI-Tx-iOq"/>
+                        <outlet property="userTagLabel" destination="ELe-UD-cjZ" id="6fm-Qk-0Hb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o2Q-bu-DuF" sceneMemberID="firstResponder"/>

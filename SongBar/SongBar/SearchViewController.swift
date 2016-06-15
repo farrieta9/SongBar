@@ -10,11 +10,13 @@ import UIKit
 import Firebase
 
 
-class SearchMusicViewController: UIViewController {
+class SearchViewController: UIViewController {
 	
 	var tableData = [SpotifyTrack]()
 	var rootRef: FIRDatabaseReference!
+	var selectedTag = 0
 
+	@IBOutlet weak var searchOptionsSeg: UISegmentedControl!
 	@IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,21 +24,63 @@ class SearchMusicViewController: UIViewController {
 		rootRef = FIRDatabase.database().reference()
 
     }
+	@IBAction func onSearchOptionIndexChange(sender: UISegmentedControl) {
+		
+		switch searchOptionsSeg.selectedSegmentIndex {
+		case 0:
+			print("Search for music")
+			selectedTag = 0
+		case 1:
+			print("Search for people")
+			selectedTag = 1
+		default:
+			break
+		}
+	}
 }
 
-extension SearchMusicViewController: UISearchBarDelegate {
-	func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-		SpotifyAPI.search(searchText) {
-			(tracks) in dispatch_async(dispatch_get_main_queue()) {
-				self.tableData = tracks
-				self.tableView.reloadData()
+extension SearchViewController: UISearchBarDelegate {
+//	func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+//		SpotifyAPI.search(searchText) {
+//			(tracks) in dispatch_async(dispatch_get_main_queue()) {
+//				self.tableData = tracks
+//				self.tableView.reloadData()
+//			}
+//		}
+//	}
+	
+	func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+		print("search now")
+		if selectedTag == 0 {
+			print("searching for music")
+			SpotifyAPI.search(searchBar.text!) {
+				(tracks) in dispatch_async(dispatch_get_main_queue()) {
+					self.tableData = tracks
+					self.tableView.reloadData()
+				}
 			}
+			return
+		}
+		if selectedTag == 1 {
+			print("Searching for people")
+			
+			FIRDatabase.database().reference().queryOrderedByKey().observeEventType(.Value, withBlock: {(snapshot) in
+				
+				print(snapshot.value!["users"])
+				let users = snapshot.value!["users"]
+				print(users)
+				
+				
+				
+			})
+			
+			return
 		}
 	}
 }
 
 
-extension SearchMusicViewController: UITableViewDataSource {
+extension SearchViewController: UITableViewDataSource {
 	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 		return 1
 	}
@@ -68,7 +112,7 @@ extension SearchMusicViewController: UITableViewDataSource {
 	}
 }
 
-extension SearchMusicViewController: UITableViewDelegate {
+extension SearchViewController: UITableViewDelegate {
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		let ref = rootRef.childByAutoId()
 		let data = ["artist": tableData[indexPath.row].artist, "title": tableData[indexPath.row].title,

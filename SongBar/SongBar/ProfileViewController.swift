@@ -29,11 +29,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 	@IBOutlet var avatarImage:UIImageView!
 	@IBOutlet var handleLabel : UILabel!
 	@IBOutlet var headerLabel : UILabel!
+	@IBOutlet weak var userTagLabel: UILabel!
 	
 	
 	var headerImageView:UIImageView!
 	var contentToDisplay : contentTypes = .Tweets
-	
+	let userDefaults = NSUserDefaults.standardUserDefaults()
 	// MARK: The view
 	
 	override func viewDidLoad() {
@@ -53,13 +54,24 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 		headerView.insertSubview(headerImageView, belowSubview: headerLabel)
 		headerView.clipsToBounds = true
 		
+		userTagLabel.text = FIRAuth.auth()?.currentUser?.displayName  // TODO: Have the userTag have a @ at the beginning
+		
 	}
 	
 	@IBAction func onSignOut(sender: UIButton) {
 		print("Sign out")
-		FIRUser.
+		do {
+			try	FIRAuth.auth()?.signOut()
+		} catch let error {
+			print(error)
+		}
+		resetCurrentUser()
 		
-		
+	}
+	
+	func resetCurrentUser() {
+		userDefaults.setValue("", forKey: "email")
+		userDefaults.setValue("", forKey: "password")
 	}
 	
 	// MARK: Table view processing

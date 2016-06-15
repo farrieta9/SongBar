@@ -22,8 +22,10 @@ class SignUpViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+		self.hideKeyboardWhenTappedAround()
+		
+		messageLabel.hidden = true
+		messageLabel.textColor = UIColor.redColor()
     }
 
     /*
@@ -44,12 +46,14 @@ class SignUpViewController: UIViewController {
 		// Check if fields are empty
 		if usernameTextField.text!.isEmpty || passwordTextField.text!.isEmpty || usernameTextField.text!.isEmpty {
 			messageLabel.text = "All entries must be filled"
+			messageLabel.hidden = false
 			return
 		}
 		
 		// Check if password is long enough
 		if passwordTextField.text?.characters.count < 6 {
 			messageLabel.text = "Password must have at least 6 characters"
+			messageLabel.hidden = false
 			return
 		}
 		
@@ -63,11 +67,35 @@ class SignUpViewController: UIViewController {
 				} else {
 					self.messageLabel.text = "Invalid email or password"
 				}
+				self.messageLabel.hidden = false
 				
 			} else {
 				// No errors so store new user
 				self.userDefaults.setValue(self.usernameTextField.text, forKey: "username")
 				FIRDatabase.database().reference().child("users").child((data?.uid)!).setValue(["username": self.usernameTextField.text!])
+				
+				
+				let user = FIRAuth.auth()?.currentUser
+				if let user = user {
+					let changeRequest = user.profileChangeRequest()
+					
+					changeRequest.displayName = self.usernameTextField.text
+//					changeRequest.photoURL = NSURL(string: "https://example.com/jane-q-user/profile.jpg")
+					changeRequest.commitChangesWithCompletion { error in
+						if let error = error {
+							// An error happened.
+							print(error)
+						} else {
+							print("Profile updated successfully")
+							// Profile updated.
+						}
+					}
+				}
+
+				
+				self.view.endEditing(true)
+				self.messageLabel.text = "Success"
+				self.messageLabel.hidden = false
 				
 				self.performSegueWithIdentifier("loginVC", sender: self)
 			}
@@ -76,4 +104,10 @@ class SignUpViewController: UIViewController {
 		
 	}
 
+}
+
+extension SignUpViewController: UITextFieldDelegate {
+	func textFieldDidBeginEditing(textField: UITextField) {
+		self.messageLabel.hidden = true
+	}
 }

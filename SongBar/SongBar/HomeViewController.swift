@@ -20,6 +20,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
 		
 		print(FIRAuth.auth()?.currentUser)
+//		FIRAuth.auth()?.signOut()
 		collectionView.backgroundColor = UIColor.clearColor()
 		rootRef = FIRDatabase.database().reference()
 //		dispatch_async(dispatch_get_main_queue()){

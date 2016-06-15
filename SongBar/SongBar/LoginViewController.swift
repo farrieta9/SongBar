@@ -115,8 +115,6 @@ class LoginViewController: UIViewController {
 				self.performSegueWithIdentifier("homeViewController", sender: self)
 			}
 		})
-		
-		
 	}
 	
 	func resetCurrentUser() {
@@ -128,11 +126,6 @@ class LoginViewController: UIViewController {
 		userDefaults.setValue(self.emailTextField.text, forKey: "email")
 		userDefaults.setValue(self.passwordTextField.text, forKey: "password")
 		userDefaults.setValue(uid, forKey: "uid")
-		
-//		FIRDatabase.database().reference().child
-//		self.ref.child("users").child(user!.uid).setValue(["username": username])
-//		self.ref.child("users/(user.uid)/username").setValue(username)
-//		FIRDatabase.database().reference().child("users").child(uid).setValue(["username": "test username"])
 	}
 	
 }
