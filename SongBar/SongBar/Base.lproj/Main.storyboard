@@ -470,6 +470,7 @@
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="KZe-F5-oBd"/>
                         <segue destination="400-Sv-s7b" kind="relationship" relationship="viewControllers" id="FRV-Ki-myw"/>
                         <segue destination="M6y-FS-b2q" kind="relationship" relationship="viewControllers" id="eiY-rm-c9C"/>
+                        <segue destination="lFj-48-gJ2" kind="relationship" relationship="viewControllers" id="CpA-nw-Bok"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZUU-1Y-gpm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -505,7 +506,7 @@
                                     <constraint firstAttribute="height" constant="107" id="rpU-Ni-Gnq"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="LKX-Be-zI1">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="LKX-Be-zI1">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="IeO-YN-567" userLabel="Profile view">
@@ -650,8 +651,91 @@
             </objects>
             <point key="canvasLocation" x="1022" y="1170"/>
         </scene>
+        <!--Item-->
+        <scene sceneID="j3d-bb-cDR">
+            <objects>
+                <viewController id="lFj-48-gJ2" customClass="Profile2ViewController" customModule="SongBar" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eEb-fM-bDs"/>
+                        <viewControllerLayoutGuide type="bottom" id="unw-ol-cqH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="byU-qp-fVC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="AeP-Wo-2WT">
+                                <rect key="frame" x="0.0" y="20" width="600" height="531"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="w7a-lN-Cma" customClass="ProfileHeaderView" customModule="SongBar" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Music-Concert-Crowd" translatesAutoresizingMaskIntoConstraints="NO" id="hAL-md-tL9">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TFQ-WB-y2W">
+                                            <rect key="frame" x="279" y="20" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="hAL-md-tL9" secondAttribute="bottom" id="F5O-qo-1mr"/>
+                                        <constraint firstAttribute="trailing" secondItem="hAL-md-tL9" secondAttribute="trailing" id="a1W-mg-XYV"/>
+                                        <constraint firstItem="TFQ-WB-y2W" firstAttribute="centerX" secondItem="hAL-md-tL9" secondAttribute="centerX" id="aN8-9Y-LvG"/>
+                                        <constraint firstItem="hAL-md-tL9" firstAttribute="leading" secondItem="w7a-lN-Cma" secondAttribute="leading" id="fkT-i0-eXe"/>
+                                        <constraint firstItem="TFQ-WB-y2W" firstAttribute="top" secondItem="w7a-lN-Cma" secondAttribute="top" constant="20" id="iDb-cg-oWJ"/>
+                                        <constraint firstItem="hAL-md-tL9" firstAttribute="top" secondItem="w7a-lN-Cma" secondAttribute="top" id="nGP-nN-h7I"/>
+                                        <constraint firstItem="hAL-md-tL9" firstAttribute="top" secondItem="TFQ-WB-y2W" secondAttribute="bottom" constant="-50" id="vD8-R8-OTw"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="vD8-R8-OTw"/>
+                                        </mask>
+                                    </variation>
+                                    <connections>
+                                        <outlet property="backgroundImageView" destination="hAL-md-tL9" id="PZH-ll-mY8"/>
+                                        <outlet property="headerLabel" destination="TFQ-WB-y2W" id="B5t-eX-RlG"/>
+                                    </connections>
+                                </view>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="vbp-Tv-B02">
+                                        <rect key="frame" x="0.0" y="178" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vbp-Tv-B02" id="B2l-Q8-cbV">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="lFj-48-gJ2" id="gbY-9B-sjV"/>
+                                    <outlet property="delegate" destination="lFj-48-gJ2" id="X85-1j-4ZG"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="AeP-Wo-2WT" secondAttribute="trailing" constant="-20" id="O5f-88-cob"/>
+                            <constraint firstItem="AeP-Wo-2WT" firstAttribute="top" secondItem="eEb-fM-bDs" secondAttribute="bottom" id="PUz-4A-8Rb"/>
+                            <constraint firstItem="AeP-Wo-2WT" firstAttribute="leading" secondItem="byU-qp-fVC" secondAttribute="leadingMargin" constant="-20" id="Vgl-T6-JPj"/>
+                            <constraint firstItem="unw-ol-cqH" firstAttribute="top" secondItem="AeP-Wo-2WT" secondAttribute="bottom" id="qr5-af-ptq"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="hv6-xW-T2a"/>
+                    <connections>
+                        <outlet property="tableView" destination="AeP-Wo-2WT" id="69F-Ug-Fi1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="par-3G-Zrn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1677" y="1170"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="Music-Concert-Crowd" width="1000" height="553"/>
         <image name="default_profile.png" width="300" height="300"/>
         <image name="home.png" width="32" height="32"/>
         <image name="neutral_user.png" width="32" height="32"/>
