@@ -73,8 +73,8 @@ class SignUpViewController: UIViewController {
 				// No errors so store new user
 				self.userDefaults.setValue(self.usernameTextField.text, forKey: "username")
 //				FIRDatabase.database().reference().child("users").child((data?.uid)!).setValue(["username": self.usernameTextField.text!])
-				FIRDatabase.database().reference().child("users").child("users_by_id").child((data?.uid)!).setValue(["username": self.usernameTextField.text!])
-				FIRDatabase.database().reference().child("users").child("users_by_name").child(self.usernameTextField.text!).setValue(["uid": (data?.uid)!])
+				FIRDatabase.database().reference().child("users").child("users_by_id").child((data?.uid)!).setValue(["username": self.usernameTextField.text!.lowercaseString])
+				FIRDatabase.database().reference().child("users").child("users_by_name").child((self.usernameTextField.text?.lowercaseString)!).setValue(["uid": (data?.uid)!])
 				
 				let user = FIRAuth.auth()?.currentUser
 				if let user = user {

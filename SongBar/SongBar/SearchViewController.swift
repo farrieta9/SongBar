@@ -13,6 +13,7 @@ import Firebase
 class SearchViewController: UIViewController {
 	
 	var tableData = [SpotifyTrack]()
+	var peopleData = [String]()
 	var rootRef: FIRDatabaseReference!
 	var selectedTag = 0
 
@@ -87,70 +88,33 @@ extension SearchViewController: UISearchBarDelegate {
 //				}
 //
 //			})
-//			
-//			FIRDatabase.database().reference().child("users").queryOrderedByValue().queryEqualToValue("simmy").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+
+//			FIRDatabase.database().reference().child("users/users_by_name").queryOrderedByKey().observeSingleEventOfType(.Value, withBlock: {(snapshot) in
 //				print(snapshot)
-//			})
-			
-//			var ref = new Firebase("https://dinosaur-facts.firebaseio.com/dinosaurs");
-//			ref.orderByChild("height").on("child_added", function(snapshot) {
-//				console.log(snapshot.key() + " was " + snapshot.val().height + " meters tall");
-//				});
-			
-//			var scoresRef = new Firebase("https://dinosaur-facts.firebaseio.com/scores");
-//			scoresRef.orderByValue().on("value", function(snapshot) {
-//				snapshot.forEach(function(data) {
-//					console.log("The " + data.key() + " dinosaur's score is " + data.val());
-//					});
-//				});
-			
-//			FIRDatabase.database().reference().child("users").queryOrderedByChild("username").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
-//				print(snapshot)
-//			})
-//			FIRDatabase.database().reference().queryOrderedByChild("users").queryStartingAtValue("simmy").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
-//				print(snapshot)
-//			})
-//			FIRDatabase.database().reference().child("users").queryOrderedByChild("lil9porkchop").observeSingleEventOfType(.ChildAdded, withBlock: {(snapshot) in
-//				print(snapshot)
-//			})
-//			FIRDatabase.database().reference().child("users").queryOrderedByKey().observeSingleEventOfType(.Value, withBlock: {(snapshot) in
-//			
-//				print(snapshot)
-//			})
-			FIRDatabase.database().reference().child("users/users_by_name").queryOrderedByKey().observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+//			}) Works great!
+			print(searchBar.text?.lowercaseString)
+			FIRDatabase.database().reference().child("users/users_by_name").queryOrderedByKey().queryStartingAtValue(searchBar.text!.lowercaseString).observeSingleEventOfType(.Value, withBlock: {(snapshot) in
 				print(snapshot)
+				if let results = snapshot.value as? [String: [String: String]] {
+					print(results)
+
+					for person in results.keys {
+						print(person)
+						self.peopleData.append(person)
+					}
+					self.tableData = []
+					self.tableView.reloadData()
+
+				} else {
+					print("failed")
+				}
+				
+				
 			})
 			return
 		}
 	}
 }
-
-//rootRef.queryOrderedByKey().observeEventType(.ChildAdded, withBlock: {
-//	(snapshot) in
-//	print(snapshot)
-//	if let newChat = snapshot.value as? [String: String]{
-//		guard var recipient = newChat["recipient"],
-//			var sender = newChat["sender"],
-//			let stock = newChat["stock"]
-//			else{
-//				return
-//		}
-//		if sender == self.title {
-//			sender = "You recommended: " + stock + " to " + recipient
-//			recipient = ""
-//			self.tableData.insert((recipient, sender, stock), atIndex: 0)
-//			
-//		} else  if recipient == self.title {
-//			sender = sender + " recommends: " + stock
-//			recipient = ""
-//			self.tableData.insert((sender, recipient, stock), atIndex: 0)
-//		}
-//		
-//	}
-//	dispatch_async(dispatch_get_main_queue()){
-//		self.tableView.reloadData()
-//	}
-//})
 
 
 extension SearchViewController: UITableViewDataSource {
@@ -159,29 +123,44 @@ extension SearchViewController: UITableViewDataSource {
 	}
 	
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return tableData.count
+		if tableData.count != 0 {
+			return tableData.count
+		} else {
+			return peopleData.count
+		}
 	}
 	
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! SearchMusicTableCell
 		
-		cell.artist = tableData[indexPath.row].artist
-		cell.song = tableData[indexPath.row].title
+		print("here i am")
 		
-		// Download the image then loaded it
-		let imageUrl = tableData[indexPath.row].imageUrl
-		let url = NSURL(string: imageUrl)
-		let session = NSURLSession.sharedSession().dataTaskWithURL(url!) {
-			(data, response, error) in
-			if data != nil {
-				dispatch_async(dispatch_get_main_queue(), {
-					cell.imageView?.image = UIImage(data: data!)
-				})
+		if self.tableData.count != 0 {
+			cell.artist = tableData[indexPath.row].artist
+			cell.song = tableData[indexPath.row].title
+			
+			// Download the image then loaded it
+			let imageUrl = tableData[indexPath.row].imageUrl
+			let url = NSURL(string: imageUrl)
+			let session = NSURLSession.sharedSession().dataTaskWithURL(url!) {
+				(data, response, error) in
+				if data != nil {
+					dispatch_async(dispatch_get_main_queue(), {
+						cell.imageView?.image = UIImage(data: data!)
+					})
+				}
 			}
+			session.resume()
+			
+			return cell
 		}
-		session.resume()
 		
+		cell.artist = peopleData[indexPath.row]
+		print(peopleData[indexPath.row])
+		print(cell.artist)
 		return cell
+		
+		
 	}
 }
 

@@ -188,7 +188,11 @@
                             </segmentedControl>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="a8O-78-fdh">
                                 <rect key="frame" x="0.0" y="48" width="600" height="44"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                <scopeButtonTitles>
+                                    <string>Title</string>
+                                    <string>Title</string>
+                                </scopeButtonTitles>
                                 <connections>
                                     <outlet property="delegate" destination="400-Sv-s7b" id="717-2C-eVb"/>
                                 </connections>
@@ -355,7 +359,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lf5-Ev-CaO">
                                 <rect key="frame" x="20" y="230" width="560" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress"/>
                                 <connections>
                                     <outlet property="delegate" destination="gBk-8W-Dt3" id="Dz0-0S-9NC"/>
                                 </connections>
@@ -629,6 +633,6 @@
         <image name="search.png" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Bde-jz-uSg"/>
+        <segue reference="dmD-NX-j7k"/>
     </inferredMetricsTieBreakers>
 </document>
