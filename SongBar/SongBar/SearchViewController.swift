@@ -18,8 +18,6 @@ class SearchViewController: UIViewController {
 	var selectedTag = 0
 	var timer: NSTimer? = nil
 	var selectedIndexPath: NSIndexPath? = nil
-	
-	//
 	var indicator = UIActivityIndicatorView()
 
 	@IBOutlet weak var searchOptionsSeg: UISegmentedControl!
@@ -97,9 +95,11 @@ class SearchViewController: UIViewController {
 			if let uid = snapshot.value!["uid"] as? String {
 				print(uid)
 
-				let post = [uid: selectedUser]
 				// Add the data
-				FIRDatabase.database().reference().child("users/users_by_name/\(currentUsername)").child("friends_by_id").child(selectedUser).setValue(post)
+				FIRDatabase.database().reference().child("users/users_by_name/\(currentUsername)").child("friends_by_id").child(selectedUser).setValue([uid: selectedUser])
+				
+				// Audience is your followers
+				FIRDatabase.database().reference().child("users/users_by_name/\(selectedUser)").child("audience_by_id").child(currentUsername).setValue([Utilities.getCurrentUID(): currentUsername])
 				
 				let cell = self.tableView.cellForRowAtIndexPath(self.selectedIndexPath!) as! SearchMusicTableCell
 				let color = cell.getGreenColor()
@@ -123,10 +123,6 @@ class SearchViewController: UIViewController {
 	
 	func searchBarTextDidPause(timer: NSTimer) {
 		// Custom method
-		print("Hints for textField: \(timer.userInfo!)")
-		print("stopped typing")
-		print("search for this->>> \(searchBar.text)")
-		
 		guard let text = searchBar.text else {
 			print("searchBarTextDidPause() failed")
 			return

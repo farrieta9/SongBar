@@ -22,6 +22,13 @@ class Utilities {
 		}
 		return ""
 	}
+	
+	static func getCurrentUID() -> String {
+		if let uid = userDefaults.stringForKey("uid") {
+			return uid
+		}
+		return ""
+	}
 }
 
 

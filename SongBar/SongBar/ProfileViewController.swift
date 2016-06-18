@@ -15,10 +15,10 @@ let distance_W_LabelHeader:CGFloat = 30.0 // The distance between the top of the
 
 
 enum contentTypes {
-	case Tweets, Media
+	case Audience, Follow
 }
 
-class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
+class ProfileViewController: UIViewController {
 	
 	// MARK: Outlet properties
 	
@@ -30,18 +30,57 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 	@IBOutlet var handleLabel : UILabel!
 	@IBOutlet var headerLabel : UILabel!
 	@IBOutlet weak var userTagLabel: UILabel!
+	var tableData = [String]()
+	var audienceData = [String]()
+	var followData = [String]()
 	
 	
 	var headerImageView:UIImageView!
-	var contentToDisplay : contentTypes = .Tweets
+	var contentToDisplay: contentTypes = .Audience
 	let userDefaults = NSUserDefaults.standardUserDefaults()
 	// MARK: The view
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
 		tableView.contentInset = UIEdgeInsetsMake(headerView.frame.height, 0, 0, 0)
 		
+		// Get the audience
+		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/audience_by_id").observeEventType(.Value, withBlock: {(snapshot) in
+//			print(snapshot)
+			guard let results = snapshot.value as? [String: [String: String]] else {
+				print("getting the audience failed")
+				return
+			}
+			
+//			print(results)
+			for person in results.keys {
+				self.audienceData.append(person)
+			}
+//			print(self.audienceData)
+			
+			self.tableView.reloadData()
+		})
+		
+		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id").observeEventType(.Value, withBlock: {(snapshot) in
+		
+			print(snapshot)
+			guard let results = snapshot.value as? [String: [String: String]] else {
+				print("getting friends failed") // Perhaps there are no results
+				return
+			}
+			print(results)
+			for person in results.keys {
+				self.followData.append(person)
+			}
+			self.tableView.reloadData()
+		})
+		
+	}
+	
+	func getTableData() -> [String] {
+		
+		
+		return tableData
 	}
 	
 	override func viewDidAppear(animated: Bool) {
@@ -76,6 +115,35 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 	
 	// MARK: Table view processing
 	
+	
+	
+	@IBAction func onSelectContentType(sender: UISegmentedControl) {
+		
+		switch sender.selectedSegmentIndex {
+		case 0:
+			contentToDisplay = .Audience
+		case 1:
+			contentToDisplay = .Follow
+		default:
+			break
+		}
+		
+		tableView.reloadData()
+	}
+	
+	@IBAction func shamelessActionThatNowBringsYouToDeansTwitterProfile() {
+		
+//		if !UIApplication.sharedApplication().openURL(NSURL(string:"twitter://user?screen_name=deanbrindley87")!){
+//			UIApplication.sharedApplication().openURL(NSURL(string:"https://twitter.com/deanbrindley87")!)
+//		}
+		print("Follow button pressed")
+	}
+	
+}
+
+
+
+extension ProfileViewController: UITableViewDataSource {
 	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 		return 1
 	}
@@ -83,11 +151,11 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		
 		switch contentToDisplay {
-		case .Tweets:
-			return 40
+		case .Audience:
+			return audienceData.count
 			
-		case .Media:
-			return 20
+		case .Follow:
+			return followData.count
 		}
 		
 	}
@@ -97,19 +165,20 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 		
 		
 		switch contentToDisplay {
-		case .Tweets:
-			cell.textLabel?.text = "Cool stuff!!"
+		case .Audience:
+			cell.textLabel?.text = audienceData[indexPath.row]
 			
-		case .Media:
-			cell.textLabel?.text = "Some texts!"
+		case .Follow:
 			cell.imageView?.image = UIImage(named: "Music-Concert-Crowd")
+			cell.textLabel?.text = followData[indexPath.row]
 		}
-		
-		
 		
 		return cell
 	}
 	
+}
+
+extension ProfileViewController: UIScrollViewDelegate {
 	// MARK: Scroll view delegate
 	
 	func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -170,9 +239,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 					headerView.layer.zPosition = 2
 					headerImageView.alpha = 0.5
 				}
-				
 			}
-			
 		}
 		
 		// Apply Transformations
@@ -197,30 +264,18 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 		
 		
 	}
-	
-	// MARK: Interface buttons
-	
-	@IBAction func selectContentType(sender: UISegmentedControl) {
-		
-		// crap code I know
-		if sender.selectedSegmentIndex == 0 {
-			contentToDisplay = .Tweets
-		}
-		else {
-			contentToDisplay = .Media
-		}
-		
-		tableView.reloadData()
-	}
-	
-	
-	@IBAction func shamelessActionThatNowBringsYouToDeansTwitterProfile() {
-		
-//		if !UIApplication.sharedApplication().openURL(NSURL(string:"twitter://user?screen_name=deanbrindley87")!){
-//			UIApplication.sharedApplication().openURL(NSURL(string:"https://twitter.com/deanbrindley87")!)
-//		}
-		print("Follow button pressed")
-	}
-	
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
