@@ -120,6 +120,7 @@ class LoginViewController: UIViewController {
 	func resetCurrentUser() {
 		userDefaults.setValue("", forKey: "email")
 		userDefaults.setValue("", forKey: "password")
+		userDefaults.setValue("", forKey: "username")
 	}
 	
 	func storeCurrentUser(uid: String) {

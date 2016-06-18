@@ -18,13 +18,20 @@ class SearchViewController: UIViewController {
 	var selectedTag = 0
 
 	@IBOutlet weak var searchOptionsSeg: UISegmentedControl!
+	@IBOutlet weak var searchBar: UISearchBar!
 	@IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+		searchBar.delegate = self
+		
 		rootRef = FIRDatabase.database().reference()
 
     }
+	@IBAction func onActionButton(sender: AnyObject) {
+		print("onActionButton()")
+		
+	}
+	
 	@IBAction func onSearchOptionIndexChange(sender: UISegmentedControl) {
 		
 		switch searchOptionsSeg.selectedSegmentIndex {
@@ -51,19 +58,43 @@ class SearchViewController: UIViewController {
 		FIRDatabase.database().reference().child("users/users_by_name").queryOrderedByKey().queryStartingAtValue(searchText.lowercaseString).observeSingleEventOfType(.Value, withBlock: {(snapshot) in
 		
 			if let searchResults = snapshot.value as? [String: [String: String]] {
+				
+				let currentUsername = Utilities.getCurrentUsername()
 				for person in searchResults.keys {
-					self.peopleData.append(person)
+					if currentUsername != person {
+						self.peopleData.append(person)  // Do not include the current user in the search results
+					}
 				}
 				
 				self.tableData = []
 				self.tableView.reloadData()
 			} else {
 				print(snapshot)
-				return  // snapshot may be null. Nothing found
+				print("Error")
+				return  // snapshot may be null. Nothing found, or internet may be slow
 			}
 		})
 	}
 	
+	func addSelectedRowAsFriend(row: Int) {
+		let selectedUser = peopleData[row]
+		let currentUsername = Utilities.getCurrentUsername()
+
+		// Get the uid of the selected user
+		FIRDatabase.database().reference().child("users/users_by_name/\(selectedUser)").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+			if let uid = snapshot.value as? [String: String] {
+				print(uid["uid"])
+				let selectedUserID = uid["uid"]!
+				
+				let post = [selectedUserID: selectedUser]
+				FIRDatabase.database().reference().child("users/users_by_name/\(currentUsername)").child("friends_by_id").updateChildValues(post)
+			} else {
+				print(snapshot)
+				print("addSelectedRowAsFriend() failed")
+			}
+		})
+	}
+
 	func searchForMusic(searchText: String) -> Void {
 		SpotifyAPI.search(searchText) {
 			(tracks) in dispatch_async(dispatch_get_main_queue()) {
@@ -93,6 +124,7 @@ extension SearchViewController: UISearchBarDelegate {
 	}
 	
 	func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+		searchBar.resignFirstResponder()
 		if selectedTag == 0 {
 			searchForMusic(searchBar.text!)
 			return
@@ -125,6 +157,7 @@ extension SearchViewController: UITableViewDataSource {
 			cell.artist = tableData[indexPath.row].artist
 			cell.song = tableData[indexPath.row].title
 			cell.username = ""
+			cell.actionButton.hidden = true
 			
 			// Download the image then loaded it
 			let imageUrl = tableData[indexPath.row].imageUrl
@@ -143,6 +176,8 @@ extension SearchViewController: UITableViewDataSource {
 			cell.username = peopleData[indexPath.row]
 			cell.song = ""
 			cell.albumImageView.image = UIImage(named: "default_profile.png")
+			cell.actionButtonName = "+  Follow"
+			cell.actionButton.hidden = false
 			
 		}
 		
@@ -154,14 +189,18 @@ extension SearchViewController: UITableViewDataSource {
 
 extension SearchViewController: UITableViewDelegate {
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		let ref = rootRef.childByAutoId()
-		let data = ["artist": tableData[indexPath.row].artist, "title": tableData[indexPath.row].title,
-		            "imageURL": tableData[indexPath.row].imageUrl, "previewURL": tableData[indexPath.row].previewUrl]
-
-		ref.setValue(data)
-		view.endEditing(true)  // Hide keyboard
-		if let uid = NSUserDefaults.standardUserDefaults().stringForKey("uid") {
-			print(uid)
+		print(indexPath.row)
+//		let ref = rootRef.childByAutoId()
+//		let data = ["artist": tableData[indexPath.row].artist, "title": tableData[indexPath.row].title,
+//		            "imageURL": tableData[indexPath.row].imageUrl, "previewURL": tableData[indexPath.row].previewUrl]
+//
+//		ref.setValue(data)
+//		view.endEditing(true)  // Hide keyboard
+//		if let uid = NSUserDefaults.standardUserDefaults().stringForKey("uid") {
+//			print(uid)
+//		}
+		if selectedTag == 1 {
+			self.addSelectedRowAsFriend(indexPath.row)
 		}
 	}
 }

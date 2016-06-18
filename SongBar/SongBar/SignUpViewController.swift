@@ -27,16 +27,6 @@ class SignUpViewController: UIViewController {
 		messageLabel.hidden = true
 		messageLabel.textColor = UIColor.redColor()
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 	
 	@IBAction func onSignUp(sender: UIButton) {
 		self.createAccount()
@@ -72,7 +62,6 @@ class SignUpViewController: UIViewController {
 			} else {
 				// No errors so store new user
 				self.userDefaults.setValue(self.usernameTextField.text, forKey: "username")
-//				FIRDatabase.database().reference().child("users").child((data?.uid)!).setValue(["username": self.usernameTextField.text!])
 				FIRDatabase.database().reference().child("users").child("users_by_id").child((data?.uid)!).setValue(["username": self.usernameTextField.text!.lowercaseString])
 				FIRDatabase.database().reference().child("users").child("users_by_name").child((self.usernameTextField.text?.lowercaseString)!).setValue(["uid": (data?.uid)!])
 				
@@ -84,11 +73,9 @@ class SignUpViewController: UIViewController {
 //					changeRequest.photoURL = NSURL(string: "https://example.com/jane-q-user/profile.jpg")
 					changeRequest.commitChangesWithCompletion { error in
 						if let error = error {
-							// An error happened.
-							print(error)
+							print(error)  // An error happened.
 						} else {
-							print("Profile updated successfully")
-							// Profile updated.
+							print("Profile updated successfully") // Profile updated.
 						}
 					}
 				}

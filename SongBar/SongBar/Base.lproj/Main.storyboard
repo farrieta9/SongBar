@@ -141,16 +141,29 @@
                                                         <constraint firstAttribute="width" constant="69" id="Pfg-VH-Yj2"/>
                                                     </constraints>
                                                 </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jzf-tc-DvZ">
+                                                    <rect key="frame" x="482" y="25" width="100" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="100" id="NTs-lU-cv6"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Button"/>
+                                                    <connections>
+                                                        <action selector="onActionButton:" destination="400-Sv-s7b" eventType="touchUpInside" id="jHY-wQ-CEc"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Jzf-tc-DvZ" secondAttribute="trailing" constant="10" id="0GJ-fi-ZAe"/>
                                                 <constraint firstItem="6hq-Mt-P5c" firstAttribute="centerY" secondItem="a4r-M1-bgR" secondAttribute="centerY" id="3ha-Ca-WJB"/>
                                                 <constraint firstItem="OY8-ce-6zO" firstAttribute="leading" secondItem="a4r-M1-bgR" secondAttribute="trailing" constant="20" id="488-Vc-M0S"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="OY8-ce-6zO" secondAttribute="bottom" constant="22.5" id="7DY-3f-3Gw"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="a4r-M1-bgR" secondAttribute="bottom" constant="-1.5" id="7LE-LY-Ez7"/>
+                                                <constraint firstItem="Jzf-tc-DvZ" firstAttribute="centerY" secondItem="6hq-Mt-P5c" secondAttribute="centerY" id="9Kq-fo-qDw"/>
                                                 <constraint firstItem="a4x-vM-7KW" firstAttribute="leading" secondItem="a4r-M1-bgR" secondAttribute="trailing" constant="36" id="BLF-yE-ULe"/>
                                                 <constraint firstItem="OY8-ce-6zO" firstAttribute="leading" secondItem="a4r-M1-bgR" secondAttribute="trailing" constant="36" id="INY-Ud-9dO"/>
                                                 <constraint firstItem="a4r-M1-bgR" firstAttribute="leading" secondItem="vg4-Jo-dvL" secondAttribute="leadingMargin" id="MUy-J6-KlL"/>
                                                 <constraint firstItem="OY8-ce-6zO" firstAttribute="top" secondItem="vg4-Jo-dvL" secondAttribute="topMargin" constant="22" id="Nmg-ea-9lR"/>
+                                                <constraint firstItem="a4r-M1-bgR" firstAttribute="top" secondItem="Jzf-tc-DvZ" secondAttribute="bottom" constant="-49" id="R4y-Pq-JjA"/>
                                                 <constraint firstAttribute="topMargin" secondItem="a4r-M1-bgR" secondAttribute="top" constant="2" id="Ua5-HS-Rdk"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="a4r-M1-bgR" secondAttribute="trailing" constant="473" id="VAQ-VK-TRZ"/>
                                                 <constraint firstAttribute="topMargin" secondItem="OY8-ce-6zO" secondAttribute="top" id="WZP-1d-XnE"/>
@@ -162,6 +175,7 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
+                                                    <exclude reference="R4y-Pq-JjA"/>
                                                     <exclude reference="VAQ-VK-TRZ"/>
                                                     <exclude reference="qCp-ii-UAi"/>
                                                     <exclude reference="488-Vc-M0S"/>
@@ -173,6 +187,7 @@
                                             </variation>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="actionButton" destination="Jzf-tc-DvZ" id="TeT-P6-avC"/>
                                             <outlet property="albumImageView" destination="a4r-M1-bgR" id="C6i-Xb-ByX"/>
                                             <outlet property="artistLabel" destination="OY8-ce-6zO" id="Sjy-QC-WwL"/>
                                             <outlet property="songLabel" destination="a4x-vM-7KW" id="AwJ-PV-bvj"/>
@@ -231,6 +246,7 @@
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
                     <connections>
+                        <outlet property="searchBar" destination="a8O-78-fdh" id="j9k-g8-NO5"/>
                         <outlet property="searchOptionsSeg" destination="Xh8-LZ-Ia4" id="P8N-d4-QKw"/>
                         <outlet property="tableView" destination="2Qs-cL-LGt" id="5RV-dD-E5m"/>
                     </connections>
@@ -262,7 +278,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="EFb-A0-T8t">
                                 <rect key="frame" x="20" y="224" width="560" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress"/>
                                 <connections>
                                     <outlet property="delegate" destination="sCL-Se-tnz" id="6U1-80-Rva"/>
                                 </connections>
