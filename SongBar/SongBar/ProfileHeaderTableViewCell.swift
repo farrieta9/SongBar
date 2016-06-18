@@ -36,6 +36,13 @@ class ProfileHeaderTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
 		logOutButton.setTitle("Log Out", forState: .Normal)
+
+//		To have a circular image, uncomment this line below with the following two lines
+//		userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
+		userImageView.layer.borderColor = UIColor.whiteColor().CGColor
+		userImageView.layer.borderWidth = 3.0
+		
+		userImageView.clipsToBounds	= true  // Makes the corners blend with the corner radius
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

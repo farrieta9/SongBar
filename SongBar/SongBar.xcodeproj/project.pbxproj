@@ -10,7 +10,6 @@
 		8C58322D1D09150F00E7D5AF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8C58322C1D09150F00E7D5AF /* GoogleService-Info.plist */; };
 		8C7872071D15DC580066886A /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7872061D15DC580066886A /* ProfileHeaderView.swift */; };
 		8C7872091D15DD510066886A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7872081D15DD510066886A /* ProfileViewController.swift */; };
-		8C9296E21D10D4E200144861 /* UserProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9296E11D10D4E200144861 /* UserProfileImageView.swift */; };
 		8C9296E41D10D53600144861 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9296E31D10D53600144861 /* RoundButton.swift */; };
 		8C9296E61D10D74600144861 /* Music-Concert-Crowd.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8C9296E51D10D74600144861 /* Music-Concert-Crowd.jpg */; };
 		8C9296EA1D10D85C00144861 /* neutral_user.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C9296E91D10D85C00144861 /* neutral_user.png */; };
@@ -42,7 +41,6 @@
 		8C58322C1D09150F00E7D5AF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8C7872061D15DC580066886A /* ProfileHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		8C7872081D15DD510066886A /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		8C9296E11D10D4E200144861 /* UserProfileImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileImageView.swift; sourceTree = "<group>"; };
 		8C9296E31D10D53600144861 /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		8C9296E51D10D74600144861 /* Music-Concert-Crowd.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Music-Concert-Crowd.jpg"; sourceTree = "<group>"; };
 		8C9296E91D10D85C00144861 /* neutral_user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = neutral_user.png; sourceTree = "<group>"; };
@@ -135,7 +133,6 @@
 			children = (
 				8CDF695F1D07B4130024CE55 /* SpotifyAPI.swift */,
 				8CDF69691D07BFDB0024CE55 /* SpotifyTrack.swift */,
-				8C9296E11D10D4E200144861 /* UserProfileImageView.swift */,
 				8C9296E31D10D53600144861 /* RoundButton.swift */,
 				8CBC66A01D1504F7006A7331 /* Utilities.swift */,
 			);
@@ -326,7 +323,6 @@
 				8CDF694C1D07B1D30024CE55 /* AppDelegate.swift in Sources */,
 				8CDF69631D07B4D70024CE55 /* HomeViewController.swift in Sources */,
 				8C7872071D15DC580066886A /* ProfileHeaderView.swift in Sources */,
-				8C9296E21D10D4E200144861 /* UserProfileImageView.swift in Sources */,
 				8CAD08951D15FB07006072DB /* ProfileTableViewCell.swift in Sources */,
 				8CA7B0B61D110B3C00ECC54C /* SignUpViewController.swift in Sources */,
 			);
