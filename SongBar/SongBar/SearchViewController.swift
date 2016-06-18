@@ -217,8 +217,18 @@ extension SearchViewController: UITableViewDataSource {
 		}
 		
 		return cell
+	}
+	
+	func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 		
-		
+		switch searchOptionsSeg.selectedSegmentIndex {
+		case 0:
+			return 80
+		case 1:
+			return 50
+		default:
+			return 80
+		}
 	}
 }
 

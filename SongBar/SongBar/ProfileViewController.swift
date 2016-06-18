@@ -30,15 +30,20 @@ class ProfileViewController: UIViewController {
 	@IBOutlet var handleLabel : UILabel!
 	@IBOutlet var headerLabel : UILabel!
 	@IBOutlet weak var userTagLabel: UILabel!
-	var tableData = [String]()
 	var audienceData = [String]()
 	var followData = [String]()
+	
+	var data = ["iPad", "iPhone", "iWatch", "iPod", "iMac"]
+	var buttonData = ["US","China","London","Canada","Japan"];
 	
 	
 	var headerImageView:UIImageView!
 	var contentToDisplay: contentTypes = .Audience
 	let userDefaults = NSUserDefaults.standardUserDefaults()
-	// MARK: The view
+	
+	let actionButtonWidth: CGFloat = 100.0
+	let actionButtonHeight:CGFloat = 30.0
+	
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -75,12 +80,6 @@ class ProfileViewController: UIViewController {
 			self.tableView.reloadData()
 		})
 		
-	}
-	
-	func getTableData() -> [String] {
-		
-		
-		return tableData
 	}
 	
 	override func viewDidAppear(animated: Bool) {
@@ -139,6 +138,15 @@ class ProfileViewController: UIViewController {
 		print("Follow button pressed")
 	}
 	
+	//Button Action is
+	func buttonPressed(sender:UIButton!)
+	{
+		print("oh yeha")
+		let buttonRow = sender.tag
+		print("button is Pressed")
+		print("Clicked Button Row is", buttonRow)
+	}
+	
 }
 
 
@@ -162,16 +170,56 @@ extension ProfileViewController: UITableViewDataSource {
 	
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = UITableViewCell()
+//
+//		
+//		switch contentToDisplay {
+//		case .Audience:
+//			cell.textLabel?.text = audienceData[indexPath.row]
+//			
+//		case .Follow:
+//			cell.imageView?.image = UIImage(named: "default_profile.png")
+//			cell.textLabel?.text = followData[indexPath.row]
+//		}
+//		
+//		return cell
+		
+//		let label = UILabel(frame: CGRectMake(280.0, 14.0, 100.0, 30.0))
+//		label.text = data[indexPath.row]
+//		label.tag = indexPath.row
+//		cell.contentView.addSubview(label)
+//		
+//		let btn = UIButton(type: UIButtonType.Custom) as UIButton
+//		btn.backgroundColor = UIColor.greenColor()
+//		btn.setTitle(buttonData[indexPath.row], forState: UIControlState.Normal)
+//		btn.frame = CGRectMake(20, 5, 30, 30)
+//		btn.addTarget(self, action: #selector(buttonPressed(_:)), forControlEvents: .TouchUpInside)
+//		btn.tag = indexPath.row
+//		cell.contentView.addSubview(btn)
+		
+		let usernameLabel = UILabel(frame: CGRectMake(75, 5, 100, 30))
+		let actionButton = UIButton(type: .Custom)
+		
+		actionButton.frame = CGRectMake(tableView.frame.width - actionButtonWidth - 15, 5, actionButtonWidth, actionButtonHeight)
+
+		usernameLabel.tag = indexPath.row
+		actionButton.tag = indexPath.row
+		
+		actionButton.setTitle("Follow", forState: .Normal)
 		
 		
 		switch contentToDisplay {
 		case .Audience:
-			cell.textLabel?.text = audienceData[indexPath.row]
-			
+			usernameLabel.text = audienceData[indexPath.row]
 		case .Follow:
-			cell.imageView?.image = UIImage(named: "Music-Concert-Crowd")
-			cell.textLabel?.text = followData[indexPath.row]
+			usernameLabel.text = followData[indexPath.row]
 		}
+		actionButton.layer.cornerRadius = 15
+		actionButton.layer.borderWidth = 1
+		actionButton.layer.borderColor = UIColor.blackColor().CGColor
+		actionButton.backgroundColor = UIColor.blueColor()
+		
+		cell.contentView.addSubview(usernameLabel)
+		cell.contentView.addSubview(actionButton)
 		
 		return cell
 	}
