@@ -35,25 +35,50 @@ class SearchViewController: UIViewController {
 			print("Search for people")
 			selectedTag = 1
 		default:
-			break
+			selectedTag = 0
 		}
+	}
+	
+	func searchForPeople(searchText: String) -> Void {
+		self.peopleData.removeAll()
+		FIRDatabase.database().reference().child("users/users_by_name").queryOrderedByKey().queryStartingAtValue(searchText.lowercaseString).observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+		
+			if let searchResults = snapshot.value as? [String: [String: String]] {
+				print(searchResults.keys)
+				for person in searchResults.keys {
+					self.peopleData.append(person)
+				}
+				
+				self.tableData = []
+				self.tableView.reloadData()
+			} else {
+				print(snapshot)
+				return  // snapshot may be null. Nothing found
+			}
+		})
 	}
 }
 
 extension SearchViewController: UISearchBarDelegate {
-//	func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-//		SpotifyAPI.search(searchText) {
-//			(tracks) in dispatch_async(dispatch_get_main_queue()) {
-//				self.tableData = tracks
-//				self.tableView.reloadData()
-//			}
-//		}
-//	}
+	func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+		print(searchText)
+		if selectedTag == 0 {
+			SpotifyAPI.search(searchText) {
+				(tracks) in dispatch_async(dispatch_get_main_queue()) {
+					self.tableData = tracks
+				self.tableView.reloadData()
+				}
+			}
+			return
+		}
+		
+		if selectedTag == 1 {
+			searchForPeople(searchText)
+		}
+	}
 	
 	func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-		print("search now")
 		if selectedTag == 0 {
-			print("searching for music")
 			SpotifyAPI.search(searchBar.text!) {
 				(tracks) in dispatch_async(dispatch_get_main_queue()) {
 					self.tableData = tracks
@@ -63,54 +88,7 @@ extension SearchViewController: UISearchBarDelegate {
 			return
 		}
 		if selectedTag == 1 {
-			print("Searching for people")
-			
-//			ref.child("users").child(userID!).observeSingleEventOfType(.Value, withBlock: { (snapshot) in
-			
-//			FIRDatabase.database().reference().queryOrderedByKey().observeEventType(.ChildAdded, withBlock: {(snapshot) in
-//			
-//				print(snapshot)
-//				if let postDict = snapshot.value as? [String: [String: String]] {
-//					print(postDict)
-//				} else {
-//					print("failed")
-//				}
-//				
-//			})
-			
-//			FIRDatabase.database().reference().queryOrderedByChild("users").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
-//				print(snapshot)
-//				if let postDict = snapshot.value as? [String: AnyObject] {
-//					print(postDict)
-//					print(postDict["users"])
-//				} else {
-//					print("failed")
-//				}
-//
-//			})
-
-//			FIRDatabase.database().reference().child("users/users_by_name").queryOrderedByKey().observeSingleEventOfType(.Value, withBlock: {(snapshot) in
-//				print(snapshot)
-//			}) Works great!
-			print(searchBar.text?.lowercaseString)
-			FIRDatabase.database().reference().child("users/users_by_name").queryOrderedByKey().queryStartingAtValue(searchBar.text!.lowercaseString).observeSingleEventOfType(.Value, withBlock: {(snapshot) in
-				print(snapshot)
-				if let results = snapshot.value as? [String: [String: String]] {
-					print(results)
-
-					for person in results.keys {
-						print(person)
-						self.peopleData.append(person)
-					}
-					self.tableData = []
-					self.tableView.reloadData()
-
-				} else {
-					print("failed")
-				}
-				
-				
-			})
+			searchForPeople(searchBar.text!)
 			return
 		}
 	}
@@ -133,8 +111,6 @@ extension SearchViewController: UITableViewDataSource {
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! SearchMusicTableCell
 		
-		print("here i am")
-		
 		if self.tableData.count != 0 {
 			cell.artist = tableData[indexPath.row].artist
 			cell.song = tableData[indexPath.row].title
@@ -156,8 +132,6 @@ extension SearchViewController: UITableViewDataSource {
 		}
 		
 		cell.artist = peopleData[indexPath.row]
-		print(peopleData[indexPath.row])
-		print(cell.artist)
 		return cell
 		
 		
