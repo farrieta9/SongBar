@@ -57,7 +57,7 @@ class SearchViewController: UIViewController {
 		self.peopleData = []
 		FIRDatabase.database().reference().child("users/users_by_name").queryOrderedByKey().queryStartingAtValue(searchText.lowercaseString).observeSingleEventOfType(.Value, withBlock: {(snapshot) in
 		
-			if let searchResults = snapshot.value as? [String: [String: String]] {
+			if let searchResults = snapshot.value as? [String: AnyObject] {
 				
 				let currentUsername = Utilities.getCurrentUsername()
 				for person in searchResults.keys {
@@ -82,17 +82,20 @@ class SearchViewController: UIViewController {
 
 		// Get the uid of the selected user
 		FIRDatabase.database().reference().child("users/users_by_name/\(selectedUser)").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
-			if let uid = snapshot.value as? [String: String] {
-				print(uid["uid"])
-				let selectedUserID = uid["uid"]!
-				
-				let post = [selectedUserID: selectedUser]
-				FIRDatabase.database().reference().child("users/users_by_name/\(currentUsername)").child("friends_by_id").updateChildValues(post)
+			if let uid = snapshot.value!["uid"] as? String {
+				print(uid)
+
+				let post = [uid: selectedUser]
+				// Add the data
+				FIRDatabase.database().reference().child("users/users_by_name/\(currentUsername)").child("friends_by_id").child(selectedUser).setValue(post)
 			} else {
 				print(snapshot)
 				print("addSelectedRowAsFriend() failed")
 			}
 		})
+		
+		
+//		FIRDatabase.database().reference().child("users").child("users_by_name").child((self.usernameTextField.text?.lowercaseString)!).setValue(["uid": (data?.uid)!])
 	}
 
 	func searchForMusic(searchText: String) -> Void {
