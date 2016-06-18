@@ -29,21 +29,25 @@ class SearchViewController: UIViewController {
 		
 		switch searchOptionsSeg.selectedSegmentIndex {
 		case 0:
-			print("Search for music")
 			selectedTag = 0
 		case 1:
-			print("Search for people")
 			selectedTag = 1
 		default:
 			selectedTag = 0
 		}
-		tableData.removeAll()
-		peopleData.removeAll()
+		tableData = []
+		peopleData = []
 		self.tableView.reloadData()
 	}
 	
+	func clearTable() -> Void {
+		tableData = []
+		peopleData = []
+		tableView.reloadData()
+	}
+	
 	func searchForPeople(searchText: String) -> Void {
-		self.peopleData.removeAll()
+		self.peopleData = []
 		FIRDatabase.database().reference().child("users/users_by_name").queryOrderedByKey().queryStartingAtValue(searchText.lowercaseString).observeSingleEventOfType(.Value, withBlock: {(snapshot) in
 		
 			if let searchResults = snapshot.value as? [String: [String: String]] {
@@ -73,6 +77,10 @@ class SearchViewController: UIViewController {
 extension SearchViewController: UISearchBarDelegate {
 	func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 		print(searchText)
+		if searchText.characters.count == 0 {
+			self.clearTable()
+			return
+		}
 		if selectedTag == 0 {
 			searchForMusic(searchText)
 			return
