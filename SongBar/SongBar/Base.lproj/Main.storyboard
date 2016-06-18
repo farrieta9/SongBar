@@ -651,7 +651,7 @@
             </objects>
             <point key="canvasLocation" x="1022" y="1170"/>
         </scene>
-        <!--Item-->
+        <!--Profile2 View Controller-->
         <scene sceneID="j3d-bb-cDR">
             <objects>
                 <viewController id="lFj-48-gJ2" customClass="Profile2ViewController" customModule="SongBar" customModuleProvider="target" sceneMemberID="viewController">
@@ -701,11 +701,59 @@
                                     </connections>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="vbp-Tv-B02">
-                                        <rect key="frame" x="0.0" y="178" width="600" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="headerCell" rowHeight="182" id="AXo-7S-Zgh" customClass="ProfileHeaderTableViewCell" customModule="SongBar" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="178" width="600" height="182"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vbp-Tv-B02" id="B2l-Q8-cbV">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AXo-7S-Zgh" id="0u0-ku-Aj1">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="181.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cik-Pw-P5c">
+                                                    <rect key="frame" x="279" y="88" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="UH8-Rt-iPU">
+                                                    <rect key="frame" x="18" y="135" width="564" height="29"/>
+                                                    <segments>
+                                                        <segment title="Audience"/>
+                                                        <segment title="Follow"/>
+                                                    </segments>
+                                                </segmentedControl>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_profile.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ohz-KU-AMl">
+                                                    <rect key="frame" x="265.5" y="9" width="69" height="69"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="69" id="HFn-IH-rpD"/>
+                                                        <constraint firstAttribute="width" constant="69" id="eIU-05-GwW"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0gu-rD-Oye">
+                                                    <rect key="frame" x="18" y="18" width="46" height="30"/>
+                                                    <state key="normal" title="Button"/>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="UH8-Rt-iPU" secondAttribute="bottom" constant="10" id="7Ad-aH-wgA"/>
+                                                <constraint firstItem="UH8-Rt-iPU" firstAttribute="leading" secondItem="0u0-ku-Aj1" secondAttribute="leadingMargin" constant="10" id="8IZ-Ih-ZPs"/>
+                                                <constraint firstItem="cik-Pw-P5c" firstAttribute="centerX" secondItem="0u0-ku-Aj1" secondAttribute="centerX" id="92C-1g-ZWT"/>
+                                                <constraint firstItem="Ohz-KU-AMl" firstAttribute="centerX" secondItem="cik-Pw-P5c" secondAttribute="centerX" id="9Lr-pZ-Lga"/>
+                                                <constraint firstItem="cik-Pw-P5c" firstAttribute="top" secondItem="Ohz-KU-AMl" secondAttribute="bottom" constant="10" id="Lqy-kL-lDB"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="UH8-Rt-iPU" secondAttribute="trailing" constant="10" id="XFC-pW-3y5"/>
+                                                <constraint firstItem="0gu-rD-Oye" firstAttribute="top" secondItem="0u0-ku-Aj1" secondAttribute="topMargin" constant="10" id="ZfR-5l-mUR"/>
+                                                <constraint firstItem="0gu-rD-Oye" firstAttribute="leading" secondItem="0u0-ku-Aj1" secondAttribute="leadingMargin" constant="10" id="adT-od-MXJ"/>
+                                                <constraint firstItem="cik-Pw-P5c" firstAttribute="top" secondItem="0u0-ku-Aj1" secondAttribute="topMargin" constant="80" id="jQ7-7f-Ab5"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="usernameLabel" destination="cik-Pw-P5c" id="kkK-vu-39Y"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="80" id="GUe-b0-gmN">
+                                        <rect key="frame" x="0.0" y="360" width="600" height="80"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GUe-b0-gmN" id="XYk-9S-aTp">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="79.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -724,7 +772,9 @@
                             <constraint firstItem="unw-ol-cqH" firstAttribute="top" secondItem="AeP-Wo-2WT" secondAttribute="bottom" id="qr5-af-ptq"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="hv6-xW-T2a"/>
+                    <tabBarItem key="tabBarItem" title="" image="neutral_user.png" id="hv6-xW-T2a">
+                        <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
+                    </tabBarItem>
                     <connections>
                         <outlet property="tableView" destination="AeP-Wo-2WT" id="69F-Ug-Fi1"/>
                     </connections>

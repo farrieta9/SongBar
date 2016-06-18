@@ -12,7 +12,7 @@ class Profile2ViewController: UIViewController {
 	
 	
 	@IBOutlet weak var tableView: UITableView!
-	private let tableHeaderHeight: CGFloat = 250.0
+	private let tableHeaderHeight: CGFloat = 100.0
 	private let tableHeaderCutAway: CGFloat = 0.0
 	
 	private var headerView: ProfileHeaderView!
@@ -47,6 +47,9 @@ class Profile2ViewController: UIViewController {
 		super.viewDidLayoutSubviews()
 		updateHeaderView()
 	}
+	@IBAction func onContentChange(sender: UISegmentedControl) {
+		
+	}
 	
 	func updateHeaderView() {
 		let effectiveHeight = tableHeaderHeight - tableHeaderCutAway / 2
@@ -75,15 +78,39 @@ class Profile2ViewController: UIViewController {
 
 extension Profile2ViewController: UITableViewDataSource	{
 	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-		return 1
+		return 2
 	}
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return 1
+		if section == 0 {
+			return 1
+		} else{
+			return 20
+		}
 	}
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as UITableViewCell
 		
-		return cell
+		if indexPath.section == 1 {
+			let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as UITableViewCell
+			cell.textLabel?.text = "\(indexPath.row)"
+			return cell
+		} else {
+			let cell = tableView.dequeueReusableCellWithIdentifier("headerCell") as! ProfileHeaderTableViewCell
+//			let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! SearchMusicTableCell
+			cell.username = "some user"
+			
+			return cell
+		}
+	}
+	func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+		
+		switch indexPath.section {
+		case 0:
+			return 175
+		case 1:
+			return 50
+		default:
+			return 50
+		}
 	}
 }
 
