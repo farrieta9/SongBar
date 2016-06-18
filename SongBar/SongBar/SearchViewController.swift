@@ -16,6 +16,11 @@ class SearchViewController: UIViewController {
 	var peopleData = [String]()
 	var rootRef: FIRDatabaseReference!
 	var selectedTag = 0
+	var timer: NSTimer? = nil
+	var selectedIndexPath: NSIndexPath? = nil
+	
+	//
+	var indicator = UIActivityIndicatorView()
 
 	@IBOutlet weak var searchOptionsSeg: UISegmentedControl!
 	@IBOutlet weak var searchBar: UISearchBar!
@@ -24,12 +29,21 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
 		searchBar.delegate = self
 		
+		activityIndicator()
+		
 		rootRef = FIRDatabase.database().reference()
 
     }
 	@IBAction func onActionButton(sender: AnyObject) {
 		print("onActionButton()")
 		
+	}
+	
+	func activityIndicator() {
+		indicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 40, 40))
+		indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+		indicator.center = self.view.center
+		self.view.addSubview(indicator)
 	}
 	
 	@IBAction func onSearchOptionIndexChange(sender: UISegmentedControl) {
@@ -42,9 +56,8 @@ class SearchViewController: UIViewController {
 		default:
 			selectedTag = 0
 		}
-		tableData = []
-		peopleData = []
-		self.tableView.reloadData()
+		
+		clearTable()
 	}
 	
 	func clearTable() -> Void {
@@ -65,8 +78,7 @@ class SearchViewController: UIViewController {
 						self.peopleData.append(person)  // Do not include the current user in the search results
 					}
 				}
-				
-				self.tableData = []
+
 				self.tableView.reloadData()
 			} else {
 				print(snapshot)
@@ -88,14 +100,16 @@ class SearchViewController: UIViewController {
 				let post = [uid: selectedUser]
 				// Add the data
 				FIRDatabase.database().reference().child("users/users_by_name/\(currentUsername)").child("friends_by_id").child(selectedUser).setValue(post)
+				
+				let cell = self.tableView.cellForRowAtIndexPath(self.selectedIndexPath!) as! SearchMusicTableCell
+				let color = cell.getGreenColor()
+				cell.actionButton.backgroundColor = color
+				
 			} else {
 				print(snapshot)
 				print("addSelectedRowAsFriend() failed")
 			}
 		})
-		
-		
-//		FIRDatabase.database().reference().child("users").child("users_by_name").child((self.usernameTextField.text?.lowercaseString)!).setValue(["uid": (data?.uid)!])
 	}
 
 	func searchForMusic(searchText: String) -> Void {
@@ -106,36 +120,58 @@ class SearchViewController: UIViewController {
 			}
 		}
 	}
+	
+	func searchBarTextDidPause(timer: NSTimer) {
+		// Custom method
+		print("Hints for textField: \(timer.userInfo!)")
+		print("stopped typing")
+		print("search for this->>> \(searchBar.text)")
+		
+		guard let text = searchBar.text else {
+			print("searchBarTextDidPause() failed")
+			return
+		}
+		
+		indicator.stopAnimating()
+		indicator.hidesWhenStopped = true
+		
+		if text.characters.count == 0 {
+			clearTable()
+			return
+		}
+		
+		
+		switch searchOptionsSeg.selectedSegmentIndex {
+		case 0:
+			searchForMusic(text)
+		case 1:
+			searchForPeople(text)
+		default:
+			break
+		}
+	}
+
 }
 
 extension SearchViewController: UISearchBarDelegate {
 	func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-		print(searchText)
-		if searchText.characters.count == 0 {
-			self.clearTable()
-			return
-		}
-		if selectedTag == 0 {
-			searchForMusic(searchText)
-			return
-		}
 		
-		if selectedTag == 1 {
-			searchForPeople(searchText)
-			return
-		}
+		print(searchText)
 	}
 	
+	func searchBar(searchBar: UISearchBar, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+		
+		clearTable()
+		indicator.startAnimating()
+		indicator.backgroundColor = UIColor.whiteColor()
+		print("started typing \(searchBar.text)")
+		timer?.invalidate()
+		timer = NSTimer.scheduledTimerWithTimeInterval(0.75, target: self, selector: (#selector(SearchViewController.searchBarTextDidPause(_:))), userInfo: searchBar.text, repeats: false)
+		
+		return true
+	}
 	func searchBarSearchButtonClicked(searchBar: UISearchBar) {
 		searchBar.resignFirstResponder()
-		if selectedTag == 0 {
-			searchForMusic(searchBar.text!)
-			return
-		}
-		if selectedTag == 1 {
-			searchForPeople(searchBar.text!)
-			return
-		}
 	}
 }
 
@@ -205,6 +241,7 @@ extension SearchViewController: UITableViewDelegate {
 		if selectedTag == 1 {
 			self.addSelectedRowAsFriend(indexPath.row)
 		}
+		selectedIndexPath = indexPath
 	}
 }
 
