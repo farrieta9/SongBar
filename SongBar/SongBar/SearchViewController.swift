@@ -37,6 +37,9 @@ class SearchViewController: UIViewController {
 		default:
 			selectedTag = 0
 		}
+		tableData.removeAll()
+		peopleData.removeAll()
+		self.tableView.reloadData()
 	}
 	
 	func searchForPeople(searchText: String) -> Void {
@@ -44,7 +47,6 @@ class SearchViewController: UIViewController {
 		FIRDatabase.database().reference().child("users/users_by_name").queryOrderedByKey().queryStartingAtValue(searchText.lowercaseString).observeSingleEventOfType(.Value, withBlock: {(snapshot) in
 		
 			if let searchResults = snapshot.value as? [String: [String: String]] {
-				print(searchResults.keys)
 				for person in searchResults.keys {
 					self.peopleData.append(person)
 				}
@@ -57,34 +59,34 @@ class SearchViewController: UIViewController {
 			}
 		})
 	}
+	
+	func searchForMusic(searchText: String) -> Void {
+		SpotifyAPI.search(searchText) {
+			(tracks) in dispatch_async(dispatch_get_main_queue()) {
+				self.tableData = tracks
+				self.tableView.reloadData()
+			}
+		}
+	}
 }
 
 extension SearchViewController: UISearchBarDelegate {
 	func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 		print(searchText)
 		if selectedTag == 0 {
-			SpotifyAPI.search(searchText) {
-				(tracks) in dispatch_async(dispatch_get_main_queue()) {
-					self.tableData = tracks
-				self.tableView.reloadData()
-				}
-			}
+			searchForMusic(searchText)
 			return
 		}
 		
 		if selectedTag == 1 {
 			searchForPeople(searchText)
+			return
 		}
 	}
 	
 	func searchBarSearchButtonClicked(searchBar: UISearchBar) {
 		if selectedTag == 0 {
-			SpotifyAPI.search(searchBar.text!) {
-				(tracks) in dispatch_async(dispatch_get_main_queue()) {
-					self.tableData = tracks
-					self.tableView.reloadData()
-				}
-			}
+			searchForMusic(searchBar.text!)
 			return
 		}
 		if selectedTag == 1 {
@@ -114,6 +116,7 @@ extension SearchViewController: UITableViewDataSource {
 		if self.tableData.count != 0 {
 			cell.artist = tableData[indexPath.row].artist
 			cell.song = tableData[indexPath.row].title
+			cell.username = ""
 			
 			// Download the image then loaded it
 			let imageUrl = tableData[indexPath.row].imageUrl
@@ -122,16 +125,19 @@ extension SearchViewController: UITableViewDataSource {
 				(data, response, error) in
 				if data != nil {
 					dispatch_async(dispatch_get_main_queue(), {
-						cell.imageView?.image = UIImage(data: data!)
+						cell.albumImageView.image = UIImage(data: data!)
 					})
 				}
 			}
 			session.resume()
+		} else {
+			cell.artist = ""
+			cell.username = peopleData[indexPath.row]
+			cell.song = ""
+			cell.albumImageView.image = UIImage(named: "default_profile.png")
 			
-			return cell
 		}
 		
-		cell.artist = peopleData[indexPath.row]
 		return cell
 		
 		

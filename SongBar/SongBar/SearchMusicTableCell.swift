@@ -23,7 +23,14 @@ class SearchMusicTableCell: UITableViewCell {
 		}
 	}
 	
+	var username = "" {
+		didSet {
+			usernameLabel.text = username
+		}
+	}
+	
 	@IBOutlet weak var albumImageView: UIImageView!
 	@IBOutlet weak var artistLabel: UILabel!
+	@IBOutlet weak var usernameLabel: UILabel!
 	@IBOutlet weak var songLabel: UILabel!
 }
