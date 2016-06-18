@@ -32,7 +32,7 @@ class HomeViewController: UIViewController {
 //				self.collectionData.insert((artist, title, imageURL), atIndex: 0)
 //				self.collectionView.reloadData()
 //			})
-//		}
+//		}	
 //
 		
 	}

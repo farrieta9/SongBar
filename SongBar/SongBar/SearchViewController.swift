@@ -64,20 +64,93 @@ extension SearchViewController: UISearchBarDelegate {
 		if selectedTag == 1 {
 			print("Searching for people")
 			
-			FIRDatabase.database().reference().queryOrderedByKey().observeEventType(.Value, withBlock: {(snapshot) in
-				
-				print(snapshot.value!["users"])
-				let users = snapshot.value!["users"]
-				print(users)
-				
-				
-				
-			})
+//			ref.child("users").child(userID!).observeSingleEventOfType(.Value, withBlock: { (snapshot) in
 			
+//			FIRDatabase.database().reference().queryOrderedByKey().observeEventType(.ChildAdded, withBlock: {(snapshot) in
+//			
+//				print(snapshot)
+//				if let postDict = snapshot.value as? [String: [String: String]] {
+//					print(postDict)
+//				} else {
+//					print("failed")
+//				}
+//				
+//			})
+			
+//			FIRDatabase.database().reference().queryOrderedByChild("users").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+//				print(snapshot)
+//				if let postDict = snapshot.value as? [String: AnyObject] {
+//					print(postDict)
+//					print(postDict["users"])
+//				} else {
+//					print("failed")
+//				}
+//
+//			})
+//			
+//			FIRDatabase.database().reference().child("users").queryOrderedByValue().queryEqualToValue("simmy").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+//				print(snapshot)
+//			})
+			
+//			var ref = new Firebase("https://dinosaur-facts.firebaseio.com/dinosaurs");
+//			ref.orderByChild("height").on("child_added", function(snapshot) {
+//				console.log(snapshot.key() + " was " + snapshot.val().height + " meters tall");
+//				});
+			
+//			var scoresRef = new Firebase("https://dinosaur-facts.firebaseio.com/scores");
+//			scoresRef.orderByValue().on("value", function(snapshot) {
+//				snapshot.forEach(function(data) {
+//					console.log("The " + data.key() + " dinosaur's score is " + data.val());
+//					});
+//				});
+			
+//			FIRDatabase.database().reference().child("users").queryOrderedByChild("username").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+//				print(snapshot)
+//			})
+//			FIRDatabase.database().reference().queryOrderedByChild("users").queryStartingAtValue("simmy").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+//				print(snapshot)
+//			})
+//			FIRDatabase.database().reference().child("users").queryOrderedByChild("lil9porkchop").observeSingleEventOfType(.ChildAdded, withBlock: {(snapshot) in
+//				print(snapshot)
+//			})
+//			FIRDatabase.database().reference().child("users").queryOrderedByKey().observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+//			
+//				print(snapshot)
+//			})
+			FIRDatabase.database().reference().child("users/users_by_name").queryOrderedByKey().observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+				print(snapshot)
+			})
 			return
 		}
 	}
 }
+
+//rootRef.queryOrderedByKey().observeEventType(.ChildAdded, withBlock: {
+//	(snapshot) in
+//	print(snapshot)
+//	if let newChat = snapshot.value as? [String: String]{
+//		guard var recipient = newChat["recipient"],
+//			var sender = newChat["sender"],
+//			let stock = newChat["stock"]
+//			else{
+//				return
+//		}
+//		if sender == self.title {
+//			sender = "You recommended: " + stock + " to " + recipient
+//			recipient = ""
+//			self.tableData.insert((recipient, sender, stock), atIndex: 0)
+//			
+//		} else  if recipient == self.title {
+//			sender = sender + " recommends: " + stock
+//			recipient = ""
+//			self.tableData.insert((sender, recipient, stock), atIndex: 0)
+//		}
+//		
+//	}
+//	dispatch_async(dispatch_get_main_queue()){
+//		self.tableView.reloadData()
+//	}
+//})
 
 
 extension SearchViewController: UITableViewDataSource {
