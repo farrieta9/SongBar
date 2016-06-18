@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class Profile2ViewController: UIViewController {
 	
@@ -17,6 +18,14 @@ class Profile2ViewController: UIViewController {
 	
 	private var headerView: ProfileHeaderView!
 	private var headerMaskLayer: CAShapeLayer!
+	
+	enum contentTypes {
+		case Audience, Follow
+	}
+	
+	var contentToDisplay: contentTypes = .Audience
+	var audienceData = [String]()
+	var followData = [String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,9 +43,42 @@ class Profile2ViewController: UIViewController {
 		headerView.layer.mask = headerMaskLayer
 		
 		updateHeaderView()
-
+		
+		refreshAudience()
+		refreshFollow()
 		
     }
+	
+	func refreshAudience() {
+		// Get the audience
+		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/audience_by_id").observeEventType(.Value, withBlock: {(snapshot) in
+			
+			guard let results = snapshot.value as? [String: [String: String]] else {
+				print("getting the audience failed")
+				return
+			}
+			
+			for person in results.keys {
+				self.audienceData.append(person)
+			}
+			
+			self.tableView.reloadData()
+		})
+	}
+	
+	func refreshFollow() {
+		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id").observeEventType(.Value, withBlock: {(snapshot) in
+			
+			guard let results = snapshot.value as? [String: [String: String]] else {
+				print("getting friends failed") // Perhaps there are no results
+				return
+			}
+			for person in results.keys {
+				self.followData.append(person)
+			}
+			self.tableView.reloadData()
+		})
+	}
 	
 	override func viewWillLayoutSubviews() {
 		super.viewWillLayoutSubviews()
@@ -47,8 +89,16 @@ class Profile2ViewController: UIViewController {
 		super.viewDidLayoutSubviews()
 		updateHeaderView()
 	}
-	@IBAction func onContentChange(sender: UISegmentedControl) {
-		
+	@IBAction func onContentDisplayChange(sender: UISegmentedControl) {
+		switch sender.selectedSegmentIndex {
+		case 0:
+			contentToDisplay = .Audience
+		case 1:
+			contentToDisplay = .Follow
+		default:
+			break
+		}
+		tableView.reloadData()
 	}
 	
 	func updateHeaderView() {
@@ -63,7 +113,6 @@ class Profile2ViewController: UIViewController {
 		headerView.frame = headerRect
 		
 		// Cut away
-		
 		let path = UIBezierPath()
 		path.moveToPoint(CGPoint(x: 0, y: 0))
 		path.addLineToPoint(CGPoint(x: headerRect.width, y: 0))
@@ -71,7 +120,7 @@ class Profile2ViewController: UIViewController {
 		
 		path.addLineToPoint(CGPoint(x: 0, y:headerRect.height - tableHeaderCutAway))
 		
-		headerMaskLayer?.path = path.CGPath // Maybe remove the ? and !
+		headerMaskLayer?.path = path.CGPath
 	}
 }
 
@@ -81,22 +130,34 @@ extension Profile2ViewController: UITableViewDataSource	{
 		return 2
 	}
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		if section == 0 {
-			return 1
-		} else{
-			return 20
+		if section == 1 {
+			switch contentToDisplay {
+			case .Audience:
+				return audienceData.count
+				
+			case .Follow:
+				return followData.count
+			}
 		}
+		return 1
 	}
+	
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		
 		if indexPath.section == 1 {
-			let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as UITableViewCell
-			cell.textLabel?.text = "\(indexPath.row)"
+			let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! Profile2TableViewCell
+			
+			switch contentToDisplay {
+			case .Audience:
+				cell.username = audienceData[indexPath.row]
+			case .Follow:
+				cell.username = followData[indexPath.row]
+			}
+			
 			return cell
 		} else {
 			let cell = tableView.dequeueReusableCellWithIdentifier("headerCell") as! ProfileHeaderTableViewCell
-//			let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! SearchMusicTableCell
-			cell.username = "some user"
+			cell.username = Utilities.getCurrentUsername()
 			
 			return cell
 		}
@@ -119,8 +180,3 @@ extension Profile2ViewController: UIScrollViewDelegate {
 		updateHeaderView()
 	}
 }
-
-
-//extension Profile2ViewController: UITableViewDelegate {
-//	
-//}

@@ -18,6 +18,7 @@
 		8CA114EB1D0C8F680091A25F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA114EA1D0C8F680091A25F /* LoginViewController.swift */; };
 		8CA7B0B61D110B3C00ECC54C /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA7B0B51D110B3C00ECC54C /* SignUpViewController.swift */; };
 		8CAD08931D15F289006072DB /* ProfileHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CAD08921D15F289006072DB /* ProfileHeaderTableViewCell.swift */; };
+		8CAD08951D15FB07006072DB /* Profile2TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CAD08941D15FB07006072DB /* Profile2TableViewCell.swift */; };
 		8CBC66A11D1504F7006A7331 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBC66A01D1504F7006A7331 /* Utilities.swift */; };
 		8CDF694C1D07B1D30024CE55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDF694B1D07B1D30024CE55 /* AppDelegate.swift */; };
 		8CDF69511D07B1D30024CE55 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CDF694F1D07B1D30024CE55 /* Main.storyboard */; };
@@ -50,6 +51,7 @@
 		8CA114EA1D0C8F680091A25F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8CA7B0B51D110B3C00ECC54C /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		8CAD08921D15F289006072DB /* ProfileHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderTableViewCell.swift; sourceTree = "<group>"; };
+		8CAD08941D15FB07006072DB /* Profile2TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile2TableViewCell.swift; sourceTree = "<group>"; };
 		8CBC66A01D1504F7006A7331 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		8CDF69481D07B1D30024CE55 /* SongBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SongBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CDF694B1D07B1D30024CE55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				8CDF69671D07B93D0024CE55 /* HomeCollectionCell.swift */,
 				8CDF696B1D07C34F0024CE55 /* SearchMusicTableCell.swift */,
 				8CAD08921D15F289006072DB /* ProfileHeaderTableViewCell.swift */,
+				8CAD08941D15FB07006072DB /* Profile2TableViewCell.swift */,
 			);
 			name = CustomCells;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 				8CDF69631D07B4D70024CE55 /* HomeViewController.swift in Sources */,
 				8C7872071D15DC580066886A /* ProfileHeaderView.swift in Sources */,
 				8C9296E21D10D4E200144861 /* UserProfileImageView.swift in Sources */,
+				8CAD08951D15FB07006072DB /* Profile2TableViewCell.swift in Sources */,
 				8CA7B0B61D110B3C00ECC54C /* SignUpViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

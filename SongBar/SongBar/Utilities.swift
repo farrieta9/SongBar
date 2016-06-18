@@ -29,6 +29,12 @@ class Utilities {
 		}
 		return ""
 	}
+	
+	static func resetCurrentUser() {
+		userDefaults.setValue("", forKey: "email")
+		userDefaults.setValue("", forKey: "password")
+		userDefaults.setValue("", forKey: "uid")
+	}
 }
 
 

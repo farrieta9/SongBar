@@ -170,18 +170,18 @@ extension ProfileViewController: UITableViewDataSource {
 	
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = UITableViewCell()
-//
-//		
-//		switch contentToDisplay {
-//		case .Audience:
-//			cell.textLabel?.text = audienceData[indexPath.row]
-//			
-//		case .Follow:
-//			cell.imageView?.image = UIImage(named: "default_profile.png")
-//			cell.textLabel?.text = followData[indexPath.row]
-//		}
-//		
-//		return cell
+
+		
+		switch contentToDisplay {
+		case .Audience:
+			cell.textLabel?.text = audienceData[indexPath.row]
+			
+		case .Follow:
+			cell.imageView?.image = UIImage(named: "default_profile.png")
+			cell.textLabel?.text = followData[indexPath.row]
+		}
+		
+		return cell
 		
 //		let label = UILabel(frame: CGRectMake(280.0, 14.0, 100.0, 30.0))
 //		label.text = data[indexPath.row]
@@ -196,32 +196,32 @@ extension ProfileViewController: UITableViewDataSource {
 //		btn.tag = indexPath.row
 //		cell.contentView.addSubview(btn)
 		
-		let usernameLabel = UILabel(frame: CGRectMake(75, 5, 100, 30))
-		let actionButton = UIButton(type: .Custom)
-		
-		actionButton.frame = CGRectMake(tableView.frame.width - actionButtonWidth - 15, 5, actionButtonWidth, actionButtonHeight)
-
-		usernameLabel.tag = indexPath.row
-		actionButton.tag = indexPath.row
-		
-		actionButton.setTitle("Follow", forState: .Normal)
-		
-		
-		switch contentToDisplay {
-		case .Audience:
-			usernameLabel.text = audienceData[indexPath.row]
-		case .Follow:
-			usernameLabel.text = followData[indexPath.row]
-		}
-		actionButton.layer.cornerRadius = 15
-		actionButton.layer.borderWidth = 1
-		actionButton.layer.borderColor = UIColor.blackColor().CGColor
-		actionButton.backgroundColor = UIColor.blueColor()
-		
-		cell.contentView.addSubview(usernameLabel)
-		cell.contentView.addSubview(actionButton)
-		
-		return cell
+//		let usernameLabel = UILabel(frame: CGRectMake(75, 5, 100, 30))
+//		let actionButton = UIButton(type: .Custom)
+//		
+//		actionButton.frame = CGRectMake(tableView.frame.width - actionButtonWidth - 15, 5, actionButtonWidth, actionButtonHeight)
+//
+//		usernameLabel.tag = indexPath.row
+//		actionButton.tag = indexPath.row
+//		
+//		actionButton.setTitle("Follow", forState: .Normal)
+//		
+//		
+//		switch contentToDisplay {
+//		case .Audience:
+//			usernameLabel.text = audienceData[indexPath.row]
+//		case .Follow:
+//			usernameLabel.text = followData[indexPath.row]
+//		}
+//		actionButton.layer.cornerRadius = 15
+//		actionButton.layer.borderWidth = 1
+//		actionButton.layer.borderColor = UIColor.blackColor().CGColor
+//		actionButton.backgroundColor = UIColor.blueColor()
+//		
+//		cell.contentView.addSubview(usernameLabel)
+//		cell.contentView.addSubview(actionButton)
+//		
+//		return cell
 	}
 	
 }

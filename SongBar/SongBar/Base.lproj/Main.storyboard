@@ -701,7 +701,7 @@
                                     </connections>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="headerCell" rowHeight="182" id="AXo-7S-Zgh" customClass="ProfileHeaderTableViewCell" customModule="SongBar" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="headerCell" rowHeight="182" id="AXo-7S-Zgh" customClass="ProfileHeaderTableViewCell" customModule="SongBar" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="178" width="600" height="182"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AXo-7S-Zgh" id="0u0-ku-Aj1">
@@ -720,6 +720,9 @@
                                                         <segment title="Audience"/>
                                                         <segment title="Follow"/>
                                                     </segments>
+                                                    <connections>
+                                                        <action selector="onContentDisplayChange:" destination="lFj-48-gJ2" eventType="valueChanged" id="78o-J5-7ve"/>
+                                                    </connections>
                                                 </segmentedControl>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_profile.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ohz-KU-AMl">
                                                     <rect key="frame" x="265.5" y="9" width="69" height="69"/>
@@ -731,6 +734,10 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0gu-rD-Oye">
                                                     <rect key="frame" x="18" y="18" width="46" height="30"/>
                                                     <state key="normal" title="Button"/>
+                                                    <connections>
+                                                        <action selector="onActionButton:" destination="AXo-7S-Zgh" eventType="touchUpInside" id="8d8-JV-Li4"/>
+                                                        <segue destination="sCL-Se-tnz" kind="show" id="RC8-Wa-F3F"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -746,16 +753,54 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="logOutButton" destination="0gu-rD-Oye" id="Unq-ha-sYB"/>
+                                            <outlet property="segmentController" destination="UH8-Rt-iPU" id="5er-Mq-KXX"/>
+                                            <outlet property="userImageView" destination="Ohz-KU-AMl" id="qBP-6w-sml"/>
                                             <outlet property="usernameLabel" destination="cik-Pw-P5c" id="kkK-vu-39Y"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="80" id="GUe-b0-gmN">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="80" id="GUe-b0-gmN" customClass="Profile2TableViewCell" customModule="SongBar" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="360" width="600" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GUe-b0-gmN" id="XYk-9S-aTp">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="79.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_profile.png" translatesAutoresizingMaskIntoConstraints="NO" id="quV-gI-E1e">
+                                                    <rect key="frame" x="18" y="19" width="40" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="40" id="jlT-gS-SBs"/>
+                                                        <constraint firstAttribute="width" constant="40" id="tZy-on-xTH"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xiF-EB-KvR">
+                                                    <rect key="frame" x="90" y="29" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ek-dz-LcE">
+                                                    <rect key="frame" x="482" y="25" width="100" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="100" id="YE6-Gp-5UR"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Button"/>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="xiF-EB-KvR" firstAttribute="leading" secondItem="quV-gI-E1e" secondAttribute="trailing" constant="32" id="20s-Xp-TrJ"/>
+                                                <constraint firstItem="quV-gI-E1e" firstAttribute="leading" secondItem="XYk-9S-aTp" secondAttribute="leadingMargin" constant="10" id="Fjj-RW-BIC"/>
+                                                <constraint firstItem="8ek-dz-LcE" firstAttribute="centerY" secondItem="XYk-9S-aTp" secondAttribute="centerY" id="Zm6-vn-qBX"/>
+                                                <constraint firstItem="quV-gI-E1e" firstAttribute="centerY" secondItem="XYk-9S-aTp" secondAttribute="centerY" id="nNo-Fk-WLm"/>
+                                                <constraint firstItem="xiF-EB-KvR" firstAttribute="centerY" secondItem="quV-gI-E1e" secondAttribute="centerY" id="rPs-pX-0Ze"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="8ek-dz-LcE" secondAttribute="trailing" constant="10" id="tu2-hu-bG1"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="actionButton" destination="8ek-dz-LcE" id="Q5L-Mo-dum"/>
+                                            <outlet property="userImageView" destination="quV-gI-E1e" id="Zmp-W2-ri6"/>
+                                            <outlet property="userNameLabel" destination="xiF-EB-KvR" id="LK2-vI-ILv"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -781,7 +826,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="par-3G-Zrn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1677" y="1170"/>
+            <point key="canvasLocation" x="1697" y="1170"/>
         </scene>
     </scenes>
     <resources>
@@ -792,6 +837,6 @@
         <image name="search.png" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Bde-jz-uSg"/>
+        <segue reference="RC8-Wa-F3F"/>
     </inferredMetricsTieBreakers>
 </document>
