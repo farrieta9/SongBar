@@ -13,27 +13,48 @@ import Firebase
 class HomeViewController: UIViewController {
 	
 	var rootRef: FIRDatabaseReference!
-	var collectionData = [(String, String, String)]()
+	var collectionData = [(String, String, String, String, String)]() // artist, song, imageURL, previewURL, host
 	@IBOutlet weak var collectionView: UICollectionView!
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-		
 		print(FIRAuth.auth()?.currentUser)
-//		FIRAuth.auth()?.signOut()
 		collectionView.backgroundColor = UIColor.clearColor()
 		rootRef = FIRDatabase.database().reference()
-//		dispatch_async(dispatch_get_main_queue()){
-//			self.rootRef.queryOrderedByKey().observeEventType(.ChildAdded, withBlock: { (snapshot) in
-//				let postDict = snapshot.value as! [String : String]
-//				let title = postDict["title"]! as String
-//				let artist = postDict["artist"]! as String
-//				let imageURL = postDict["imageURL"]! as String
-//				self.collectionData.insert((artist, title, imageURL), atIndex: 0)
-//				self.collectionView.reloadData()
-//			})
-//		}	
-//
+
+		// Only show songs that have been received.
+		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/received").observeEventType(.Value, withBlock: {(snapshot) in
+			print(snapshot)
+			self.collectionData.removeAll()
+			
+			if snapshot.value is NSNull {
+				print("Have not received any songs")
+				// Add a message suggesting them to share a song
+				return
+			} else {
+				guard let results = snapshot.value as? [String: [String: String]] else {
+					print("HomeViewController.viewDidLoad() failed")
+					return
+				}
+				for item in results {
+					// Guard just in case of anything bugs
+					guard let artist = item.1["artist"],
+					let title = item.1["title"],
+					let imageURL = item.1["imageURL"],
+					let previewURL = item.1["previewURL"],
+					let host = item.1["host"] else {
+						print("HomeViewController.viewDidLoad() failed while parsing data ")
+						return
+					}
+//					let data = (artist, title, imageURL, previewURL, host)
+					self.collectionData.insert((artist, title, imageURL, previewURL, host), atIndex: self.collectionData.endIndex)
+				}
+				dispatch_async(dispatch_get_main_queue()) { [unowned self] in
+					self.collectionView.reloadData()
+				}
+			}
+			
+		})
 		
 	}
 	
