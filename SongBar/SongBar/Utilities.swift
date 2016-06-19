@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import UIKit
 
 // Functions that may come in handy.
 class Utilities {
@@ -35,6 +35,10 @@ class Utilities {
 		userDefaults.setValue("", forKey: "password")
 		userDefaults.setValue("", forKey: "uid")
 		userDefaults.setValue("", forKey: "username")
+	}
+	
+	static func getGreenColor() -> UIColor{
+		return UIColor(red: 1.0/255.0, green: 216.0/255.0, blue: 106.0/255.0, alpha: 1.0)
 	}
 }
 

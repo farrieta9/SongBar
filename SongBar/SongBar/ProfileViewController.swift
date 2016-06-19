@@ -46,10 +46,14 @@ class ProfileViewController: UIViewController {
 		
 		refreshAudience()
 		refreshFollow()
-		
+		print("viewdidload")
+		print(followData)
+		tableView.reloadData()
     }
 	
 	func refreshAudience() {
+		// Must call tableView.reloadData() afterwards
+		audienceData.removeAll()
 		// Get the audience
 		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/audience_by_id").observeEventType(.Value, withBlock: {(snapshot) in
 			
@@ -62,12 +66,16 @@ class ProfileViewController: UIViewController {
 			for person in results.keys {
 				self.audienceData.append(person)
 			}
-			
-			self.tableView.reloadData()
+			dispatch_async(dispatch_get_main_queue(), {
+				self.tableView.reloadData()
+			})
 		})
 	}
 	
 	func refreshFollow() {
+		self.followData.removeAll()
+		print("refreshFollow")
+		print(self.followData)
 		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id").observeEventType(.Value, withBlock: {(snapshot) in
 			
 			guard let results = snapshot.value as? [String: [String: String]] else {
@@ -100,6 +108,31 @@ class ProfileViewController: UIViewController {
 			break
 		}
 		tableView.reloadData()
+	}
+	
+	@IBAction func onActionButton(sender: UIButton) {
+		print(sender.tag)
+		print("onActionButton")
+		print(followData)
+		var selectedUser: String = ""
+		switch contentToDisplay {
+		case .Follow:
+			selectedUser = followData[sender.tag]
+		default:
+			return  // Do nothing
+		}
+		
+		unFollow(selectedUser, index: sender.tag)
+		
+		sender.backgroundColor = UIColor.clearColor()
+//		self.tableView.reloadData()
+	}
+	
+	func unFollow(username: String, index: Int) -> Void {
+		print("Unfollow \(username)")
+		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id/\(username)").removeValue()
+		
+		followData.removeAtIndex(index)
 	}
 	
 	func updateHeaderView() {
@@ -154,6 +187,8 @@ extension ProfileViewController: UITableViewDataSource	{
 			case .Follow:
 				cell.username = followData[indexPath.row]
 			}
+			cell.actionButton.backgroundColor = Utilities.getGreenColor()
+			cell.actionButton.tag = indexPath.row
 			
 			return cell
 		} else {

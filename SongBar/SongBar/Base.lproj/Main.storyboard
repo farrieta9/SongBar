@@ -584,7 +584,7 @@
                                             <outlet property="usernameLabel" destination="cik-Pw-P5c" id="kkK-vu-39Y"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="80" id="GUe-b0-gmN" customClass="ProfileTableViewCell" customModule="SongBar" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="80" id="GUe-b0-gmN" customClass="ProfileTableViewCell" customModule="SongBar" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="360" width="600" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GUe-b0-gmN" id="XYk-9S-aTp">
@@ -610,6 +610,9 @@
                                                         <constraint firstAttribute="width" constant="100" id="YE6-Gp-5UR"/>
                                                     </constraints>
                                                     <state key="normal" title="Button"/>
+                                                    <connections>
+                                                        <action selector="onActionButton:" destination="lFj-48-gJ2" eventType="touchUpInside" id="MUL-iL-Roy"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>

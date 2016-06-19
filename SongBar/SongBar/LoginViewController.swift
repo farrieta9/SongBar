@@ -127,10 +127,13 @@ class LoginViewController: UIViewController {
 				self.errorLabel.hidden = false
 			} else {
 				print("Logged in successfully")
-
+				
 				guard let name = FIRAuth.auth()?.currentUser?.displayName else {
 					return
 				}
+				
+				print("Welcome \(name)")
+
 				
 				self.storeCurrentUser((data?.uid)!, username: name)
 				self.performSegueWithIdentifier("homeViewController", sender: self)
