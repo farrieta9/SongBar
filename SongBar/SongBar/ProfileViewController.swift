@@ -46,46 +46,55 @@ class ProfileViewController: UIViewController {
 		
 		refreshAudience()
 		refreshFollow()
-		print("viewdidload")
-		print(followData)
-		tableView.reloadData()
+		dispatch_async(dispatch_get_main_queue()) { [unowned self] in
+			self.tableView.reloadData()
+		}
     }
 	
 	func refreshAudience() {
-		// Must call tableView.reloadData() afterwards
-		audienceData.removeAll()
-		// Get the audience
 		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/audience_by_id").observeEventType(.Value, withBlock: {(snapshot) in
+			self.audienceData.removeAll()
 			
 			print(snapshot)
-			guard let results = snapshot.value as? [String: [String: String]] else {
-				print("getting the audience failed")
-				return
+			if snapshot.value is NSNull {
+				print("No audience")
+			} else {
+				guard let results = snapshot.value as? [String: [String: String]] else {
+					print("getting the audience failed")
+					return
+				}
+				
+				for person in results.keys {
+					self.audienceData.append(person)
+				}
 			}
 			
-			for person in results.keys {
-				self.audienceData.append(person)
-			}
-			dispatch_async(dispatch_get_main_queue(), {
+			dispatch_async(dispatch_get_main_queue()) { [unowned self] in
 				self.tableView.reloadData()
-			})
+			}
 		})
 	}
 	
 	func refreshFollow() {
-		self.followData.removeAll()
-		print("refreshFollow")
-		print(self.followData)
 		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id").observeEventType(.Value, withBlock: {(snapshot) in
+			self.followData.removeAll()
+			print(snapshot.value!)
+			if snapshot.value is NSNull {
+				print("No one you follow")
+			} else {
+				guard let results = snapshot.value as? [String: [String: String]] else {
+					print("getting friends failed") // Perhaps there are no results
+					return
+				}
+
+				for person in results.keys {
+					self.followData.append(person)
+				}
+			}
 			
-			guard let results = snapshot.value as? [String: [String: String]] else {
-				print("getting friends failed") // Perhaps there are no results
-				return
+			dispatch_async(dispatch_get_main_queue()) { [unowned self] in
+				self.tableView.reloadData()
 			}
-			for person in results.keys {
-				self.followData.append(person)
-			}
-			self.tableView.reloadData()
 		})
 	}
 	
@@ -125,14 +134,15 @@ class ProfileViewController: UIViewController {
 		unFollow(selectedUser, index: sender.tag)
 		
 		sender.backgroundColor = UIColor.clearColor()
-//		self.tableView.reloadData()
 	}
 	
 	func unFollow(username: String, index: Int) -> Void {
 		print("Unfollow \(username)")
 		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id/\(username)").removeValue()
 		
-		followData.removeAtIndex(index)
+		FIRDatabase.database().reference().child("users/users_by_name/\(username)/audience_by_id/\(Utilities.getCurrentUsername())").removeValue()
+		
+//		followData.removeAtIndex(index)
 	}
 	
 	func updateHeaderView() {
