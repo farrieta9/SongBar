@@ -53,6 +53,7 @@ class ProfileViewController: UIViewController {
 		// Get the audience
 		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/audience_by_id").observeEventType(.Value, withBlock: {(snapshot) in
 			
+			print(snapshot)
 			guard let results = snapshot.value as? [String: [String: String]] else {
 				print("getting the audience failed")
 				return

@@ -34,6 +34,7 @@ class Utilities {
 		userDefaults.setValue("", forKey: "email")
 		userDefaults.setValue("", forKey: "password")
 		userDefaults.setValue("", forKey: "uid")
+		userDefaults.setValue("", forKey: "username")
 	}
 }
 

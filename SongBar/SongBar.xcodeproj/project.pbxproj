@@ -30,7 +30,6 @@
 		8CDF696A1D07BFDB0024CE55 /* SpotifyTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDF69691D07BFDB0024CE55 /* SpotifyTrack.swift */; };
 		8CDF696C1D07C34F0024CE55 /* SearchMusicTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDF696B1D07C34F0024CE55 /* SearchMusicTableCell.swift */; };
 		8CE082CE1D0FB73B00907395 /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CE082CD1D0FB73B00907395 /* home.png */; };
-		8CE082D01D0FB74B00907395 /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CE082CF1D0FB74B00907395 /* user.png */; };
 		8CE082D21D0FB7D400907395 /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CE082D11D0FB7D400907395 /* search.png */; };
 		97277FB670D105552BD4BBF5 /* Pods_SongBar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A604E841DCA74B27652B9A1 /* Pods_SongBar.framework */; };
 /* End PBXBuildFile section */
@@ -63,7 +62,6 @@
 		8CDF69691D07BFDB0024CE55 /* SpotifyTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyTrack.swift; sourceTree = "<group>"; };
 		8CDF696B1D07C34F0024CE55 /* SearchMusicTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchMusicTableCell.swift; sourceTree = "<group>"; };
 		8CE082CD1D0FB73B00907395 /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
-		8CE082CF1D0FB74B00907395 /* user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user.png; sourceTree = "<group>"; };
 		8CE082D11D0FB7D400907395 /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
 		F966F7E0FD2CDDA299873B92 /* Pods-SongBar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SongBar.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SongBar/Pods-SongBar.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -85,7 +83,6 @@
 			children = (
 				8C9296ED1D10D99600144861 /* default_profile.png */,
 				8CE082CD1D0FB73B00907395 /* home.png */,
-				8CE082CF1D0FB74B00907395 /* user.png */,
 				8CE082D11D0FB7D400907395 /* search.png */,
 				8C9296E91D10D85C00144861 /* neutral_user.png */,
 				8C9296E51D10D74600144861 /* Music-Concert-Crowd.jpg */,
@@ -245,7 +242,6 @@
 				8C9296EA1D10D85C00144861 /* neutral_user.png in Resources */,
 				8CDF69561D07B1D30024CE55 /* LaunchScreen.storyboard in Resources */,
 				8CE082CE1D0FB73B00907395 /* home.png in Resources */,
-				8CE082D01D0FB74B00907395 /* user.png in Resources */,
 				8CE082D21D0FB7D400907395 /* search.png in Resources */,
 				8C9296EE1D10D99600144861 /* default_profile.png in Resources */,
 				8C58322D1D09150F00E7D5AF /* GoogleService-Info.plist in Resources */,

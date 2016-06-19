@@ -61,7 +61,6 @@ class SignUpViewController: UIViewController {
 				
 			} else {
 				// No errors so store new user
-				self.userDefaults.setValue(self.usernameTextField.text, forKey: "username")
 				FIRDatabase.database().reference().child("users").child("users_by_id").child((data?.uid)!).setValue(["username": self.usernameTextField.text!.lowercaseString])
 				FIRDatabase.database().reference().child("users").child("users_by_name").child((self.usernameTextField.text?.lowercaseString)!).setValue(["uid": (data?.uid)!])
 				

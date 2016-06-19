@@ -39,41 +39,41 @@ class LoginViewController: UIViewController {
     }
 	
 	
-	@IBAction func onCreateAccount(sender: UIButton) {
-		if !areTextFieldsFilled(){
-			errorLabel.text = "Missing fields"
-			errorLabel.hidden = false
-			return
-		}
-		
-		if !isPasswordLengthValid() {
-			self.errorLabel.text = "Password must have 6 or more characters"
-			self.errorLabel.hidden = false
-			return
-		}
-		
-		FIRAuth.auth()?.createUserWithEmail(emailTextField.text!, password: passwordTextField.text!, completion: {
-			(data, error) in
-			if error != nil {
-				self.resetCurrentUser()
-				// There is an error. Account is already created or improper format.
-				print("error occred. Accout is already taken maybe")
-				let errorMessage = error?.userInfo["error_name"]!.stringByReplacingOccurrencesOfString("_", withString: " ")
-				
-				if errorMessage! == "ERROR EMAIL ALREADY IN USE" {
-					self.errorLabel.text = "EMAIL ALREADY IN USE"
-				} else {
-					self.errorLabel.text = "Invalid email or password"
-				}
-				
-				self.errorLabel.hidden = false
-			} else {
-				print("Create new user")
-				self.storeCurrentUser((data?.uid)!)
-				self.login()
-			}
-		})
-	}
+//	@IBAction func onCreateAccount(sender: UIButton) {
+//		if !areTextFieldsFilled(){
+//			errorLabel.text = "Missing fields"
+//			errorLabel.hidden = false
+//			return
+//		}
+//		
+//		if !isPasswordLengthValid() {
+//			self.errorLabel.text = "Password must have 6 or more characters"
+//			self.errorLabel.hidden = false
+//			return
+//		}
+//		
+//		FIRAuth.auth()?.createUserWithEmail(emailTextField.text!, password: passwordTextField.text!, completion: {
+//			(data, error) in
+//			if error != nil {
+//				Utilities.resetCurrentUser()
+//				// There is an error. Account is already created or improper format.
+//				print("error occred. Accout is already taken maybe")
+//				let errorMessage = error?.userInfo["error_name"]!.stringByReplacingOccurrencesOfString("_", withString: " ")
+//				
+//				if errorMessage! == "ERROR EMAIL ALREADY IN USE" {
+//					self.errorLabel.text = "EMAIL ALREADY IN USE"
+//				} else {
+//					self.errorLabel.text = "Invalid email or password"
+//				}
+//				
+//				self.errorLabel.hidden = false
+//			} else {
+//				print("Create new user")
+////				self.storeCurrentUser((data?.uid)!)
+//				self.login()
+//			}
+//		})
+//	}
 	
 	@IBAction func onExistingUser(sender: UIButton) {
 		if !areTextFieldsFilled() {
@@ -102,28 +102,46 @@ class LoginViewController: UIViewController {
 		}
 	}
 	
+	//	let user = FIRAuth.auth()?.currentUser
+	//	if let user = user {
+	//		let changeRequest = user.profileChangeRequest()
+	//
+	//		changeRequest.displayName = self.usernameTextField.text
+	//		//					changeRequest.photoURL = NSURL(string: "https://example.com/jane-q-user/profile.jpg")
+	//		changeRequest.commitChangesWithCompletion { error in
+	//			if let error = error {
+	//				print(error)  // An error happened.
+	//			} else {
+	//				print("Profile updated successfully") // Profile updated.
+	//			}
+	//		}
+	//	}
+
+	
 	func login() {
 		FIRAuth.auth()?.signInWithEmail(emailTextField.text!, password: passwordTextField.text!, completion: {
 			data, error in
 			if error != nil {
-				self.resetCurrentUser()
+				Utilities.resetCurrentUser()
 				self.errorLabel.text = "Invalid email or password"
 				self.errorLabel.hidden = false
 			} else {
 				print("Logged in successfully")
-				self.storeCurrentUser((data?.uid)!)
+
+				guard let name = FIRAuth.auth()?.currentUser?.displayName else {
+					return
+				}
+				
+				self.storeCurrentUser((data?.uid)!, username: name)
 				self.performSegueWithIdentifier("homeViewController", sender: self)
 			}
 		})
 	}
 	
-	func resetCurrentUser() {
-		userDefaults.setValue("", forKey: "email")
-		userDefaults.setValue("", forKey: "password")
-		userDefaults.setValue("", forKey: "username")
-	}
 	
-	func storeCurrentUser(uid: String) {
+	func storeCurrentUser(uid: String, username: String) {
+		
+		self.userDefaults.setValue(username, forKey: "username")
 		userDefaults.setValue(self.emailTextField.text, forKey: "email")
 		userDefaults.setValue(self.passwordTextField.text, forKey: "password")
 		userDefaults.setValue(uid, forKey: "uid")
