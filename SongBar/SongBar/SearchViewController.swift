@@ -19,6 +19,12 @@ class SearchViewController: UIViewController {
 	var timer: NSTimer? = nil
 	var selectedIndexPath: NSIndexPath? = nil
 	var indicator = UIActivityIndicatorView()
+	var searchContent: SearchContentType = .Music
+	
+	enum SearchContentType {
+		case Music
+		case People
+	}
 
 	@IBOutlet weak var searchOptionsSeg: UISegmentedControl!
 	@IBOutlet weak var searchBar: UISearchBar!
@@ -29,13 +35,10 @@ class SearchViewController: UIViewController {
 		
 		activityIndicator()
 		
+		
 		rootRef = FIRDatabase.database().reference()
 
     }
-	@IBAction func onActionButton(sender: AnyObject) {
-		print("onActionButton()")
-		
-	}
 	
 	func activityIndicator() {
 		indicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 40, 40))
@@ -48,11 +51,11 @@ class SearchViewController: UIViewController {
 		
 		switch searchOptionsSeg.selectedSegmentIndex {
 		case 0:
-			selectedTag = 0
+			searchContent = .Music
 		case 1:
-			selectedTag = 1
+			searchContent = .People
 		default:
-			selectedTag = 0
+			break
 		}
 		
 		clearTable()
@@ -111,6 +114,33 @@ class SearchViewController: UIViewController {
 			}
 		})
 	}
+	
+	func shareSongWithAudience(row: Int) {
+		
+		print("share \(tableData[row]) song with everyone")
+		let track = tableData[row]
+		
+		// Store all songs I have shared
+		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/songs_for_audience").childByAutoId().setValue(["title": track.title, "artist": track.artist, "imageURL": track.imageUrl, "previewURL": track.previewUrl])
+		
+		// Send song to to all who are my audience
+		// Get all friends of current user
+		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+			if snapshot.value is NSNull {
+				print("shareSongWithAudience(). No one you follow.")
+				return
+			} else {
+				guard let results = snapshot.value as? [String: [String: String]] else {
+					print("shareSongWithAudience(). Failed gettings friends")
+					return
+				}
+				for person in results.keys {
+					FIRDatabase.database().reference().child("users/users_by_name/\(person)/received").childByAutoId().setValue(["title": track.title, "artist": track.artist, "imageURL": track.imageUrl, "previewURL": track.previewUrl, "host": Utilities.getCurrentUsername()])
+				}
+			}
+		})
+		
+	}
 
 	func searchForMusic(searchText: String) -> Void {
 		SpotifyAPI.search(searchText) {
@@ -135,7 +165,6 @@ class SearchViewController: UIViewController {
 			clearTable()
 			return
 		}
-		
 		
 		switch searchOptionsSeg.selectedSegmentIndex {
 		case 0:
@@ -234,26 +263,16 @@ extension SearchViewController: UITableViewDataSource {
 
 extension SearchViewController: UITableViewDelegate {
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		print(indexPath.row)
-//		let ref = rootRef.childByAutoId()
-//		let data = ["artist": tableData[indexPath.row].artist, "title": tableData[indexPath.row].title,
-//		            "imageURL": tableData[indexPath.row].imageUrl, "previewURL": tableData[indexPath.row].previewUrl]
-//
-//		ref.setValue(data)
-//		view.endEditing(true)  // Hide keyboard
-//		if let uid = NSUserDefaults.standardUserDefaults().stringForKey("uid") {
-//			print(uid)
-//		}
-		if selectedTag == 1 {
-			self.addSelectedRowAsFriend(indexPath.row)
-		}
 		selectedIndexPath = indexPath
+		searchBar.resignFirstResponder()
+		switch searchContent {
+		case .Music:
+			shareSongWithAudience(indexPath.row)
+		case .People:
+			addSelectedRowAsFriend(indexPath.row)
+		}
 	}
 }
-
-
-
-
 
 
 
