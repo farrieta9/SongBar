@@ -34,7 +34,7 @@ class SignUpViewController: UIViewController {
 	
 	func createAccount() {
 		// Check if fields are empty
-		if usernameTextField.text!.isEmpty || passwordTextField.text!.isEmpty || usernameTextField.text!.isEmpty {
+		if emailTextField.text!.isEmpty || passwordTextField.text!.isEmpty || usernameTextField.text!.isEmpty {
 			messageLabel.text = "All entries must be filled"
 			messageLabel.hidden = false
 			return

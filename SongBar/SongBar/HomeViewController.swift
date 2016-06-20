@@ -24,7 +24,6 @@ class HomeViewController: UIViewController {
 
 		// Only show songs that have been received.
 		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/received").observeEventType(.Value, withBlock: {(snapshot) in
-			print(snapshot)
 			self.collectionData.removeAll()
 			
 			if snapshot.value is NSNull {
@@ -55,6 +54,7 @@ class HomeViewController: UIViewController {
 			}
 			
 		})
+		Utilities.getServerTime()
 		
 	}
 	

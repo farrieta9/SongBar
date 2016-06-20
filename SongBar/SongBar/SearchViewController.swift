@@ -120,8 +120,10 @@ class SearchViewController: UIViewController {
 		print("share \(tableData[row]) song with everyone")
 		let track = tableData[row]
 		
+		let date = Utilities.getServerTime()
+		
 		// Store all songs I have shared
-		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/songs_for_audience").childByAutoId().setValue(["title": track.title, "artist": track.artist, "imageURL": track.imageUrl, "previewURL": track.previewUrl])
+		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/songs_for_audience").child(date).setValue(["title": track.title, "artist": track.artist, "imageURL": track.imageUrl, "previewURL": track.previewUrl])
 		
 		// Send song to to all who are my audience
 		// Get all friends of current user
@@ -135,7 +137,7 @@ class SearchViewController: UIViewController {
 					return
 				}
 				for person in results.keys {
-					FIRDatabase.database().reference().child("users/users_by_name/\(person)/received").childByAutoId().setValue(["title": track.title, "artist": track.artist, "imageURL": track.imageUrl, "previewURL": track.previewUrl, "host": Utilities.getCurrentUsername()])
+					FIRDatabase.database().reference().child("users/users_by_name/\(person)/received").child(date).setValue(["title": track.title, "artist": track.artist, "imageURL": track.imageUrl, "previewURL": track.previewUrl, "host": Utilities.getCurrentUsername()])
 				}
 			}
 		})
