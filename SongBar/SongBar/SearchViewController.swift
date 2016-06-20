@@ -29,9 +29,12 @@ class SearchViewController: UIViewController {
 	@IBOutlet weak var searchOptionsSeg: UISegmentedControl!
 	@IBOutlet weak var searchBar: UISearchBar!
 	@IBOutlet weak var tableView: UITableView!
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 		searchBar.delegate = self
+//		searchBar.showsCancelButton = false
+		
 		
 		activityIndicator()
 		
@@ -182,8 +185,8 @@ class SearchViewController: UIViewController {
 
 extension SearchViewController: UISearchBarDelegate {
 	func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-		
 		print(searchText)
+//		searchBar.showsCancelButton = true
 	}
 	
 	func searchBar(searchBar: UISearchBar, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
@@ -199,7 +202,15 @@ extension SearchViewController: UISearchBarDelegate {
 	}
 	func searchBarSearchButtonClicked(searchBar: UISearchBar) {
 		searchBar.resignFirstResponder()
+//		searchBar.showsCancelButton = false
 	}
+	
+	func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+		searchBar.resignFirstResponder()
+//		searchBar.showsCancelButton = false
+	}
+	
+	
 }
 
 

@@ -210,7 +210,7 @@
                                     <action selector="onSearchOptionIndexChange:" destination="400-Sv-s7b" eventType="valueChanged" id="oxH-oP-6p6"/>
                                 </connections>
                             </segmentedControl>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="a8O-78-fdh">
+                            <searchBar contentMode="redraw" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a8O-78-fdh">
                                 <rect key="frame" x="0.0" y="48" width="600" height="44"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                 <scopeButtonTitles>
@@ -544,6 +544,7 @@
                                                     <segments>
                                                         <segment title="Audience"/>
                                                         <segment title="Follow"/>
+                                                        <segment title="Posts"/>
                                                     </segments>
                                                     <connections>
                                                         <action selector="onContentDisplayChange:" destination="lFj-48-gJ2" eventType="valueChanged" id="78o-J5-7ve"/>

@@ -54,8 +54,6 @@ class HomeViewController: UIViewController {
 			}
 			
 		})
-		Utilities.getServerTime()
-		
 	}
 	
 	func getColor(red: Float, green: Float, blue: Float) -> UIColor {

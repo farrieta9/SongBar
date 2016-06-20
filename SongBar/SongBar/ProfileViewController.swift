@@ -20,12 +20,13 @@ class ProfileViewController: UIViewController {
 	private var headerMaskLayer: CAShapeLayer!
 	
 	enum contentTypes {
-		case Audience, Follow
+		case Audience, Follow, Posts
 	}
 	
 	var contentToDisplay: contentTypes = .Audience
 	var audienceData = [String]()
 	var followData = [String]()
+	var postData = [String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +47,7 @@ class ProfileViewController: UIViewController {
 		
 		refreshAudience()
 		refreshFollow()
+		refreshPosts()
 		dispatch_async(dispatch_get_main_queue()) { [unowned self] in
 			self.tableView.reloadData()
 		}
@@ -54,8 +56,7 @@ class ProfileViewController: UIViewController {
 	func refreshAudience() {
 		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/audience_by_id").observeEventType(.Value, withBlock: {(snapshot) in
 			self.audienceData.removeAll()
-			
-			print(snapshot)
+
 			if snapshot.value is NSNull {
 				print("No audience")
 			} else {
@@ -75,10 +76,34 @@ class ProfileViewController: UIViewController {
 		})
 	}
 	
+	func refreshPosts() {
+		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/songs_for_audience").queryOrderedByKey().observeEventType(.Value, withBlock: {(snapshot) in
+			self.postData.removeAll()
+			
+			if snapshot.value is NSNull {
+				print("you have not shared anything yet")
+				return
+			} else {
+				guard let results = snapshot.value as? [String: [String: String]] else {
+					print("refreshPosts() failed")
+					return
+				}
+				for (_, value) in results.sort({$0.0.compare($1.0) == NSComparisonResult.OrderedDescending}) {  // Sort by date while looping
+					let title = value["title"]
+					self.postData.insert(title!, atIndex: 0)
+				}
+				
+				dispatch_async(dispatch_get_main_queue()) { [unowned self] in
+					self.tableView.reloadData()
+				}
+			}
+		})
+	}
+	
 	func refreshFollow() {
 		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id").observeEventType(.Value, withBlock: {(snapshot) in
 			self.followData.removeAll()
-			print(snapshot.value!)
+
 			if snapshot.value is NSNull {
 				print("No one you follow")
 			} else {
@@ -113,6 +138,8 @@ class ProfileViewController: UIViewController {
 			contentToDisplay = .Audience
 		case 1:
 			contentToDisplay = .Follow
+		case 2:
+			contentToDisplay = .Posts
 		default:
 			break
 		}
@@ -141,8 +168,6 @@ class ProfileViewController: UIViewController {
 		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id/\(username)").removeValue()
 		
 		FIRDatabase.database().reference().child("users/users_by_name/\(username)/audience_by_id/\(Utilities.getCurrentUsername())").removeValue()
-		
-//		followData.removeAtIndex(index)
 	}
 	
 	func updateHeaderView() {
@@ -181,6 +206,8 @@ extension ProfileViewController: UITableViewDataSource	{
 				
 			case .Follow:
 				return followData.count
+			case .Posts:
+				return postData.count
 			}
 		}
 		return 1
@@ -196,6 +223,8 @@ extension ProfileViewController: UITableViewDataSource	{
 				cell.username = audienceData[indexPath.row]
 			case .Follow:
 				cell.username = followData[indexPath.row]
+			case .Posts:
+				cell.username = postData[indexPath.row]
 			}
 			cell.actionButton.backgroundColor = Utilities.getGreenColor()
 			cell.actionButton.tag = indexPath.row
