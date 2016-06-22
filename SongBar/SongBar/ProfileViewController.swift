@@ -48,9 +48,6 @@ class ProfileViewController: UIViewController {
 		refreshAudience()
 		refreshFollow()
 		refreshPosts()
-		dispatch_async(dispatch_get_main_queue()) { [unowned self] in
-			self.tableView.reloadData()
-		}
     }
 	
 	func refreshAudience() {
@@ -224,7 +221,7 @@ extension ProfileViewController: UITableViewDataSource	{
 			case .Follow:
 				cell.username = followData[indexPath.row]
 			case .Posts:
-				cell.username = postData[indexPath.row]
+				cell.artist = postData[indexPath.row]
 			}
 			cell.actionButton.backgroundColor = Utilities.getGreenColor()
 			cell.actionButton.tag = indexPath.row
@@ -237,14 +234,14 @@ extension ProfileViewController: UITableViewDataSource	{
 			return cell
 		}
 	}
+	
 	func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-		
-		switch indexPath.section {
-		case 0:
+		switch contentToDisplay {
+		case .Audience:
 			return 175
-		case 1:
+		case .Follow:
 			return 50
-		default:
+		case .Posts:
 			return 50
 		}
 	}

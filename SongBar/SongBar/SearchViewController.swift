@@ -34,6 +34,7 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
 		searchBar.delegate = self
 //		searchBar.showsCancelButton = false
+		searchBar.scopeButtonTitles = ["All", "Chocalate"]
 		
 		
 		activityIndicator()

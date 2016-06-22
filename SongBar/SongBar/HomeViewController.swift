@@ -22,37 +22,36 @@ class HomeViewController: UIViewController {
 		collectionView.backgroundColor = UIColor.clearColor()
 		rootRef = FIRDatabase.database().reference()
 
-		// Only show songs that have been received.
-		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/received").observeEventType(.Value, withBlock: {(snapshot) in
+		refreshHome()
+	}
+	
+	func refreshHome() {
+		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/received").queryOrderedByKey().observeEventType(.Value, withBlock: {(snapshot) in
 			self.collectionData.removeAll()
-			
 			if snapshot.value is NSNull {
-				print("Have not received any songs")
-				// Add a message suggesting them to share a song
+				print("You have not received any songs yet")
 				return
 			} else {
 				guard let results = snapshot.value as? [String: [String: String]] else {
-					print("HomeViewController.viewDidLoad() failed")
+					print("refreshHome() failed")
 					return
 				}
-				for item in results {
-					// Guard just in case of anything bugs
-					guard let artist = item.1["artist"],
-					let title = item.1["title"],
-					let imageURL = item.1["imageURL"],
-					let previewURL = item.1["previewURL"],
-					let host = item.1["host"] else {
-						print("HomeViewController.viewDidLoad() failed while parsing data ")
-						return
-					}
-//					let data = (artist, title, imageURL, previewURL, host)
-					self.collectionData.insert((artist, title, imageURL, previewURL, host), atIndex: self.collectionData.endIndex)
+				print(results)
+				for (_, value) in results.sort({$0.0.compare($1.0) == NSComparisonResult.OrderedDescending}) {
+					let title = value["title"]
+					let artist = value["artist"]
+					let imageURL = value["imageURL"]
+					let previewURL = value["previewURL"]
+					let host = value["host"]
+					self.collectionData.append((artist!, title!, imageURL!, previewURL!, host!))
 				}
+				
+				
 				dispatch_async(dispatch_get_main_queue()) { [unowned self] in
 					self.collectionView.reloadData()
 				}
 			}
-			
+		
 		})
 	}
 	
