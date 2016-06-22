@@ -32,10 +32,8 @@ class SearchViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+		searchBar.showsCancelButton = false
 		searchBar.delegate = self
-//		searchBar.showsCancelButton = false
-		searchBar.scopeButtonTitles = ["All", "Chocalate"]
-		
 		
 		activityIndicator()
 		
@@ -48,6 +46,7 @@ class SearchViewController: UIViewController {
 		indicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 40, 40))
 		indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
 		indicator.center = self.view.center
+		indicator.clipsToBounds = true
 		self.view.addSubview(indicator)
 	}
 	
@@ -187,7 +186,7 @@ class SearchViewController: UIViewController {
 extension SearchViewController: UISearchBarDelegate {
 	func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 		print(searchText)
-//		searchBar.showsCancelButton = true
+		searchBar.showsCancelButton = true
 	}
 	
 	func searchBar(searchBar: UISearchBar, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
@@ -201,14 +200,16 @@ extension SearchViewController: UISearchBarDelegate {
 		
 		return true
 	}
+	
 	func searchBarSearchButtonClicked(searchBar: UISearchBar) {
 		searchBar.resignFirstResponder()
-//		searchBar.showsCancelButton = false
+		searchBar.showsCancelButton = false
 	}
 	
 	func searchBarCancelButtonClicked(searchBar: UISearchBar) {
 		searchBar.resignFirstResponder()
-//		searchBar.showsCancelButton = false
+		searchBar.text = ""
+		searchBar.showsCancelButton = false
 	}
 	
 	

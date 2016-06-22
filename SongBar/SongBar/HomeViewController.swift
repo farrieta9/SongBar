@@ -36,7 +36,7 @@ class HomeViewController: UIViewController {
 					print("refreshHome() failed")
 					return
 				}
-				print(results)
+				
 				for (_, value) in results.sort({$0.0.compare($1.0) == NSComparisonResult.OrderedDescending}) {
 					let title = value["title"]
 					let artist = value["artist"]
