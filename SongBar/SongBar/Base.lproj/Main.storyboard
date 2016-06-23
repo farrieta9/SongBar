@@ -74,13 +74,40 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="aC4-qu-Jtb"/>
                                 </connections>
                             </collectionView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PrY-wt-yYH">
+                                <rect key="frame" x="0.0" y="507" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem systemItem="pause" id="qM8-ff-xC7">
+                                        <connections>
+                                            <action selector="playPause:" destination="BYZ-38-t0r" id="Tcp-uh-l0N"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="kdc-cu-egB"/>
+                                    <barButtonItem systemItem="stop" id="rR3-i7-CQs">
+                                        <connections>
+                                            <action selector="stopMusic:" destination="BYZ-38-t0r" id="Jgq-RP-def"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LG5-C4-3Zb">
+                                <rect key="frame" x="279" y="518" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="PrY-wt-yYH" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="3qE-46-wUF"/>
                             <constraint firstItem="3HR-w7-pGR" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="6wV-mW-GUo"/>
+                            <constraint firstItem="PrY-wt-yYH" firstAttribute="trailing" secondItem="3HR-w7-pGR" secondAttribute="trailing" id="CKO-V1-mDW"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="3HR-w7-pGR" secondAttribute="bottom" id="EDf-bt-F6E"/>
+                            <constraint firstItem="LG5-C4-3Zb" firstAttribute="centerY" secondItem="PrY-wt-yYH" secondAttribute="centerY" id="lpV-vX-dPT"/>
+                            <constraint firstItem="PrY-wt-yYH" firstAttribute="leading" secondItem="3HR-w7-pGR" secondAttribute="leading" id="v1x-0O-ite"/>
                             <constraint firstAttribute="trailingMargin" secondItem="3HR-w7-pGR" secondAttribute="trailing" constant="-20" id="yvX-v3-zvQ"/>
                             <constraint firstItem="3HR-w7-pGR" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="zUX-Wd-RyT"/>
+                            <constraint firstItem="LG5-C4-3Zb" firstAttribute="leading" secondItem="PrY-wt-yYH" secondAttribute="trailing" constant="-321" id="zZr-hK-9eU"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="home.png" id="8QY-og-Spg">
@@ -88,6 +115,8 @@
                     </tabBarItem>
                     <connections>
                         <outlet property="collectionView" destination="3HR-w7-pGR" id="r8B-ii-63F"/>
+                        <outlet property="musicBarLabel" destination="LG5-C4-3Zb" id="acx-iC-jKe"/>
+                        <outlet property="musicToolBar" destination="PrY-wt-yYH" id="zW2-oQ-R6m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

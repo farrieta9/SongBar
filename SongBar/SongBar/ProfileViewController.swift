@@ -221,7 +221,7 @@ extension ProfileViewController: UITableViewDataSource	{
 			case .Follow:
 				cell.username = followData[indexPath.row]
 			case .Posts:
-				cell.artist = postData[indexPath.row]
+				cell.username = postData[indexPath.row]
 			}
 			cell.actionButton.backgroundColor = Utilities.getGreenColor()
 			cell.actionButton.tag = indexPath.row

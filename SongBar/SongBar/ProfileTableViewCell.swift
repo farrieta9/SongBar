@@ -14,8 +14,7 @@ class ProfileTableViewCell: UITableViewCell {
 	@IBOutlet weak var userImageView: UIImageView!
 	@IBOutlet weak var userNameLabel: UILabel!
 	@IBOutlet weak var actionButton: UIButton!
-	@IBOutlet weak var artistLabel: UILabel!
-	@IBOutlet weak var songLabel: UILabel!
+	
 	
 	var username = "" {
 		didSet {
@@ -29,23 +28,8 @@ class ProfileTableViewCell: UITableViewCell {
 		}
 	}
 	
-	var song = "" {
-		didSet {
-			songLabel.text = song
-		}
-	}
-	
-	var artist = "" {
-		didSet {
-			artistLabel.text = artist
-		}
-	}
-	
-	
     override func awakeFromNib() {
         super.awakeFromNib()
-		songLabel.hidden = true
-		artistLabel.hidden = true
 		
         // Initialization code
 		actionButton.setTitle("Follow", forState: .Normal)

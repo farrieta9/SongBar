@@ -8,21 +8,70 @@
 
 import UIKit
 import Firebase
+import AVFoundation
 
+
+enum MusicStatus {
+	case Play
+	case Pause
+}
 
 class HomeViewController: UIViewController {
 	
 	var rootRef: FIRDatabaseReference!
 	var collectionData = [(String, String, String, String, String)]() // artist, song, imageURL, previewURL, host
+	var audioPlay : AVPlayer!
+	var playPauseButton = UIBarButtonItem()
+	var musicStatus: MusicStatus = .Play
+	
 	@IBOutlet weak var collectionView: UICollectionView!
+	@IBOutlet weak var musicToolBar: UIToolbar!
+	@IBOutlet weak var musicBarLabel: UILabel!
+	
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-		print(FIRAuth.auth()?.currentUser)
 		collectionView.backgroundColor = UIColor.clearColor()
 		rootRef = FIRDatabase.database().reference()
-
+		
+		hideMusicToolBar()
 		refreshHome()
+	}
+	
+	@IBAction func playPause(sender: UIBarButtonItem) {
+		switch musicStatus {
+		case .Pause:
+			print("play the song")
+			playPauseButton = UIBarButtonItem(barButtonSystemItem: .Pause, target: self, action: #selector(HomeViewController.playPause(_:)))
+			musicStatus = .Play
+			audioPlay.play()
+			
+		case .Play:
+			print("pause the song")
+			playPauseButton = UIBarButtonItem(barButtonSystemItem: .Play, target: self, action: #selector(HomeViewController.playPause(_:)))
+			musicStatus = .Pause
+			audioPlay.pause()
+		}
+		
+		var items = musicToolBar.items!
+		items[0] = playPauseButton
+		musicToolBar.setItems(items, animated: false)
+	}
+	@IBAction func stopMusic(sender: UIBarButtonItem) {
+		audioPlay.pause()
+		hideMusicToolBar()
+	}
+	
+	func showMusicToolBar() {
+		musicStatus = .Play
+		musicBarLabel.hidden = false
+		musicToolBar.hidden = false
+	}
+	
+	func hideMusicToolBar() {
+		musicStatus = .Pause
+		musicBarLabel.hidden = true
+		musicToolBar.hidden	= true
 	}
 	
 	func refreshHome() {
@@ -97,5 +146,12 @@ extension HomeViewController: UICollectionViewDataSource{
 extension HomeViewController: UICollectionViewDelegate {
 	func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 		print("Selected cell: \(indexPath.row)")
+		showMusicToolBar()
+		musicBarLabel.text = collectionData[indexPath.row].1
+		let url = NSURL(string: collectionData[indexPath.row].3)
+		audioPlay = AVPlayer(URL: url!)
+		audioPlay.play()
+		musicStatus = .Play
+		
 	}
 }
