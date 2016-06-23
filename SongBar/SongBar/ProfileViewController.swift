@@ -236,12 +236,10 @@ extension ProfileViewController: UITableViewDataSource	{
 	}
 	
 	func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-		switch contentToDisplay {
-		case .Audience:
+		switch indexPath.section {
+		case 0:
 			return 175
-		case .Follow:
-			return 50
-		case .Posts:
+		default:
 			return 50
 		}
 	}
