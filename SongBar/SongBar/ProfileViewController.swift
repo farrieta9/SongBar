@@ -87,7 +87,7 @@ class ProfileViewController: UIViewController {
 				}
 				for (_, value) in results.sort({$0.0.compare($1.0) == NSComparisonResult.OrderedDescending}) {  // Sort by date while looping
 					let title = value["title"]
-					self.postData.insert(title!, atIndex: 0)
+					self.postData.append(title!)
 				}
 				
 				dispatch_async(dispatch_get_main_queue()) { [unowned self] in

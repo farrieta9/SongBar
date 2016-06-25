@@ -106,11 +106,6 @@ class SearchViewController: UIViewController {
 				
 				// Audience is your followers
 				FIRDatabase.database().reference().child("users/users_by_name/\(selectedUser)").child("audience_by_id").child(currentUsername).setValue([Utilities.getCurrentUID(): currentUsername])
-				
-				let cell = self.tableView.cellForRowAtIndexPath(self.selectedIndexPath!) as! SearchMusicTableCell
-				let color = cell.getGreenColor()
-				cell.actionButton.backgroundColor = color
-				
 			} else {
 				print(snapshot)
 				print("addSelectedRowAsFriend() failed")
@@ -233,10 +228,8 @@ extension SearchViewController: UITableViewDataSource {
 		let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! SearchMusicTableCell
 		
 		if self.tableData.count != 0 {
-			cell.artist = tableData[indexPath.row].artist
-			cell.song = tableData[indexPath.row].title
-			cell.username = ""
-			cell.actionButton.hidden = true
+			cell.title = tableData[indexPath.row].title
+			cell.subTitle = tableData[indexPath.row].artist
 			
 			// Download the image then loaded it
 			let imageUrl = tableData[indexPath.row].imageUrl
@@ -251,12 +244,9 @@ extension SearchViewController: UITableViewDataSource {
 			}
 			session.resume()
 		} else {
-			cell.artist = ""
-			cell.username = peopleData[indexPath.row]
-			cell.song = ""
 			cell.albumImageView.image = UIImage(named: "default_profile.png")
-			cell.actionButtonName = "+  Follow"
-			cell.actionButton.hidden = false
+			cell.title = peopleData[indexPath.row]
+			cell.subTitle = ""
 			
 		}
 		

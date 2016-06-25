@@ -11,42 +11,24 @@ import UIKit
 
 class SearchMusicTableCell: UITableViewCell {
 	
-	var artist = "" {
+	var subTitle = "" {
 		didSet {
-			artistLabel.text = artist
+			subLabel.text = subTitle
 		}
 	}
 	
-	var song = "" {
+	var title = "" {
 		didSet {
-			songLabel.text = song
-		}
-	}
-	
-	var username = "" {
-		didSet {
-			usernameLabel.text = username
-		}
-	}
-	
-	var actionButtonName = "" {
-		didSet {
-			actionButton.setTitle(actionButtonName, forState: UIControlState.Normal)
+			titleLabel.text = title
 		}
 	}
 	
 	@IBOutlet weak var albumImageView: UIImageView!
-	@IBOutlet weak var artistLabel: UILabel!
-	@IBOutlet weak var usernameLabel: UILabel!
-	@IBOutlet weak var songLabel: UILabel!
-	@IBOutlet weak var actionButton: UIButton!
+	@IBOutlet weak var titleLabel: UILabel!
+	@IBOutlet weak var subLabel: UILabel!
 	
 	override func setSelected(selected: Bool, animated: Bool) {
 		super.setSelected(selected, animated: animated)
-		actionButton.backgroundColor = UIColor.clearColor()
-		actionButton.layer.cornerRadius = 15
-		actionButton.layer.borderWidth = 1
-		actionButton.layer.borderColor = UIColor.blackColor().CGColor
 
 	}
 	
