@@ -11,6 +11,5 @@ import UIKit
 class ProfileHeaderView: UIView {
 
 	@IBOutlet weak var backgroundImageView: UIImageView!
-	@IBOutlet weak var headerLabel: UILabel!
 
 }

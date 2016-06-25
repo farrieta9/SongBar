@@ -129,6 +129,7 @@ class ProfileViewController: UIViewController {
 		super.viewDidLayoutSubviews()
 		updateHeaderView()
 	}
+	
 	@IBAction func onContentDisplayChange(sender: UISegmentedControl) {
 		switch sender.selectedSegmentIndex {
 		case 0:

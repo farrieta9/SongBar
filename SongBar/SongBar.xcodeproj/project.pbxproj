@@ -16,6 +16,8 @@
 		8C9296EE1D10D99600144861 /* default_profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C9296ED1D10D99600144861 /* default_profile.png */; };
 		8CA114EB1D0C8F680091A25F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA114EA1D0C8F680091A25F /* LoginViewController.swift */; };
 		8CA7B0B61D110B3C00ECC54C /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA7B0B51D110B3C00ECC54C /* SignUpViewController.swift */; };
+		8CABB9631D1F2200005F9A12 /* AnyUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CABB9621D1F2200005F9A12 /* AnyUserViewController.swift */; };
+		8CABB9651D1F2ABF005F9A12 /* UserHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CABB9641D1F2ABF005F9A12 /* UserHeaderTableViewCell.swift */; };
 		8CAD08931D15F289006072DB /* ProfileHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CAD08921D15F289006072DB /* ProfileHeaderTableViewCell.swift */; };
 		8CAD08951D15FB07006072DB /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CAD08941D15FB07006072DB /* ProfileTableViewCell.swift */; };
 		8CBC66A11D1504F7006A7331 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBC66A01D1504F7006A7331 /* Utilities.swift */; };
@@ -46,6 +48,8 @@
 		8C9296ED1D10D99600144861 /* default_profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_profile.png; sourceTree = "<group>"; };
 		8CA114EA1D0C8F680091A25F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8CA7B0B51D110B3C00ECC54C /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		8CABB9621D1F2200005F9A12 /* AnyUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyUserViewController.swift; sourceTree = "<group>"; };
+		8CABB9641D1F2ABF005F9A12 /* UserHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		8CAD08921D15F289006072DB /* ProfileHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		8CAD08941D15FB07006072DB /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		8CBC66A01D1504F7006A7331 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
@@ -145,6 +149,7 @@
 				8CA7B0B51D110B3C00ECC54C /* SignUpViewController.swift */,
 				8C7872061D15DC580066886A /* ProfileHeaderView.swift */,
 				8C7872081D15DD510066886A /* ProfileViewController.swift */,
+				8CABB9621D1F2200005F9A12 /* AnyUserViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -156,6 +161,7 @@
 				8CDF696B1D07C34F0024CE55 /* SearchMusicTableCell.swift */,
 				8CAD08921D15F289006072DB /* ProfileHeaderTableViewCell.swift */,
 				8CAD08941D15FB07006072DB /* ProfileTableViewCell.swift */,
+				8CABB9641D1F2ABF005F9A12 /* UserHeaderTableViewCell.swift */,
 			);
 			name = CustomCells;
 			sourceTree = "<group>";
@@ -318,9 +324,11 @@
 				8C7872091D15DD510066886A /* ProfileViewController.swift in Sources */,
 				8CDF694C1D07B1D30024CE55 /* AppDelegate.swift in Sources */,
 				8CDF69631D07B4D70024CE55 /* HomeViewController.swift in Sources */,
+				8CABB9631D1F2200005F9A12 /* AnyUserViewController.swift in Sources */,
 				8C7872071D15DC580066886A /* ProfileHeaderView.swift in Sources */,
 				8CAD08951D15FB07006072DB /* ProfileTableViewCell.swift in Sources */,
 				8CA7B0B61D110B3C00ECC54C /* SignUpViewController.swift in Sources */,
+				8CABB9651D1F2ABF005F9A12 /* UserHeaderTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

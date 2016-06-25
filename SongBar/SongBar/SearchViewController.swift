@@ -20,6 +20,8 @@ class SearchViewController: UIViewController {
 	var selectedIndexPath: NSIndexPath? = nil
 	var indicator = UIActivityIndicatorView()
 	var searchContent: SearchContentType = .Music
+	var searchBar: UISearchBar!
+	
 	
 	enum SearchContentType {
 		case Music
@@ -27,20 +29,22 @@ class SearchViewController: UIViewController {
 	}
 
 	@IBOutlet weak var searchOptionsSeg: UISegmentedControl!
-	@IBOutlet weak var searchBar: UISearchBar!
 	@IBOutlet weak var tableView: UITableView!
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-		searchBar.showsCancelButton = false
-		searchBar.delegate = self
-		
 		activityIndicator()
-		
-		
+		createSearchBar()
 		rootRef = FIRDatabase.database().reference()
-
     }
+	
+	func createSearchBar() {
+		searchBar = UISearchBar()
+		searchBar.showsCancelButton = false
+		searchBar.placeholder = "Enter your search here"
+		searchBar.delegate = self
+		self.navigationItem.titleView = searchBar
+	}
 	
 	func activityIndicator() {
 		indicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 40, 40))
@@ -62,6 +66,12 @@ class SearchViewController: UIViewController {
 		}
 		
 		clearTable()
+	}
+	
+	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+		if segue.identifier == "anyUserVC" {
+			print("loaded")
+		}
 	}
 	
 	func clearTable() -> Void {
@@ -192,7 +202,7 @@ extension SearchViewController: UISearchBarDelegate {
 		print("started typing \(searchBar.text)")
 		timer?.invalidate()
 		timer = NSTimer.scheduledTimerWithTimeInterval(0.75, target: self, selector: (#selector(SearchViewController.searchBarTextDidPause(_:))), userInfo: searchBar.text, repeats: false)
-		
+
 		return true
 	}
 	
@@ -246,7 +256,7 @@ extension SearchViewController: UITableViewDataSource {
 		} else {
 			cell.albumImageView.image = UIImage(named: "default_profile.png")
 			cell.title = peopleData[indexPath.row]
-			cell.subTitle = ""
+			cell.subTitle = ""  // Load the persons first and last name here
 			
 		}
 		
@@ -254,7 +264,6 @@ extension SearchViewController: UITableViewDataSource {
 	}
 	
 	func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-		
 		switch searchOptionsSeg.selectedSegmentIndex {
 		case 0:
 			return 80
@@ -274,7 +283,8 @@ extension SearchViewController: UITableViewDelegate {
 		case .Music:
 			shareSongWithAudience(indexPath.row)
 		case .People:
-			addSelectedRowAsFriend(indexPath.row)
+//			addSelectedRowAsFriend(indexPath.row)
+			performSegueWithIdentifier("anyUserVC", sender: self)
 		}
 	}
 }
