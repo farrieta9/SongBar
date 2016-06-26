@@ -15,7 +15,7 @@ class SearchViewController: UIViewController {
 	var tableData = [SpotifyTrack]()
 	var peopleData = [String]()
 	var rootRef: FIRDatabaseReference!
-	var selectedTag = 0
+	var selectedRow = 0
 	var timer: NSTimer? = nil
 	var selectedIndexPath: NSIndexPath? = nil
 	var indicator = UIActivityIndicatorView()
@@ -71,6 +71,9 @@ class SearchViewController: UIViewController {
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		if segue.identifier == "anyUserVC" {
 			print("loaded")
+
+			let userVC = segue.destinationViewController as! AnyUserViewController
+			userVC.username = peopleData[selectedRow]
 		}
 	}
 	
@@ -278,6 +281,7 @@ extension SearchViewController: UITableViewDataSource {
 extension SearchViewController: UITableViewDelegate {
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		selectedIndexPath = indexPath
+		selectedRow = indexPath.row
 		searchBar.resignFirstResponder()
 		switch searchContent {
 		case .Music:
