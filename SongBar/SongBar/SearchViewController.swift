@@ -76,8 +76,9 @@ class SearchViewController: UIViewController {
 		}
 		
 		if segue.identifier	== "audienceVC" {
-//			let vc = segue.destinationViewController as! 
+			let vc = segue.destinationViewController as! AudienceViewController
 			print("Show audience")
+			vc.track = tableData[selectedRow]
 		}
 	}
 	

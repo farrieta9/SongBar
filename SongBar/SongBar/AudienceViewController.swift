@@ -12,6 +12,8 @@ import Firebase
 class AudienceViewController: UIViewController {
 	
 	var audienceData = [String]()
+	var selectedUsers = [String]()
+	var track: SpotifyTrack!
 
 	@IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
@@ -24,6 +26,16 @@ class AudienceViewController: UIViewController {
 	}
 	@IBAction func onSend(sender: AnyObject) {
 		print("send")
+		print(selectedUsers)
+		
+		let date = Utilities.getServerTime()
+		
+		
+		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/songs_for_audience").child(date).setValue(["title": track.title, "artist": track.artist, "imageURL": track.imageUrl, "previewURL": track.previewUrl])
+		
+		for person in selectedUsers {
+			FIRDatabase.database().reference().child("users/users_by_name/\(person)/received").child(date).setValue(["title": track.title, "artist": track.artist, "imageURL": track.imageUrl, "previewURL": track.previewUrl, "host": Utilities.getCurrentUsername()])
+		}
 		self.navigationController?.popViewControllerAnimated(true)
 	}
 	
@@ -74,8 +86,11 @@ extension AudienceViewController: UITableViewDelegate {
 		let cell = tableView.cellForRowAtIndexPath(indexPath) as! AudienceTableViewCell
 		if cell.actionButton.backgroundColor == UIColor.clearColor() {
 			cell.actionButton.backgroundColor = Utilities.getGreenColor()
+			selectedUsers.append(cell.title)
 		} else {
 			cell.actionButton.backgroundColor = UIColor.clearColor()
+			let index = selectedUsers.indexOf(cell.title)
+			selectedUsers.removeAtIndex(index!)
 		}
 		
 	}
