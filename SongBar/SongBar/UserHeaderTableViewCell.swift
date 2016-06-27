@@ -7,15 +7,13 @@
 //
 
 import UIKit
+import Firebase
 
 class UserHeaderTableViewCell: UITableViewCell {
 
 	@IBOutlet weak var avatarImage: UIImageView!
-	
 	@IBOutlet weak var titleLabel: UILabel!
-	
 	@IBOutlet weak var subLabel: UILabel!
-	
 	@IBOutlet weak var actionButton: UIButton!
 	
 	
@@ -47,6 +45,12 @@ class UserHeaderTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
 		avatar = UIImage(named: "default_profile.png")
+		
+		actionName = "Unknown"
+		actionButton.backgroundColor = UIColor.clearColor()
+		actionButton.layer.cornerRadius = 15
+		actionButton.layer.borderWidth = 1
+		actionButton.layer.borderColor = UIColor.blackColor().CGColor
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class AnyUserViewController: UIViewController {
 	
@@ -19,17 +20,58 @@ class AnyUserViewController: UIViewController {
 	var followData = [String]()
 	var postData = [String]()
 
-	
 	var username = ""
 	var userFullname = ""
 	
 	@IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
-		
-		print("Username: \(username)")
-		
+
+		refreshAudience()
+		refreshFollow()
+		refreshPosts()
     }
+
+	@IBAction func onActionButton(sender: UIButton) {
+		print("onActionButton Pressed")
+		print("Button label: \(sender.titleLabel?.text!)")
+		if sender.titleLabel?.text! == "+ Follow" {
+			print("Follow \(username)")
+			followUser()
+			sender.setTitle("Following", forState: .Normal)
+			sender.backgroundColor = Utilities.getGreenColor()
+		} else {
+			print("Unfollow \(username)")
+			unFollow(username)
+			sender.setTitle("+ Follow", forState: .Normal)
+			sender.backgroundColor = UIColor.clearColor()
+		}
+	}
+	
+	func followUser() -> Void {
+		// Get the uid of the selected user
+		FIRDatabase.database().reference().child("users/users_by_name/\(self.username)").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+			if let uid = snapshot.value!["uid"] as? String {
+				print(uid)
+				
+				// Add the data
+				FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())").child("friends_by_id").child(self.username).setValue([uid: self.username])
+				
+				// Audience is your followers
+				FIRDatabase.database().reference().child("users/users_by_name/\(self.username)").child("audience_by_id").child(Utilities.getCurrentUsername()).setValue([Utilities.getCurrentUID(): Utilities.getCurrentUsername()])
+			} else {
+				print(snapshot)
+				print("addSelectedRowAsFriend() failed")
+			}
+		})
+	}
+	
+	func unFollow(username: String) -> Void {
+		print("Unfollow \(username)")
+		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id/\(username)").removeValue()
+		
+		FIRDatabase.database().reference().child("users/users_by_name/\(username)/audience_by_id/\(Utilities.getCurrentUsername())").removeValue()
+	}
 	
 	@IBAction func onSegmentOptionChange(sender: UISegmentedControl) {
 		switch sender.selectedSegmentIndex {
@@ -42,6 +84,77 @@ class AnyUserViewController: UIViewController {
 		default:
 			break
 		}
+		
+		tableView.reloadData()
+	}
+	
+	func refreshAudience() {
+		FIRDatabase.database().reference().child("users/users_by_name/\(username)/audience_by_id").observeEventType(.Value, withBlock: {(snapshot) in
+		
+			self.audienceData.removeAll()
+			if snapshot.value is NSNull {
+				print("No audience")
+				return
+			}
+			guard let results = snapshot.value as? [String: [String: String]] else {
+				print("AnyUserViewController.refreshAudience() failed")
+				return
+			}
+			for person in results.keys {
+				self.audienceData.append(person)
+			}
+			
+			dispatch_async(dispatch_get_main_queue()) {
+				[unowned self] in
+				self.tableView.reloadData()
+			}
+		})
+	}
+	
+	func refreshFollow() -> Void {
+		FIRDatabase.database().reference().child("users/users_by_name/\(username)/friends_by_id").observeEventType(.Value, withBlock: {(snapshot) in
+			self.followData.removeAll()
+			if snapshot.value is NSNull {
+				print("This user follows no one")
+				return
+			}
+			guard let results = snapshot.value as? [String: [String: String]] else {
+				print("AnyUserViewController.refreshFollow() failed")
+				return
+			}
+			for person in results.keys {
+				self.followData.append(person)
+			}
+			
+			dispatch_async(dispatch_get_main_queue()) { [unowned self] in
+				self.tableView.reloadData()
+			}
+		})
+	}
+	
+	func refreshPosts() -> Void {
+		FIRDatabase.database().reference().child("users/users_by_name/\(username)/songs_for_audience").queryOrderedByKey().observeEventType(.Value, withBlock: {(snapshot) in
+			self.postData.removeAll()
+			
+			if snapshot.value is NSNull {
+				print("This user has not shared any songs")
+				return
+			}
+			
+			guard let results = snapshot.value as? [String: [String: String]] else {
+				print("AnyUserViewController.refreshPosts() failed")
+				return
+			}
+			for (_, value) in results.sort({$0.0.compare($1.0) == NSComparisonResult.OrderedDescending}) {  // Sort by date while looping
+					let title = value["title"]
+				self.postData.append(title!)
+			}
+			
+			dispatch_async(dispatch_get_main_queue()) { [unowned self] in
+				self.tableView.reloadData()
+			}
+		
+		})
 	}
 }
 
@@ -61,22 +174,26 @@ extension AnyUserViewController: UITableViewDataSource {
 	}
 	
 	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-		return 1
+		return 2
 	}
 	
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		switch indexPath.section {
-		case 0:
-			let cell = tableView.dequeueReusableCellWithIdentifier("headerCell", forIndexPath: indexPath) as! UserHeaderTableViewCell
-			
-			cell.actionName = "Follow"
-			cell.title = username
-			return cell
-			
-		default:
+		if indexPath.section == 1 {
 			let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UserTableViewCell
 			
-			cell.title = "Something"
+			switch contentToDisplay {
+			case .Audience:
+				cell.title = audienceData[indexPath.row]
+			case .Follow:
+				cell.title = followData[indexPath.row]
+			case .Posts:
+				cell.title = postData[indexPath.row]
+			}
+			return cell
+			
+		} else {
+			let cell = tableView.dequeueReusableCellWithIdentifier("headerCell", forIndexPath: indexPath) as! UserHeaderTableViewCell
+			cell.title = username
 			return cell
 		}
 	}
@@ -84,7 +201,7 @@ extension AnyUserViewController: UITableViewDataSource {
 	func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 		switch indexPath.section {
 		case 0:
-			return 175
+			return 150
 		default:
 			return 50
 		}

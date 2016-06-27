@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 // Functions that may come in handy.
 class Utilities {
@@ -39,43 +40,29 @@ class Utilities {
 		return oneDayAgo
 	}
 	
+	static func unFollow(username: String) -> Void {
+		// Unfriends/unfollow the user. Changes appear on the current user and the user that is being removed.
+		print("Unfollow \(username)")
+		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id/\(username)").removeValue()
+		
+		FIRDatabase.database().reference().child("users/users_by_name/\(username)/audience_by_id/\(Utilities.getCurrentUsername())").removeValue()
+	}
+	
+	static func followUser(username: String) {
+		// Sets current user to follow this selected/shown user
+		FIRDatabase.database().reference().child("users/users_by_name/\(username)").observeEventType(.Value, withBlock: {(snapshot) in
+			guard let uid = snapshot.value!["uid"] as? String else {
+				print("AnyUserViewController.followUser() failed")
+				return
+			}
+			
+			FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id/\(username)").setValue([uid: username])
+			FIRDatabase.database().reference().child("users/users_by_name/\(username)/audience_by_id/\(Utilities.getCurrentUsername())").setValue([Utilities.getCurrentUID(): Utilities.getCurrentUsername()])
+		})
+	}
+	
+	
 	static func getDateTime() -> String {
-//		// Returns the current date and time
-//		let dateFormatter = NSDateFormatter()
-////		dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
-//
-//		// Comparing time.
-//		dateFormatter.dateFormat = "HH:mm:ss zzz"
-//		var dateAsString = "14:28:16 GMT"
-//		let date1 = dateFormatter.dateFromString(dateAsString)!
-//		
-//		dateAsString = "19:53:12 GMT"
-//		let date2 = dateFormatter.dateFromString(dateAsString)!
-//		
-//		if date1.earlierDate(date2) == date1 {
-//			if date1.isEqualToDate(date2) {
-//				print("Same time")
-//			}
-//			else {
-//				print("\(date1) is earlier than \(date2)")
-//			}
-//		}
-//		else {
-//			print("\(date2) is earlier than \(date1)")
-//		}
-		
-//		let components = NSDateComponents()
-//		let calendar = NSCalendar.currentCalendar()
-//		components.day = 5
-//		components.month = 01
-//		components.year = 2016
-//		components.hour = 19
-//		components.minute = 30
-////		var newDate = calendar.dateFromComponents(components)
-//		components.timeZone = NSTimeZone(abbreviation: "MDT")
-//		let newDate = calendar.dateFromComponents(components)
-//		print(newDate)
-		
 		let currentDate = NSDate()
 		let dateFormatter = NSDateFormatter()
 		dateFormatter.dateFormat = "MMM dd, yyyy zzz HH:mm:ss"
