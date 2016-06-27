@@ -70,10 +70,14 @@ class SearchViewController: UIViewController {
 	
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		if segue.identifier == "anyUserVC" {
-			print("loaded")
-
 			let userVC = segue.destinationViewController as! AnyUserViewController
 			userVC.username = peopleData[selectedRow]
+			return
+		}
+		
+		if segue.identifier	== "audienceVC" {
+//			let vc = segue.destinationViewController as! 
+			print("Show audience")
 		}
 	}
 	
@@ -285,9 +289,9 @@ extension SearchViewController: UITableViewDelegate {
 		searchBar.resignFirstResponder()
 		switch searchContent {
 		case .Music:
-			shareSongWithAudience(indexPath.row)
+//			shareSongWithAudience(indexPath.row)
+			performSegueWithIdentifier("audienceVC", sender: self)
 		case .People:
-//			addSelectedRowAsFriend(indexPath.row)
 			performSegueWithIdentifier("anyUserVC", sender: self)
 		}
 	}

@@ -14,6 +14,8 @@
 		8C9296E61D10D74600144861 /* Music-Concert-Crowd.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8C9296E51D10D74600144861 /* Music-Concert-Crowd.jpg */; };
 		8C9296EA1D10D85C00144861 /* neutral_user.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C9296E91D10D85C00144861 /* neutral_user.png */; };
 		8C9296EE1D10D99600144861 /* default_profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C9296ED1D10D99600144861 /* default_profile.png */; };
+		8C97DBAD1D20C51F00981ADD /* AudienceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C97DBAC1D20C51F00981ADD /* AudienceTableViewCell.swift */; };
+		8C97DBAF1D20C53200981ADD /* AudienceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C97DBAE1D20C53200981ADD /* AudienceViewController.swift */; };
 		8CA114EB1D0C8F680091A25F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA114EA1D0C8F680091A25F /* LoginViewController.swift */; };
 		8CA7B0B61D110B3C00ECC54C /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA7B0B51D110B3C00ECC54C /* SignUpViewController.swift */; };
 		8CABB9631D1F2200005F9A12 /* AnyUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CABB9621D1F2200005F9A12 /* AnyUserViewController.swift */; };
@@ -47,6 +49,8 @@
 		8C9296E51D10D74600144861 /* Music-Concert-Crowd.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Music-Concert-Crowd.jpg"; sourceTree = "<group>"; };
 		8C9296E91D10D85C00144861 /* neutral_user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = neutral_user.png; sourceTree = "<group>"; };
 		8C9296ED1D10D99600144861 /* default_profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_profile.png; sourceTree = "<group>"; };
+		8C97DBAC1D20C51F00981ADD /* AudienceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudienceTableViewCell.swift; sourceTree = "<group>"; };
+		8C97DBAE1D20C53200981ADD /* AudienceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudienceViewController.swift; sourceTree = "<group>"; };
 		8CA114EA1D0C8F680091A25F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8CA7B0B51D110B3C00ECC54C /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		8CABB9621D1F2200005F9A12 /* AnyUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyUserViewController.swift; sourceTree = "<group>"; };
@@ -152,6 +156,7 @@
 				8C7872061D15DC580066886A /* ProfileHeaderView.swift */,
 				8C7872081D15DD510066886A /* ProfileViewController.swift */,
 				8CABB9621D1F2200005F9A12 /* AnyUserViewController.swift */,
+				8C97DBAE1D20C53200981ADD /* AudienceViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -165,6 +170,7 @@
 				8CAD08941D15FB07006072DB /* ProfileTableViewCell.swift */,
 				8CABB9641D1F2ABF005F9A12 /* UserHeaderTableViewCell.swift */,
 				8CABB9661D1F7A58005F9A12 /* UserTableViewCell.swift */,
+				8C97DBAC1D20C51F00981ADD /* AudienceTableViewCell.swift */,
 			);
 			name = CustomCells;
 			sourceTree = "<group>";
@@ -318,6 +324,7 @@
 				8CAD08931D15F289006072DB /* ProfileHeaderTableViewCell.swift in Sources */,
 				8CA114EB1D0C8F680091A25F /* LoginViewController.swift in Sources */,
 				8CDF69681D07B93D0024CE55 /* HomeCollectionCell.swift in Sources */,
+				8C97DBAD1D20C51F00981ADD /* AudienceTableViewCell.swift in Sources */,
 				8CDF69601D07B4130024CE55 /* SpotifyAPI.swift in Sources */,
 				8CDF696A1D07BFDB0024CE55 /* SpotifyTrack.swift in Sources */,
 				8CBC66A11D1504F7006A7331 /* Utilities.swift in Sources */,
@@ -326,6 +333,7 @@
 				8CDF696C1D07C34F0024CE55 /* SearchMusicTableCell.swift in Sources */,
 				8C7872091D15DD510066886A /* ProfileViewController.swift in Sources */,
 				8CABB9671D1F7A58005F9A12 /* UserTableViewCell.swift in Sources */,
+				8C97DBAF1D20C53200981ADD /* AudienceViewController.swift in Sources */,
 				8CDF694C1D07B1D30024CE55 /* AppDelegate.swift in Sources */,
 				8CDF69631D07B4D70024CE55 /* HomeViewController.swift in Sources */,
 				8CABB9631D1F2200005F9A12 /* AnyUserViewController.swift in Sources */,
