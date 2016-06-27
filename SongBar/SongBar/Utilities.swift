@@ -8,12 +8,9 @@
 
 import Foundation
 import UIKit
-import Firebase
 
 // Functions that may come in handy.
 class Utilities {
-	
-	
 	static let userDefaults = NSUserDefaults.standardUserDefaults()
 	
 	static func getCurrentUsername() -> String {
@@ -39,28 +36,6 @@ class Utilities {
 		let oneDayAgo = dateFormatter.stringFromDate(yesterday!)
 		return oneDayAgo
 	}
-	
-	static func unFollow(username: String) -> Void {
-		// Unfriends/unfollow the user. Changes appear on the current user and the user that is being removed.
-		print("Unfollow \(username)")
-		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id/\(username)").removeValue()
-		
-		FIRDatabase.database().reference().child("users/users_by_name/\(username)/audience_by_id/\(Utilities.getCurrentUsername())").removeValue()
-	}
-	
-	static func followUser(username: String) {
-		// Sets current user to follow this selected/shown user
-		FIRDatabase.database().reference().child("users/users_by_name/\(username)").observeEventType(.Value, withBlock: {(snapshot) in
-			guard let uid = snapshot.value!["uid"] as? String else {
-				print("AnyUserViewController.followUser() failed")
-				return
-			}
-			
-			FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id/\(username)").setValue([uid: username])
-			FIRDatabase.database().reference().child("users/users_by_name/\(username)/audience_by_id/\(Utilities.getCurrentUsername())").setValue([Utilities.getCurrentUID(): Utilities.getCurrentUsername()])
-		})
-	}
-	
 	
 	static func getDateTime() -> String {
 		let currentDate = NSDate()

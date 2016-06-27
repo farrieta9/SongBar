@@ -33,15 +33,11 @@ class AnyUserViewController: UIViewController {
     }
 
 	@IBAction func onActionButton(sender: UIButton) {
-		print("onActionButton Pressed")
-		print("Button label: \(sender.titleLabel?.text!)")
 		if sender.titleLabel?.text! == "+ Follow" {
-			print("Follow \(username)")
 			followUser()
 			sender.setTitle("Following", forState: .Normal)
 			sender.backgroundColor = Utilities.getGreenColor()
 		} else {
-			print("Unfollow \(username)")
 			unFollow(username)
 			sender.setTitle("+ Follow", forState: .Normal)
 			sender.backgroundColor = UIColor.clearColor()
@@ -62,6 +58,21 @@ class AnyUserViewController: UIViewController {
 			} else {
 				print(snapshot)
 				print("addSelectedRowAsFriend() failed")
+			}
+		})
+	}
+	
+	func isFollowing(button: UIButton) -> Void {
+		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id/\(self.username)").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+		
+			print(snapshot)
+			if snapshot.value is NSNull {
+				print("Not friends")
+				button.setTitle("+ Follow", forState: .Normal)
+			} else {
+				print("friends")
+				button.setTitle("Following", forState: .Normal)
+				button.backgroundColor = Utilities.getGreenColor()
 			}
 		})
 	}
@@ -194,6 +205,7 @@ extension AnyUserViewController: UITableViewDataSource {
 		} else {
 			let cell = tableView.dequeueReusableCellWithIdentifier("headerCell", forIndexPath: indexPath) as! UserHeaderTableViewCell
 			cell.title = username
+			isFollowing(cell.actionButton)
 			return cell
 		}
 	}
