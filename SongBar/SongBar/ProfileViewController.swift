@@ -203,7 +203,6 @@ extension ProfileViewController: UITableViewDataSource	{
 			switch contentToDisplay {
 			case .Audience:
 				return audienceData.count
-				
 			case .Follow:
 				return followData.count
 			case .Posts:
@@ -223,10 +222,15 @@ extension ProfileViewController: UITableViewDataSource	{
 				cell.username = audienceData[indexPath.row]
 				cell.userImage = UIImage(named: "default_profile.png")
 				cell.actionButton.hidden = false
+				cell.subTitle = ""
+				Utilities.isFollowing(cell.actionButton, username: cell.username)
 			case .Follow:
 				cell.username = followData[indexPath.row]
 				cell.userImage = UIImage(named: "default_profile.png")
 				cell.actionButton.hidden = false
+				cell.subTitle = ""
+				cell.actionButton.backgroundColor = Utilities.getGreenColor()
+				cell.actionName = "Following"
 			case .Posts:
 				cell.username = songBook[indexPath.row].title
 				cell.actionButton.hidden = true
@@ -245,7 +249,6 @@ extension ProfileViewController: UITableViewDataSource	{
 				}
 				session.resume()
 			}
-			cell.actionButton.backgroundColor = Utilities.getGreenColor()
 			cell.actionButton.tag = indexPath.row
 			
 			return cell

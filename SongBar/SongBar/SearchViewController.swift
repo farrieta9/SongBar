@@ -41,7 +41,7 @@ class SearchViewController: UIViewController {
 	func createSearchBar() {
 		searchBar = UISearchBar()
 		searchBar.showsCancelButton = false
-		searchBar.placeholder = "Enter your search here"
+		searchBar.placeholder = "Enter for music here"
 		searchBar.delegate = self
 		self.navigationItem.titleView = searchBar
 	}
@@ -59,8 +59,10 @@ class SearchViewController: UIViewController {
 		switch searchOptionsSeg.selectedSegmentIndex {
 		case 0:
 			searchContent = .Music
+			searchBar.placeholder = "Enter for music here"
 		case 1:
 			searchContent = .People
+			searchBar.placeholder = "Enter for people here"
 		default:
 			break
 		}
@@ -110,55 +112,54 @@ class SearchViewController: UIViewController {
 		})
 	}
 	
-	func addSelectedRowAsFriend(row: Int) {
-		let selectedUser = peopleData[row]
-		let currentUsername = Utilities.getCurrentUsername()
-
-		// Get the uid of the selected user
-		FIRDatabase.database().reference().child("users/users_by_name/\(selectedUser)").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
-			if let uid = snapshot.value!["uid"] as? String {
-				print(uid)
-
-				// Add the data
-				FIRDatabase.database().reference().child("users/users_by_name/\(currentUsername)").child("friends_by_id").child(selectedUser).setValue([uid: selectedUser])
-				
-				// Audience is your followers
-				FIRDatabase.database().reference().child("users/users_by_name/\(selectedUser)").child("audience_by_id").child(currentUsername).setValue([Utilities.getCurrentUID(): currentUsername])
-			} else {
-				print(snapshot)
-				print("addSelectedRowAsFriend() failed")
-			}
-		})
-	}
+//	func addSelectedRowAsFriend(row: Int) {
+//		let selectedUser = peopleData[row]
+//		let currentUsername = Utilities.getCurrentUsername()
+//
+//		// Get the uid of the selected user
+//		FIRDatabase.database().reference().child("users/users_by_name/\(selectedUser)").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+//			if let uid = snapshot.value!["uid"] as? String {
+//				print(uid)
+//
+//				// Add the data
+//				FIRDatabase.database().reference().child("users/users_by_name/\(currentUsername)").child("friends_by_id").child(selectedUser).setValue([uid: selectedUser])
+//				
+//				// Audience is your followers
+//				FIRDatabase.database().reference().child("users/users_by_name/\(selectedUser)").child("audience_by_id").child(currentUsername).setValue([Utilities.getCurrentUID(): currentUsername])
+//			} else {
+//				print(snapshot)
+//				print("addSelectedRowAsFriend() failed")
+//			}
+//		})
+//	}
 	
-	func shareSongWithAudience(row: Int) {
-		
-		print("share \(tableData[row]) song with everyone")
-		let track = tableData[row]
-		
-		let date = Utilities.getServerTime()
-		
-		// Store all songs I have shared
-		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/songs_for_audience").child(date).setValue(["title": track.title, "artist": track.artist, "imageURL": track.imageUrl, "previewURL": track.previewUrl])
-		
-		// Send song to to all who are my audience
-		// Get all friends of current user
-		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
-			if snapshot.value is NSNull {
-				print("shareSongWithAudience(). No one you follow.")
-				return
-			} else {
-				guard let results = snapshot.value as? [String: [String: String]] else {
-					print("shareSongWithAudience(). Failed gettings friends")
-					return
-				}
-				for person in results.keys {
-					FIRDatabase.database().reference().child("users/users_by_name/\(person)/received").child(date).setValue(["title": track.title, "artist": track.artist, "imageURL": track.imageUrl, "previewURL": track.previewUrl, "host": Utilities.getCurrentUsername()])
-				}
-			}
-		})
-		
-	}
+//	func shareSongWithAudience(row: Int) {
+//		
+//		print("share \(tableData[row]) song with everyone")
+//		let track = tableData[row]
+//		
+//		let date = Utilities.getServerTime()
+//		
+//		// Store all songs I have shared
+//		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/songs_for_audience").child(date).setValue(["title": track.title, "artist": track.artist, "imageURL": track.imageUrl, "previewURL": track.previewUrl])
+//		
+//		// Send song to to all who are my audience
+//		// Get all friends of current user
+//		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+//			if snapshot.value is NSNull {
+//				print("shareSongWithAudience(). No one you follow.")
+//				return
+//			} else {
+//				guard let results = snapshot.value as? [String: [String: String]] else {
+//					print("shareSongWithAudience(). Failed gettings friends")
+//					return
+//				}
+//				for person in results.keys {
+//					FIRDatabase.database().reference().child("users/users_by_name/\(person)/received").child(date).setValue(["title": track.title, "artist": track.artist, "imageURL": track.imageUrl, "previewURL": track.previewUrl, "host": Utilities.getCurrentUsername()])
+//				}
+//			}
+//		})
+//	}
 
 	func searchForMusic(searchText: String) -> Void {
 		SpotifyAPI.search(searchText) {
@@ -290,7 +291,6 @@ extension SearchViewController: UITableViewDelegate {
 		searchBar.resignFirstResponder()
 		switch searchContent {
 		case .Music:
-//			shareSongWithAudience(indexPath.row)
 			performSegueWithIdentifier("audienceVC", sender: self)
 		case .People:
 			performSegueWithIdentifier("anyUserVC", sender: self)

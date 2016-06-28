@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 // Functions that may come in handy.
 class Utilities {
@@ -72,6 +73,22 @@ class Utilities {
 		userDefaults.setValue("", forKey: "password")
 		userDefaults.setValue("", forKey: "uid")
 		userDefaults.setValue("", forKey: "username")
+	}
+	
+	static func isFollowing(button: UIButton, username: String) -> Void {
+		FIRDatabase.database().reference().child("users/users_by_name/\(getCurrentUsername())/friends_by_id/\(username)").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+			
+			print(snapshot)
+			if snapshot.value is NSNull {
+				print("Not friends")
+				button.setTitle("+ Follow", forState: .Normal)
+				button.backgroundColor = UIColor.clearColor()
+			} else {
+				print("friends")
+				button.setTitle("Following", forState: .Normal)
+				button.backgroundColor = Utilities.getGreenColor()
+			}
+		})
 	}
 }
 

@@ -35,6 +35,12 @@ class ProfileTableViewCell: UITableViewCell {
 		}
 	}
 	
+	var actionName = "" {
+		didSet {
+			actionButton.setTitle(actionName, forState: .Normal)
+		}
+	}
+	
     override func awakeFromNib() {
         super.awakeFromNib()
 		subTitle = ""
