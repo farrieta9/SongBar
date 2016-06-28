@@ -14,11 +14,18 @@ class ProfileTableViewCell: UITableViewCell {
 	@IBOutlet weak var userImageView: UIImageView!
 	@IBOutlet weak var userNameLabel: UILabel!
 	@IBOutlet weak var actionButton: UIButton!
+	@IBOutlet weak var subTitleLabel: UILabel!
 	
 	
 	var username = "" {
 		didSet {
 			userNameLabel.text = username
+		}
+	}
+	
+	var subTitle = "" {
+		didSet {
+			subTitleLabel.text = subTitle
 		}
 	}
 	
@@ -30,6 +37,7 @@ class ProfileTableViewCell: UITableViewCell {
 	
     override func awakeFromNib() {
         super.awakeFromNib()
+		subTitle = ""
 		
         // Initialization code
 		actionButton.setTitle("Follow", forState: .Normal)

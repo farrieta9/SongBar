@@ -78,20 +78,24 @@ extension AudienceViewController: UITableViewDataSource {
 		
 		return cell
 	}
+	
+	func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+		return 50
+	}
 }
 
 extension AudienceViewController: UITableViewDelegate {
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		print(indexPath.row)
 		let cell = tableView.cellForRowAtIndexPath(indexPath) as! AudienceTableViewCell
-		if cell.actionButton.backgroundColor == UIColor.clearColor() {
-			cell.actionButton.backgroundColor = Utilities.getGreenColor()
-			selectedUsers.append(cell.title)
-		} else {
-			cell.actionButton.backgroundColor = UIColor.clearColor()
-			let index = selectedUsers.indexOf(cell.title)
-			selectedUsers.removeAtIndex(index!)
-		}
+		cell.accessoryType = .Checkmark
+		selectedUsers.append(cell.title)
 		
+	}
+	
+	func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+		let cell = tableView.cellForRowAtIndexPath(indexPath) as! AudienceTableViewCell
+		cell.accessoryType = .None
+		let index = selectedUsers.indexOf(cell.title)
+		selectedUsers.removeAtIndex(index!)
 	}
 }

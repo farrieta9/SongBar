@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C3DAD9F1D21F0C800B17F03 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3DAD9E1D21F0C800B17F03 /* Track.swift */; };
 		8C58322D1D09150F00E7D5AF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8C58322C1D09150F00E7D5AF /* GoogleService-Info.plist */; };
 		8C7872071D15DC580066886A /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7872061D15DC580066886A /* ProfileHeaderView.swift */; };
 		8C7872091D15DD510066886A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7872081D15DD510066886A /* ProfileViewController.swift */; };
@@ -42,6 +43,7 @@
 /* Begin PBXFileReference section */
 		76E90A5D9FC6E92CC7295C36 /* Pods-SongBar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SongBar.release.xcconfig"; path = "Pods/Target Support Files/Pods-SongBar/Pods-SongBar.release.xcconfig"; sourceTree = "<group>"; };
 		8A604E841DCA74B27652B9A1 /* Pods_SongBar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SongBar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C3DAD9E1D21F0C800B17F03 /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 		8C58322C1D09150F00E7D5AF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8C7872061D15DC580066886A /* ProfileHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		8C7872081D15DD510066886A /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				8CDF69691D07BFDB0024CE55 /* SpotifyTrack.swift */,
 				8C9296E31D10D53600144861 /* RoundButton.swift */,
 				8CBC66A01D1504F7006A7331 /* Utilities.swift */,
+				8C3DAD9E1D21F0C800B17F03 /* Track.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				8CAD08951D15FB07006072DB /* ProfileTableViewCell.swift in Sources */,
 				8CA7B0B61D110B3C00ECC54C /* SignUpViewController.swift in Sources */,
 				8CABB9651D1F2ABF005F9A12 /* UserHeaderTableViewCell.swift in Sources */,
+				8C3DAD9F1D21F0C800B17F03 /* Track.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

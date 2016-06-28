@@ -95,7 +95,6 @@ class AnyUserViewController: UIViewController {
 		default:
 			break
 		}
-		
 		tableView.reloadData()
 	}
 	

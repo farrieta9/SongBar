@@ -17,8 +17,7 @@ class SpotifyTrack {
 	var imageUrl = ""
 	
 	init(itemJSON: [String: AnyObject]) {
-		//        print("itemJSON " + String(itemJSON["album"]!["images"]!![1]["url"])) //This works! :)
-		
+
 		guard let albumsObjectArray = itemJSON["album"] as? [String: AnyObject],
 			let images = albumsObjectArray["images"] as? [[String: AnyObject]],
 			let url = images.first?["url"] as? String

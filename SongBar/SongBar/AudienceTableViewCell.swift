@@ -12,7 +12,6 @@ class AudienceTableViewCell: UITableViewCell {
 	@IBOutlet weak var userImage: UIImageView!
 	@IBOutlet weak var subTitleLabel: UILabel!
 	@IBOutlet weak var titleLabel: UILabel!
-	@IBOutlet weak var actionButton: UIButton!
 	
 	var avatar: UIImage! {
 		didSet {
@@ -35,12 +34,6 @@ class AudienceTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 		// Initialization code
-		actionButton.setTitle("", forState: .Normal)
-		actionButton.backgroundColor = UIColor.clearColor()
-		actionButton.layer.cornerRadius = actionButton.frame.size.width / 3
-		actionButton.layer.borderWidth = 1
-		actionButton.layer.borderColor = UIColor.blackColor().CGColor
-		actionButton.backgroundColor = UIColor.clearColor()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

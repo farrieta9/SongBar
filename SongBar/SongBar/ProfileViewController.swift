@@ -26,7 +26,7 @@ class ProfileViewController: UIViewController {
 	var contentToDisplay: contentTypes = .Audience
 	var audienceData = [String]()
 	var followData = [String]()
-	var postData = [String]()
+	var songBook = [Track]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,7 +75,7 @@ class ProfileViewController: UIViewController {
 	
 	func refreshPosts() {
 		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/songs_for_audience").queryOrderedByKey().observeEventType(.Value, withBlock: {(snapshot) in
-			self.postData.removeAll()
+			self.songBook.removeAll()
 			
 			if snapshot.value is NSNull {
 				print("you have not shared anything yet")
@@ -86,8 +86,10 @@ class ProfileViewController: UIViewController {
 					return
 				}
 				for (_, value) in results.sort({$0.0.compare($1.0) == NSComparisonResult.OrderedDescending}) {  // Sort by date while looping
-					let title = value["title"]
-					self.postData.append(title!)
+					
+					let track = Track(artist: value["artist"]!, title: value["title"]!, previewURL: value["previewURL"]!, imageURL: value["imageURL"]!)
+					
+					self.songBook.append(track)
 				}
 				
 				dispatch_async(dispatch_get_main_queue()) { [unowned self] in
@@ -205,7 +207,7 @@ extension ProfileViewController: UITableViewDataSource	{
 			case .Follow:
 				return followData.count
 			case .Posts:
-				return postData.count
+				return songBook.count
 			}
 		}
 		return 1
@@ -219,10 +221,29 @@ extension ProfileViewController: UITableViewDataSource	{
 			switch contentToDisplay {
 			case .Audience:
 				cell.username = audienceData[indexPath.row]
+				cell.userImage = UIImage(named: "default_profile.png")
+				cell.actionButton.hidden = false
 			case .Follow:
 				cell.username = followData[indexPath.row]
+				cell.userImage = UIImage(named: "default_profile.png")
+				cell.actionButton.hidden = false
 			case .Posts:
-				cell.username = postData[indexPath.row]
+				cell.username = songBook[indexPath.row].title
+				cell.actionButton.hidden = true
+				cell.subTitle = songBook[indexPath.row].artist
+				
+				let imageURL = songBook[indexPath.row].imageUrl
+				let url = NSURL(string: imageURL)
+				let session = NSURLSession.sharedSession().dataTaskWithURL(url!) {
+					(data, response, error) in
+					
+					if data != nil {
+						dispatch_async(dispatch_get_main_queue(), {
+							cell.userImage = UIImage(data: data!)
+						})
+					}
+				}
+				session.resume()
 			}
 			cell.actionButton.backgroundColor = Utilities.getGreenColor()
 			cell.actionButton.tag = indexPath.row
