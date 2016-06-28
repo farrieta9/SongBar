@@ -33,6 +33,8 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
 		collectionView.backgroundColor = UIColor.clearColor()
 		rootRef = FIRDatabase.database().reference()
+		musicToolBar.hidden = true
+//		addToolBar()
 		
 		hideMusicToolBar()
 		refreshHome()
@@ -153,5 +155,50 @@ extension HomeViewController: UICollectionViewDelegate {
 		audioPlay.play()
 		musicStatus = .Play
 		
+	}
+}
+
+extension UIViewController {
+	func addToolBar() -> UIToolbar{
+		// Toolbar will have a play/pause, stop button, and label
+		let toolbar = UIToolbar()
+		
+		var items = [UIBarButtonItem]()
+		
+		let playPauseButton = UIBarButtonItem(barButtonSystemItem: .Pause, target: self, action: #selector(UIViewController.onPlayPause))
+		let flex = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: self, action: nil)
+		let stopButton = UIBarButtonItem(barButtonSystemItem: .Stop, target: self, action: #selector(UIViewController.onStop))
+		
+		items.append(playPauseButton)
+		items.append(flex)
+		items.append(stopButton)
+		
+		toolbar.frame = CGRectMake(0, self.view.frame.size.height - 46 - 46, self.view.frame.size.width, 46)
+		print("\(self.view.frame.size.height - 46 - 46)")
+		toolbar.sizeToFit()
+		toolbar.translucent = true
+		toolbar.setItems(items, animated: true)
+		toolbar.backgroundColor = UIColor.redColor()
+		toolbar.userInteractionEnabled = true
+		
+		self.view.addSubview(toolbar)
+		return toolbar
+	}
+	
+	func addToolbarLabel() -> UILabel {
+		let label = UILabel(frame: CGRectMake(0, self.view.frame.size.height - 46 - 46, self.view.frame.size.width, 46))
+		label.textAlignment = NSTextAlignment.Center
+		label.text = "I'm a test label"
+		self.view.addSubview(label)
+		return label
+	}
+	
+	func onPlayPause() {
+		print("play pause and show toolbar")
+		
+	}
+	
+	func onStop() {
+		print("stop music and hide toolbar")
 	}
 }

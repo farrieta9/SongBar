@@ -30,6 +30,7 @@ class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+		addToolBar()
 		
 		headerView = tableView.tableHeaderView as! ProfileHeaderView
 		tableView.tableHeaderView = nil  // Clear out the default header
@@ -154,13 +155,21 @@ class ProfileViewController: UIViewController {
 		switch contentToDisplay {
 		case .Follow:
 			selectedUser = followData[sender.tag]
+			unFollow(selectedUser, index: sender.tag)
+			sender.backgroundColor = UIColor.clearColor()
+		case .Audience:
+			if sender.titleLabel?.text! == "+ Follow" {
+				Utilities.followUser(audienceData[sender.tag])
+				sender.setTitle("Following", forState: .Normal)
+				sender.backgroundColor = Utilities.getGreenColor()
+			} else {
+				Utilities.unFollow(audienceData[sender.tag])
+				sender.setTitle("+ Follow", forState: .Normal)
+				sender.backgroundColor = UIColor.clearColor()
+			}
 		default:
 			return  // Do nothing
 		}
-		
-		unFollow(selectedUser, index: sender.tag)
-		
-		sender.backgroundColor = UIColor.clearColor()
 	}
 	
 	func unFollow(username: String, index: Int) -> Void {

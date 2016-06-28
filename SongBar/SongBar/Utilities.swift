@@ -90,6 +90,31 @@ class Utilities {
 			}
 		})
 	}
+	
+	static func followUser(username: String) -> Void {
+		// Get the uid of the selected user
+		FIRDatabase.database().reference().child("users/users_by_name/\(username)").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+			if let uid = snapshot.value!["uid"] as? String {
+				print(uid)
+				
+				// Add the data
+				FIRDatabase.database().reference().child("users/users_by_name/\(getCurrentUsername())").child("friends_by_id").child(username).setValue([uid: username])
+				
+				// Audience is your followers
+				FIRDatabase.database().reference().child("users/users_by_name/\(username)").child("audience_by_id").child(Utilities.getCurrentUsername()).setValue([getCurrentUID(): Utilities.getCurrentUsername()])
+			} else {
+				print(snapshot)
+				print("addSelectedRowAsFriend() failed")
+			}
+		})
+	}
+	
+	static func unFollow(username: String) -> Void {
+		print("Unfollow \(username)")
+		FIRDatabase.database().reference().child("users/users_by_name/\(getCurrentUsername())/friends_by_id/\(username)").removeValue()
+		
+		FIRDatabase.database().reference().child("users/users_by_name/\(username)/audience_by_id/\(getCurrentUsername())").removeValue()
+	}
 }
 
 
