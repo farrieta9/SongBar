@@ -14,7 +14,6 @@ class LoginViewController: UIViewController {
 	@IBOutlet weak var emailTextField: UITextField!
 	@IBOutlet weak var passwordTextField: UITextField!
 	@IBOutlet weak var errorLabel: UILabel!
-	@IBOutlet weak var imageView: UIImageView!
 	@IBOutlet weak var signInButton: UIButton!
 	@IBOutlet weak var createButton: UIButton!
 	
@@ -23,17 +22,23 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-//		signInButton.backgroundColor = UIColor.clearColor()
+		let gradient: CAGradientLayer = CAGradientLayer()
+		gradient.frame = view.bounds
+		gradient.colors = [Utilities.getColor(255, green: 226, blue: 79).CGColor,
+		                   Utilities.getColor(47, green: 144, blue: 102).CGColor,
+		                   Utilities.getColor(88, green: 139, blue: 169).CGColor,
+		                   Utilities.getColor(24, green: 112, blue: 131).CGColor
+		]
+		
+		view.layer.insertSublayer(gradient, atIndex: 0)
+		
 		signInButton.backgroundColor = Utilities.getColor(229, green: 77, blue: 66)
 		signInButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
 		signInButton.layer.cornerRadius = 10
-		signInButton.layer.borderWidth = 0
-		signInButton.clipsToBounds = true
 		
 		createButton.backgroundColor = Utilities.getColor(44, green: 62, blue: 79)
 		createButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
 		createButton.layer.cornerRadius = 10
-//		createButton.
 		
 
 		if let email = userDefaults.stringForKey("email") {
