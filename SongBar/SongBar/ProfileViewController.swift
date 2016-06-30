@@ -30,8 +30,6 @@ class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-		addToolBar()
-		
 		headerView = tableView.tableHeaderView as! ProfileHeaderView
 		tableView.tableHeaderView = nil  // Clear out the default header
 		tableView.addSubview(headerView) // Add header

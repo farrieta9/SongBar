@@ -68,6 +68,7 @@ class Utilities {
 		return UIColor(red: 1.0/255.0, green: 216.0/255.0, blue: 106.0/255.0, alpha: 1.0)
 	}
 	
+	
 	static func resetCurrentUser() {
 		userDefaults.setValue("", forKey: "email")
 		userDefaults.setValue("", forKey: "password")
@@ -114,6 +115,13 @@ class Utilities {
 		FIRDatabase.database().reference().child("users/users_by_name/\(getCurrentUsername())/friends_by_id/\(username)").removeValue()
 		
 		FIRDatabase.database().reference().child("users/users_by_name/\(username)/audience_by_id/\(getCurrentUsername())").removeValue()
+	}
+	
+	static func getColor(red: Float, green: Float, blue: Float) -> UIColor {
+		let r: CGFloat = CGFloat(red) / 255.0
+		let g: CGFloat = CGFloat(green) / 255.0
+		let b: CGFloat = CGFloat(blue) / 255.0
+		return UIColor(red: r, green: g, blue: b, alpha: 1.0)
 	}
 }
 
