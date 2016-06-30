@@ -17,12 +17,30 @@ class SignUpViewController: UIViewController {
 	@IBOutlet weak var messageLabel: UILabel!
 	@IBOutlet weak var backButton: UIButton!
 	@IBOutlet weak var signUpButton: UIButton!
+	@IBOutlet weak var imageView: UIImageView!
 	
 	let userDefaults = NSUserDefaults.standardUserDefaults()
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+		// Could use a gradient effect but will use blur for now
+		let blurEffect = UIBlurEffect(style: .Dark)
+		let blurView = UIVisualEffectView(effect: blurEffect)
+		blurView.frame = view.bounds
+//		blurView.alpha = 0.7
+		imageView.addSubview(blurView)
 		self.hideKeyboardWhenTappedAround()
+		
+		
+		signUpButton.backgroundColor = Utilities.getColor(229, green: 77, blue: 66)
+		signUpButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+		signUpButton.layer.cornerRadius = 10
+		signUpButton.layer.borderWidth = 0
+		signUpButton.clipsToBounds = true
+		
+		backButton.backgroundColor = Utilities.getColor(44, green: 62, blue: 79)
+		backButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+		backButton.layer.cornerRadius = 10
 		
 		messageLabel.hidden = true
 		messageLabel.textColor = UIColor.redColor()

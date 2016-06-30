@@ -14,11 +14,27 @@ class LoginViewController: UIViewController {
 	@IBOutlet weak var emailTextField: UITextField!
 	@IBOutlet weak var passwordTextField: UITextField!
 	@IBOutlet weak var errorLabel: UILabel!
-
+	@IBOutlet weak var imageView: UIImageView!
+	@IBOutlet weak var signInButton: UIButton!
+	@IBOutlet weak var createButton: UIButton!
+	
 	let userDefaults = NSUserDefaults.standardUserDefaults()
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+		
+//		signInButton.backgroundColor = UIColor.clearColor()
+		signInButton.backgroundColor = Utilities.getColor(229, green: 77, blue: 66)
+		signInButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+		signInButton.layer.cornerRadius = 10
+		signInButton.layer.borderWidth = 0
+		signInButton.clipsToBounds = true
+		
+		createButton.backgroundColor = Utilities.getColor(44, green: 62, blue: 79)
+		createButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+		createButton.layer.cornerRadius = 10
+//		createButton.
+		
 
 		if let email = userDefaults.stringForKey("email") {
 			emailTextField.text = email
@@ -41,7 +57,7 @@ class LoginViewController: UIViewController {
     }
 	
 	
-	@IBAction func onExistingUser(sender: UIButton) {
+	@IBAction func onSignIn(sender: UIButton) {
 		if !areTextFieldsFilled() {
 			errorLabel.text = "Missing fields"
 			errorLabel.hidden = false
