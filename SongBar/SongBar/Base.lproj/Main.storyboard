@@ -548,7 +548,7 @@
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="heF-Sj-cgd">
                                                 <rect key="frame" x="25" y="325" width="550" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="sCL-Se-tnz" id="jsH-Bd-G4s"/>
                                                 </connections>
@@ -556,18 +556,24 @@
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ydW-rv-YLv">
                                                 <rect key="frame" x="25" y="244" width="550" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="sCL-Se-tnz" id="RNL-cA-jRV"/>
                                                 </connections>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hzz-pS-q5a">
-                                                <rect key="frame" x="50" y="400" width="500" height="30"/>
+                                                <rect key="frame" x="70" y="400" width="460" height="30"/>
                                                 <state key="normal" title="Login"/>
+                                                <connections>
+                                                    <action selector="onSignIn:" destination="sCL-Se-tnz" eventType="touchUpInside" id="0if-Zp-wRx"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SZo-OP-vIG">
                                                 <rect key="frame" x="70" y="445" width="460" height="30"/>
                                                 <state key="normal" title="Create Account"/>
+                                                <connections>
+                                                    <segue destination="gBk-8W-Dt3" kind="show" id="QsA-6f-trH"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
@@ -577,7 +583,7 @@
                                             <constraint firstItem="A2v-mF-hp9" firstAttribute="trailing" secondItem="1lZ-Bq-09x" secondAttribute="trailingMargin" id="Bmt-Mk-aeU"/>
                                             <constraint firstItem="A2v-mF-hp9" firstAttribute="top" secondItem="ydW-rv-YLv" secondAttribute="bottom" constant="15" id="GYX-vf-2hJ"/>
                                             <constraint firstAttribute="bottom" secondItem="A2v-mF-hp9" secondAttribute="bottom" constant="274" id="HeR-Ac-ulq"/>
-                                            <constraint firstAttribute="trailing" secondItem="hzz-pS-q5a" secondAttribute="trailing" constant="50" id="Jk6-Sy-yzl"/>
+                                            <constraint firstAttribute="trailing" secondItem="hzz-pS-q5a" secondAttribute="trailing" constant="70" id="Jk6-Sy-yzl"/>
                                             <constraint firstItem="heF-Sj-cgd" firstAttribute="top" secondItem="A2v-mF-hp9" secondAttribute="bottom" constant="15" id="KVk-M5-lgD"/>
                                             <constraint firstItem="SZo-OP-vIG" firstAttribute="leading" secondItem="1lZ-Bq-09x" secondAttribute="leading" constant="70" id="MuE-51-vJd"/>
                                             <constraint firstItem="SZo-OP-vIG" firstAttribute="top" secondItem="hzz-pS-q5a" secondAttribute="bottom" constant="15" id="TBr-ec-gEU"/>
@@ -585,7 +591,7 @@
                                             <constraint firstItem="A2v-mF-hp9" firstAttribute="centerX" secondItem="1lZ-Bq-09x" secondAttribute="centerX" id="aW0-Td-SRy"/>
                                             <constraint firstItem="ydW-rv-YLv" firstAttribute="leading" secondItem="1lZ-Bq-09x" secondAttribute="leading" constant="25" id="axc-av-Chs"/>
                                             <constraint firstAttribute="trailing" secondItem="ydW-rv-YLv" secondAttribute="trailing" constant="25" id="ewR-cM-JdB"/>
-                                            <constraint firstItem="hzz-pS-q5a" firstAttribute="leading" secondItem="1lZ-Bq-09x" secondAttribute="leading" constant="50" id="lSC-ab-Lvu"/>
+                                            <constraint firstItem="hzz-pS-q5a" firstAttribute="leading" secondItem="1lZ-Bq-09x" secondAttribute="leading" constant="70" id="lSC-ab-Lvu"/>
                                             <constraint firstItem="hzz-pS-q5a" firstAttribute="top" secondItem="heF-Sj-cgd" secondAttribute="bottom" constant="45" id="lSa-dM-wSD"/>
                                             <constraint firstAttribute="trailing" secondItem="heF-Sj-cgd" secondAttribute="trailing" constant="25" id="tyq-jD-naH"/>
                                         </constraints>
@@ -606,8 +612,11 @@
                             <constraint firstItem="Ev1-BM-JdP" firstAttribute="top" secondItem="Nya-GG-fbN" secondAttribute="bottom" id="B1N-YW-kmf"/>
                             <constraint firstItem="Nya-GG-fbN" firstAttribute="top" secondItem="Yyc-Ps-Zdd" secondAttribute="topMargin" id="CXh-YM-NK4"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Nya-GG-fbN" secondAttribute="trailing" constant="-20" id="REd-jQ-3pr"/>
+                            <constraint firstAttribute="width" secondItem="Nya-GG-fbN" secondAttribute="width" id="SXN-1F-Elz"/>
+                            <constraint firstAttribute="height" secondItem="Nya-GG-fbN" secondAttribute="height" id="klQ-5I-fPZ"/>
                         </constraints>
                     </view>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>
                     <connections>
                         <outlet property="createButton" destination="SZo-OP-vIG" id="T0E-oI-3Ys"/>
                         <outlet property="emailTextField" destination="ydW-rv-YLv" id="6Nr-W2-i7h"/>

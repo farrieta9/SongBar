@@ -43,8 +43,11 @@ class LoginViewController: UIViewController {
 		fromColors = [dayTopColor.CGColor, dayBottomColor.CGColor]
 		toColors = [dayToTopColor.CGColor, dayToBottomColor.CGColor]
 		
+//		self.scrollView.frame = self.view.bounds
+//		self.view.bounds = self.scrollView.frame
 		gradient.colors = fromColors!
 		gradient.frame = view.bounds
+		
 //		view.layer.insertSublayer(gradient, atIndex: 0)
 		scrollView.layer.insertSublayer(gradient, atIndex: 0)
 		
@@ -77,14 +80,6 @@ class LoginViewController: UIViewController {
 			login()
 		}
     }
-	
-	override func viewWillLayoutSubviews() {
-		super.viewWillLayoutSubviews()
-		
-		self.scrollView.frame = self.view.bounds
-		self.scrollView.contentSize.height = 400
-		self.scrollView.contentSize.width = 0
-	}
 	
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
@@ -208,7 +203,9 @@ extension UIViewController {
 extension LoginViewController: UITextFieldDelegate {
 	func textFieldDidBeginEditing(textField: UITextField) {
 		self.errorLabel.hidden = true
-		scrollView.setContentOffset(CGPointMake(0, 250), animated: true)
-		print("move up")
+		scrollView.setContentOffset(CGPointMake(0, 125), animated: true)
+	}
+	func textFieldDidEndEditing(textField: UITextField) {
+		scrollView.setContentOffset(CGPointMake(0, 0), animated: true)
 	}
 }
