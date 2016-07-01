@@ -18,6 +18,8 @@ class SignUpViewController: UIViewController {
 	@IBOutlet weak var backButton: UIButton!
 	@IBOutlet weak var signUpButton: UIButton!
 	
+	@IBOutlet weak var blurView: UIVisualEffectView!
+	
 	let userDefaults = NSUserDefaults.standardUserDefaults()
 	
     override func viewDidLoad() {
