@@ -540,13 +540,13 @@
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A2v-mF-hp9">
-                                                <rect key="frame" x="8" y="289" width="584" height="21"/>
+                                                <rect key="frame" x="8" y="289.5" width="584" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="heF-Sj-cgd">
-                                                <rect key="frame" x="25" y="325" width="550" height="30"/>
+                                                <rect key="frame" x="25" y="325.5" width="550" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                                                 <connections>
@@ -554,7 +554,7 @@
                                                 </connections>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ydW-rv-YLv">
-                                                <rect key="frame" x="25" y="244" width="550" height="30"/>
+                                                <rect key="frame" x="25" y="244.5" width="550" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                                 <connections>
@@ -562,14 +562,14 @@
                                                 </connections>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hzz-pS-q5a">
-                                                <rect key="frame" x="70" y="400" width="460" height="30"/>
+                                                <rect key="frame" x="70" y="400.5" width="460" height="30"/>
                                                 <state key="normal" title="Login"/>
                                                 <connections>
                                                     <action selector="onSignIn:" destination="sCL-Se-tnz" eventType="touchUpInside" id="0if-Zp-wRx"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SZo-OP-vIG">
-                                                <rect key="frame" x="70" y="445" width="460" height="30"/>
+                                                <rect key="frame" x="70" y="445.5" width="460" height="30"/>
                                                 <state key="normal" title="Create Account"/>
                                                 <connections>
                                                     <segue destination="gBk-8W-Dt3" kind="show" id="QsA-6f-trH"/>
@@ -599,11 +599,31 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="1lZ-Bq-09x" firstAttribute="centerX" secondItem="Nya-GG-fbN" secondAttribute="centerX" id="1nT-Lv-qKQ"/>
                                     <constraint firstAttribute="trailing" secondItem="1lZ-Bq-09x" secondAttribute="trailing" id="4jF-hf-EBH"/>
                                     <constraint firstItem="1lZ-Bq-09x" firstAttribute="leading" secondItem="Nya-GG-fbN" secondAttribute="leading" id="4mh-v2-E2t"/>
+                                    <constraint firstItem="1lZ-Bq-09x" firstAttribute="width" secondItem="Nya-GG-fbN" secondAttribute="width" id="6Ut-wt-dCh"/>
+                                    <constraint firstItem="1lZ-Bq-09x" firstAttribute="centerY" secondItem="Nya-GG-fbN" secondAttribute="centerY" id="9s3-EM-GSL"/>
+                                    <constraint firstItem="1lZ-Bq-09x" firstAttribute="leading" secondItem="Nya-GG-fbN" secondAttribute="leadingMargin" id="Do0-f3-vCW"/>
                                     <constraint firstItem="1lZ-Bq-09x" firstAttribute="top" secondItem="Nya-GG-fbN" secondAttribute="top" id="R9F-lD-LBn"/>
+                                    <constraint firstItem="1lZ-Bq-09x" firstAttribute="top" secondItem="Nya-GG-fbN" secondAttribute="topMargin" id="bpj-69-6eG"/>
+                                    <constraint firstItem="1lZ-Bq-09x" firstAttribute="height" secondItem="Nya-GG-fbN" secondAttribute="height" id="czZ-7Z-l55"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="1lZ-Bq-09x" secondAttribute="trailing" id="e97-kR-JSA"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="1lZ-Bq-09x" secondAttribute="bottom" id="grc-hd-wLg"/>
                                     <constraint firstAttribute="bottom" secondItem="1lZ-Bq-09x" secondAttribute="bottom" id="veB-Ay-q0n"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="4jF-hf-EBH"/>
+                                        <exclude reference="4mh-v2-E2t"/>
+                                        <exclude reference="Do0-f3-vCW"/>
+                                        <exclude reference="R9F-lD-LBn"/>
+                                        <exclude reference="bpj-69-6eG"/>
+                                        <exclude reference="e97-kR-JSA"/>
+                                        <exclude reference="grc-hd-wLg"/>
+                                        <exclude reference="veB-Ay-q0n"/>
+                                    </mask>
+                                </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -615,6 +635,12 @@
                             <constraint firstAttribute="width" secondItem="Nya-GG-fbN" secondAttribute="width" id="SXN-1F-Elz"/>
                             <constraint firstAttribute="height" secondItem="Nya-GG-fbN" secondAttribute="height" id="klQ-5I-fPZ"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="SXN-1F-Elz"/>
+                                <exclude reference="klQ-5I-fPZ"/>
+                            </mask>
+                        </variation>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>
                     <connections>

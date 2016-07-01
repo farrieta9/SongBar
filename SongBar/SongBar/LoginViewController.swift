@@ -38,19 +38,13 @@ class LoginViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-//		scrollView.contentInset = UIEdgeInsetsMake(0, 0, 400, 0)
-		
 		fromColors = [dayTopColor.CGColor, dayBottomColor.CGColor]
 		toColors = [dayToTopColor.CGColor, dayToBottomColor.CGColor]
 		
-//		self.scrollView.frame = self.view.bounds
-//		self.view.bounds = self.scrollView.frame
 		gradient.colors = fromColors!
 		gradient.frame = view.bounds
 		
-//		view.layer.insertSublayer(gradient, atIndex: 0)
 		scrollView.layer.insertSublayer(gradient, atIndex: 0)
-		
 		
 		signInButton.backgroundColor = Utilities.getColor(229, green: 77, blue: 66)
 		signInButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
@@ -60,7 +54,6 @@ class LoginViewController: UIViewController {
 		createButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
 		createButton.layer.cornerRadius = 10
 		
-
 		if let email = userDefaults.stringForKey("email") {
 			emailTextField.text = email
 		}
@@ -84,6 +77,19 @@ class LoginViewController: UIViewController {
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
 		animateLayer()
+	}
+
+	override func viewDidAppear(animated: Bool) {
+		super.viewDidAppear(animated)
+		adjustScrollView()
+	}
+	
+	func adjustScrollView() -> Void {
+		if scrollView.contentSize.width % 2 == 0 {
+			scrollView.setContentOffset(CGPointMake(0, 0), animated: true)
+		} else {
+			scrollView.setContentOffset(CGPointMake(-4, 0), animated: true)
+		}
 	}
 	
 	func toggleFromDayToNight() {
@@ -203,9 +209,14 @@ extension UIViewController {
 extension LoginViewController: UITextFieldDelegate {
 	func textFieldDidBeginEditing(textField: UITextField) {
 		self.errorLabel.hidden = true
-		scrollView.setContentOffset(CGPointMake(0, 125), animated: true)
+		if scrollView.contentSize.width % 2 == 0 {
+			scrollView.setContentOffset(CGPointMake(0, 125), animated: true)
+		} else {
+			scrollView.setContentOffset(CGPointMake(-4, 125), animated: true)
+		}
 	}
 	func textFieldDidEndEditing(textField: UITextField) {
-		scrollView.setContentOffset(CGPointMake(0, 0), animated: true)
+//		scrollView.setContentOffset(CGPointMake(0, 0), animated: true)
+		adjustScrollView()
 	}
 }
