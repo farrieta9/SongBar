@@ -38,6 +38,8 @@ class LoginViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+		emailTextField.delegate = self
+		passwordTextField.delegate = self
 		fromColors = [dayTopColor.CGColor, dayBottomColor.CGColor]
 		toColors = [dayToTopColor.CGColor, dayToBottomColor.CGColor]
 		
@@ -216,7 +218,11 @@ extension LoginViewController: UITextFieldDelegate {
 		}
 	}
 	func textFieldDidEndEditing(textField: UITextField) {
-//		scrollView.setContentOffset(CGPointMake(0, 0), animated: true)
 		adjustScrollView()
+	}
+	
+	func textFieldShouldReturn(textField: UITextField) -> Bool {
+		textField.resignFirstResponder()
+		return true
 	}
 }

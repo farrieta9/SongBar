@@ -24,7 +24,9 @@ class SignUpViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-		
+		usernameTextField.delegate = self
+		emailTextField.delegate = self
+		passwordTextField.delegate = self
 		let gradient: CAGradientLayer = CAGradientLayer()
 		gradient.frame = view.bounds
 		gradient.colors = [Utilities.getColor(149, green: 177, blue: 170).CGColor,
@@ -121,5 +123,10 @@ class SignUpViewController: UIViewController {
 extension SignUpViewController: UITextFieldDelegate {
 	func textFieldDidBeginEditing(textField: UITextField) {
 		self.messageLabel.hidden = true
+	}
+	
+	func textFieldShouldReturn(textField: UITextField) -> Bool {
+		textField.resignFirstResponder()
+		return true
 	}
 }
