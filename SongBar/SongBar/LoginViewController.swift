@@ -17,9 +17,7 @@ class LoginViewController: UIViewController {
 	@IBOutlet weak var signInButton: UIButton!
 	@IBOutlet weak var createButton: UIButton!
 	
-	@IBOutlet weak var scrollView: UIScrollView!
 	let userDefaults = NSUserDefaults.standardUserDefaults()
-	
 	
 	let dayTopColor = Utilities.getColor(255, green: 226, blue: 79)
 	let dayBottomColor = Utilities.getColor(47, green: 144, blue: 102)
@@ -38,15 +36,17 @@ class LoginViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-		emailTextField.delegate = self
-		passwordTextField.delegate = self
+		setNavigationBarTransparent()
+		
+		setUpKeyboard()
+		
 		fromColors = [dayTopColor.CGColor, dayBottomColor.CGColor]
 		toColors = [dayToTopColor.CGColor, dayToBottomColor.CGColor]
 		
 		gradient.colors = fromColors!
 		gradient.frame = view.bounds
 		
-		scrollView.layer.insertSublayer(gradient, atIndex: 0)
+		view.layer.insertSublayer(gradient, atIndex: 0)
 		
 		signInButton.backgroundColor = Utilities.getColor(229, green: 77, blue: 66)
 		signInButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
@@ -56,43 +56,55 @@ class LoginViewController: UIViewController {
 		createButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
 		createButton.layer.cornerRadius = 10
 		
+		errorLabel.hidden = true
+		errorLabel.textColor = UIColor.redColor()
+		
+		self.hideKeyboardWhenTappedAround()
+		autoLogin()
+    }
+	
+	func autoLogin() -> Void {
+		// Checks to see if able to auto login
 		if let email = userDefaults.stringForKey("email") {
 			emailTextField.text = email
 		}
-
+		
 		if let password = userDefaults.stringForKey("password") {
 			passwordTextField.text = password
 		}
 		
-		errorLabel.hidden = true
-		errorLabel.textColor = UIColor.redColor()
-		
-		Utilities.getDateTime()
-		
-		self.hideKeyboardWhenTappedAround()
-		
 		if areTextFieldsFilled() {
 			login()
 		}
-    }
+	}
 	
-	override func viewWillAppear(animated: Bool) {
-		super.viewWillAppear(animated)
-		animateLayer()
+	func setUpKeyboard() -> Void {
+		emailTextField.delegate = self
+		passwordTextField.delegate = self
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardUp(_:)), name: UIKeyboardWillShowNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardDown(_:)), name: UIKeyboardWillHideNotification, object: nil)
+	}
+	
+	func keyboardUp(notification: NSNotification) {
+		self.view.frame.origin.y = 0
+		self.view.frame.origin.y = -125
+	}
+	
+	func keyboardDown(notification: NSNotification) {
+		self.view.frame.origin.y = 0
+	}
+	
+	func setNavigationBarTransparent() -> Void {
+		self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+		self.navigationController?.navigationBar.shadowImage = UIImage()
+		self.navigationController?.navigationBar.translucent = true
 	}
 
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
-		adjustScrollView()
+		animateLayer()
 	}
 	
-	func adjustScrollView() -> Void {
-		if scrollView.contentSize.width % 2 == 0 {
-			scrollView.setContentOffset(CGPointMake(0, 0), animated: true)
-		} else {
-			scrollView.setContentOffset(CGPointMake(-4, 0), animated: true)
-		}
-	}
 	
 	func toggleFromDayToNight() {
 		day = !day
@@ -134,7 +146,7 @@ class LoginViewController: UIViewController {
 	}
 	
 	
-	@IBAction func onSignIn(sender: UIButton) {
+	@IBAction func onLogin(sender: UIButton) {
 		if !areTextFieldsFilled() {
 			errorLabel.text = "Missing fields"
 			errorLabel.hidden = false
@@ -144,8 +156,8 @@ class LoginViewController: UIViewController {
 		self.login()
 	}
 	
-	// Checks if the email and password fiels are filled
 	func areTextFieldsFilled() -> Bool {
+		// Checks if the email and password fiels are filled
 		if emailTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
 			return false
 		}
@@ -211,14 +223,6 @@ extension UIViewController {
 extension LoginViewController: UITextFieldDelegate {
 	func textFieldDidBeginEditing(textField: UITextField) {
 		self.errorLabel.hidden = true
-		if scrollView.contentSize.width % 2 == 0 {
-			scrollView.setContentOffset(CGPointMake(0, 125), animated: true)
-		} else {
-			scrollView.setContentOffset(CGPointMake(-4, 125), animated: true)
-		}
-	}
-	func textFieldDidEndEditing(textField: UITextField) {
-		adjustScrollView()
 	}
 	
 	func textFieldShouldReturn(textField: UITextField) -> Bool {

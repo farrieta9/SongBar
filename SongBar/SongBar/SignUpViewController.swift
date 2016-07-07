@@ -24,6 +24,8 @@ class SignUpViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+		setNavigationBarTransparent()
+		
 		usernameTextField.delegate = self
 		emailTextField.delegate = self
 		passwordTextField.delegate = self
@@ -54,6 +56,12 @@ class SignUpViewController: UIViewController {
 		messageLabel.hidden = true
 		messageLabel.textColor = UIColor.redColor()
     }
+	
+	func setNavigationBarTransparent() -> Void {
+		self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+		self.navigationController?.navigationBar.shadowImage = UIImage()
+		self.navigationController?.navigationBar.translucent = true
+	}
 	
 	@IBAction func onSignUp(sender: UIButton) {
 		self.createAccount()
