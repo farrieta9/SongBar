@@ -161,7 +161,6 @@ extension SearchViewController: UISearchBarDelegate {
 		clearTable()
 		indicator.startAnimating()
 		indicator.backgroundColor = UIColor.whiteColor()
-		print("started typing \(searchBar.text)")
 		timer?.invalidate()
 		timer = NSTimer.scheduledTimerWithTimeInterval(0.75, target: self, selector: (#selector(SearchViewController.searchBarTextDidPause(_:))), userInfo: searchBar.text, repeats: false)
 

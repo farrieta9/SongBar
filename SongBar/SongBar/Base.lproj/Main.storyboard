@@ -536,7 +536,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A8Y-v6-bdQ">
                                 <rect key="frame" x="279" y="289" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lWg-B9-ZzG">
@@ -904,11 +904,42 @@
                                     <outlet property="delegate" destination="lFj-48-gJ2" id="X85-1j-4ZG"/>
                                 </connections>
                             </tableView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="kVI-4v-wd2">
+                                <rect key="frame" x="0.0" y="451" width="600" height="100"/>
+                                <color key="backgroundColor" red="1" green="0.85886894479999998" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="zAC-iG-G35"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="tRH-8w-yyP">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="PRM-u1-BJn" customClass="SettingsCell" customModule="SongBar" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="lFj-48-gJ2" id="hw0-Ea-b8E"/>
+                                    <outlet property="delegate" destination="lFj-48-gJ2" id="lhe-F2-y18"/>
+                                </connections>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="kVI-4v-wd2" firstAttribute="centerX" secondItem="byU-qp-fVC" secondAttribute="centerX" id="56I-Z9-yhT"/>
+                            <constraint firstItem="unw-ol-cqH" firstAttribute="top" secondItem="kVI-4v-wd2" secondAttribute="bottom" id="Bze-7M-CRe"/>
                             <constraint firstAttribute="trailingMargin" secondItem="AeP-Wo-2WT" secondAttribute="trailing" constant="-20" id="O5f-88-cob"/>
                             <constraint firstItem="AeP-Wo-2WT" firstAttribute="top" secondItem="eEb-fM-bDs" secondAttribute="bottom" id="PUz-4A-8Rb"/>
+                            <constraint firstItem="kVI-4v-wd2" firstAttribute="width" secondItem="byU-qp-fVC" secondAttribute="width" id="Q85-bl-KCQ"/>
                             <constraint firstItem="AeP-Wo-2WT" firstAttribute="leading" secondItem="byU-qp-fVC" secondAttribute="leadingMargin" constant="-20" id="Vgl-T6-JPj"/>
                             <constraint firstItem="unw-ol-cqH" firstAttribute="top" secondItem="AeP-Wo-2WT" secondAttribute="bottom" id="qr5-af-ptq"/>
                         </constraints>
@@ -917,6 +948,7 @@
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
                     <connections>
+                        <outlet property="settingsCollectionView" destination="kVI-4v-wd2" id="E2l-FQ-tCT"/>
                         <outlet property="tableView" destination="AeP-Wo-2WT" id="69F-Ug-Fi1"/>
                     </connections>
                 </viewController>
@@ -972,6 +1004,6 @@
         <image name="search.png" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="dmD-NX-j7k"/>
+        <segue reference="RC8-Wa-F3F"/>
     </inferredMetricsTieBreakers>
 </document>

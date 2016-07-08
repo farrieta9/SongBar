@@ -18,6 +18,7 @@ class ProfileViewController: UIViewController {
 	
 	private var headerView: ProfileHeaderView!
 	private var headerMaskLayer: CAShapeLayer!
+	@IBOutlet weak var settingsCollectionView: UICollectionView!
 	
 	enum contentTypes {
 		case Audience, Follow, Posts
@@ -27,9 +28,13 @@ class ProfileViewController: UIViewController {
 	var audienceData = [String]()
 	var followData = [String]()
 	var songBook = [Track]()
-
+	let blackView = UIView()
+	
     override func viewDidLoad() {
         super.viewDidLoad()
+		self.settingsCollectionView.hidden = true
+		self.settingsCollectionView.backgroundColor = UIColor.whiteColor()
+		self.settingsCollectionView.registerNib(UINib(nibName: "SettingsCell", bundle: nil), forCellWithReuseIdentifier: "cell")
 		headerView = tableView.tableHeaderView as! ProfileHeaderView
 		tableView.tableHeaderView = nil  // Clear out the default header
 		tableView.addSubview(headerView) // Add header
@@ -198,6 +203,38 @@ class ProfileViewController: UIViewController {
 		
 		headerMaskLayer?.path = path.CGPath
 	}
+	
+	func didTapUserImage() {
+		if let window = UIApplication.sharedApplication().keyWindow {
+			blackView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+			blackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.dismissSettings)))
+			
+			let height: CGFloat = 200
+			let y = window.frame.height - height
+			settingsCollectionView.frame = CGRectMake(0, window.frame.height, window.frame.width, height)
+			blackView.frame = window.frame
+			blackView.alpha = 0
+			window.addSubview(blackView)
+			self.settingsCollectionView.hidden = false
+			window.addSubview(self.settingsCollectionView)
+			
+			UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .CurveEaseOut, animations: { 
+				self.blackView.alpha = 1
+				self.settingsCollectionView.frame = CGRectMake(0, y, self.settingsCollectionView.frame.width, self.settingsCollectionView.frame.height)
+				}, completion: nil)
+		}
+	}
+	
+	func dismissSettings() {
+		UIView.animateWithDuration(0.5) { 
+			self.blackView.alpha = 0
+			
+			if let window = UIApplication.sharedApplication().keyWindow {
+				self.settingsCollectionView.frame = CGRectMake(0, window.frame.height, self.settingsCollectionView.frame.width, self.settingsCollectionView.frame.height)
+			}
+		}
+		
+	}
 }
 
 
@@ -262,6 +299,7 @@ extension ProfileViewController: UITableViewDataSource	{
 		} else {
 			let cell = tableView.dequeueReusableCellWithIdentifier("headerCell") as! ProfileHeaderTableViewCell
 			cell.username = Utilities.getCurrentUsername()
+			cell.userImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.didTapUserImage)))
 			
 			return cell
 		}
@@ -282,3 +320,38 @@ extension ProfileViewController: UIScrollViewDelegate {
 		updateHeaderView()
 	}
 }
+
+
+extension ProfileViewController: UICollectionViewDataSource {
+	func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return 2
+	}
+	func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+		return 1
+	}
+	
+	func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+		let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! SettingsCell
+		return cell
+	}
+}
+
+extension ProfileViewController: UICollectionViewDelegateFlowLayout {
+	func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+		return CGSizeMake(collectionView.frame.width, 50)
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

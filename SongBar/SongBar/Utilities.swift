@@ -45,9 +45,7 @@ class Utilities {
 
 		
 		let date = dateFormatter.stringFromDate(currentDate)
-		print("Date: \(date)")
 
-		
 		return date
 	}
 	
@@ -78,14 +76,11 @@ class Utilities {
 	
 	static func isFollowing(button: UIButton, username: String) -> Void {
 		FIRDatabase.database().reference().child("users/users_by_name/\(getCurrentUsername())/friends_by_id/\(username)").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
-			
-			print(snapshot)
+
 			if snapshot.value is NSNull {
-				print("Not friends")
 				button.setTitle("+ Follow", forState: .Normal)
 				button.backgroundColor = UIColor.clearColor()
 			} else {
-				print("friends")
 				button.setTitle("Following", forState: .Normal)
 				button.backgroundColor = Utilities.getGreenColor()
 			}
@@ -96,7 +91,6 @@ class Utilities {
 		// Get the uid of the selected user
 		FIRDatabase.database().reference().child("users/users_by_name/\(username)").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
 			if let uid = snapshot.value!["uid"] as? String {
-				print(uid)
 				
 				// Add the data
 				FIRDatabase.database().reference().child("users/users_by_name/\(getCurrentUsername())").child("friends_by_id").child(username).setValue([uid: username])
@@ -104,7 +98,6 @@ class Utilities {
 				// Audience is your followers
 				FIRDatabase.database().reference().child("users/users_by_name/\(username)").child("audience_by_id").child(Utilities.getCurrentUsername()).setValue([getCurrentUID(): Utilities.getCurrentUsername()])
 			} else {
-				print(snapshot)
 				print("addSelectedRowAsFriend() failed")
 			}
 		})

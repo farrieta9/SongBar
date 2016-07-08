@@ -36,6 +36,7 @@ class ProfileHeaderTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
 		logOutButton.setTitle("Log Out", forState: .Normal)
+		userImageView.userInteractionEnabled = true
 
 //		To have a circular image, uncomment this line below with the following two lines
 //		userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
