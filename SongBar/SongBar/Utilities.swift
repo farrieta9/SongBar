@@ -116,6 +116,17 @@ class Utilities {
 		let b: CGFloat = CGFloat(blue) / 255.0
 		return UIColor(red: r, green: g, blue: b, alpha: 1.0)
 	}
+	
+	static func signOut() {
+		do {
+			try FIRAuth.auth()?.signOut()
+		} catch let error {
+			print(error)
+		}
+		self.resetCurrentUser()
+		print("logged out")
+	}
+
 }
 
 

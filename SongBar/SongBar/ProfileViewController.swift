@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 	
 	
 	@IBOutlet weak var tableView: UITableView!
@@ -29,7 +29,11 @@ class ProfileViewController: UIViewController {
 	var songBook = [Track]()
 	let imageOptions: [String] = ["Take a photo", "From library"]
 	let imageOptionsCellHeight: CGFloat = 50
-	let settingsLauncher = SettingsLauncher()
+	lazy var settingsLauncher: SettingsLauncher = {
+		let launcher = SettingsLauncher()
+		launcher.profileController = self
+		return launcher
+	}()
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -181,11 +185,27 @@ class ProfileViewController: UIViewController {
 		settingsLauncher.showSettings()
 	}
 	
+	
+	// This pulls up the camera, or the photo library
+	func launchImagePicker(sourceType: UIImagePickerControllerSourceType){
+		if UIImagePickerController.isSourceTypeAvailable(sourceType){
+			let imagePickerVC = UIImagePickerController()
+			imagePickerVC.sourceType = sourceType
+			imagePickerVC.delegate = self
+			presentViewController(imagePickerVC, animated: true, completion: nil)
+		}
+	}
+	
 	func unFollow(username: String, index: Int) -> Void {
 		print("Unfollow \(username)")
 		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id/\(username)").removeValue()
 		
 		FIRDatabase.database().reference().child("users/users_by_name/\(username)/audience_by_id/\(Utilities.getCurrentUsername())").removeValue()
+	}
+	
+	func signOut() {
+		Utilities.signOut()
+		dismissViewControllerAnimated(true, completion: nil)
 	}
 	
 	func updateHeaderView() {
@@ -273,8 +293,7 @@ extension ProfileViewController: UITableViewDataSource	{
 		} else {
 			let cell = tableView.dequeueReusableCellWithIdentifier("headerCell") as! ProfileHeaderTableViewCell
 			cell.username = Utilities.getCurrentUsername()
-//			cell.userImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.didTapUserImage)))
-			
+
 			return cell
 		}
 	}
@@ -295,6 +314,18 @@ extension ProfileViewController: UIScrollViewDelegate {
 	}
 }
 
+extension ProfileViewController: UIImagePickerControllerDelegate {
+	func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: AnyObject]) {
+		guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+			else{
+				return
+		}
+//		imageView_newImage.image = image
+//		self.image = image
+		
+		dismissViewControllerAnimated(true, completion: nil)
+	}
+}
 
 
 

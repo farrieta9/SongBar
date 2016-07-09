@@ -34,6 +34,8 @@ class SettingsLauncher: NSObject, UICollectionViewDelegate, UICollectionViewData
 	
 	let cellHeight: CGFloat = 50
 	
+	var profileController: ProfileViewController?
+	
 	override init() {
 		super.init()
 		
@@ -102,6 +104,29 @@ class SettingsLauncher: NSObject, UICollectionViewDelegate, UICollectionViewData
 	
 	func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
 		return 0
+	}
+	
+	func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+		UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .CurveEaseOut, animations: { 
+			self.blackView.alpha = 0
+			if let window = UIApplication.sharedApplication().keyWindow {
+				self.collectionView.frame = CGRectMake(0, window.frame.height, self.collectionView.frame.width, self.collectionView.frame.height)
+			}
+		}) { (completed: Bool) in
+//			self.profileController
+			let setting = self.settings[indexPath.item]
+			if setting.name == "Upload from library" {
+				self.profileController?.launchImagePicker(.PhotoLibrary)
+				return
+			}
+			
+			if setting.name == "Sign Out" {
+				self.profileController?.signOut()
+				
+			}
+			
+			
+		}
 	}
 }
 
