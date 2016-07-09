@@ -21,7 +21,7 @@ class SettingsCell: BaseCell {
 		let label = UILabel()
 		label.text = "Settings"
 		label.textAlignment = .Center
-		label.font = UIFont.systemFontOfSize(14)
+		label.font = UIFont.systemFontOfSize(16)
 		return label
 	}()
 	
@@ -37,6 +37,5 @@ class SettingsCell: BaseCell {
 		
 		addConstraintsWithFormat("H:|[v0]|", views: nameLabel)  // Expands from left edge to right edge
 		addConstraintsWithFormat("V:|[v0]|", views: nameLabel)
-
 	}
 }

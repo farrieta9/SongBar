@@ -71,11 +71,27 @@ class SettingsLauncher: NSObject, UICollectionViewDelegate, UICollectionViewData
 		}
 	}
 	
-	func dismissSettings() {
-		UIView.animateWithDuration(0.5) {
+	func dismissSettings(setting: Setting) {
+		UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .CurveEaseOut, animations: {
 			self.blackView.alpha = 0
 			if let window = UIApplication.sharedApplication().keyWindow {
 				self.collectionView.frame = CGRectMake(0, window.frame.height, self.collectionView.frame.width, self.collectionView.frame.height)
+			}
+		}) { (completed: Bool) in
+			
+			if setting.name != "nil" && setting.name == "Take a picture" {
+				self.profileController?.launchImagePicker(.Camera)
+				return
+			}
+			
+			if setting.name != "" && setting.name == "Upload from library" {
+				self.profileController?.launchImagePicker(.PhotoLibrary)
+				return
+			}
+			
+			if setting.name != "" && setting.name == "Sign Out" {
+				self.profileController?.signOut()
+				return
 			}
 		}
 	}
@@ -107,26 +123,8 @@ class SettingsLauncher: NSObject, UICollectionViewDelegate, UICollectionViewData
 	}
 	
 	func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-		UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .CurveEaseOut, animations: { 
-			self.blackView.alpha = 0
-			if let window = UIApplication.sharedApplication().keyWindow {
-				self.collectionView.frame = CGRectMake(0, window.frame.height, self.collectionView.frame.width, self.collectionView.frame.height)
-			}
-		}) { (completed: Bool) in
-//			self.profileController
-			let setting = self.settings[indexPath.item]
-			if setting.name == "Upload from library" {
-				self.profileController?.launchImagePicker(.PhotoLibrary)
-				return
-			}
-			
-			if setting.name == "Sign Out" {
-				self.profileController?.signOut()
-				
-			}
-			
-			
-		}
+		let setting = self.settings[indexPath.item]
+		dismissSettings(setting)
 	}
 }
 

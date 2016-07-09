@@ -11,7 +11,6 @@ import Firebase
 
 class ProfileHeaderTableViewCell: UITableViewCell {
 
-	@IBOutlet weak var logOutButton: UIButton!
 	@IBOutlet weak var userImageView: UIImageView!
 	@IBOutlet weak var usernameLabel: UILabel!
 	@IBOutlet weak var segmentController: UISegmentedControl!
@@ -35,8 +34,6 @@ class ProfileHeaderTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-		logOutButton.setTitle("Log Out", forState: .Normal)
-		userImageView.userInteractionEnabled = true
 
 //		To have a circular image, uncomment this line below with the following two lines
 //		userImageView.layer.cornerRadius = userImageView.frame.size.width / 2

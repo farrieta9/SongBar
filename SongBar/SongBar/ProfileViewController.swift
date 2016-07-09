@@ -35,6 +35,14 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 		return launcher
 	}()
 	
+//	lazy var headerCell: ProfileHeaderTableViewCell = {
+//		let cell = ProfileHeaderTableViewCell()
+//		return cell
+//	}()
+	
+//	var profileController: ProfileViewController?
+	var headerCell: ProfileHeaderTableViewCell?
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 		headerView = tableView.tableHeaderView as! ProfileHeaderView
@@ -55,6 +63,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 		refreshFollow()
 		refreshPosts()
     }
+	
+//	func setUserImage(image: UIImage) {
+//		headerCell.userImage = image
+//	}
 	
 	func refreshAudience() {
 		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/audience_by_id").observeEventType(.Value, withBlock: {(snapshot) in
@@ -290,7 +302,7 @@ extension ProfileViewController: UITableViewDataSource	{
 		} else {
 			let cell = tableView.dequeueReusableCellWithIdentifier("headerCell") as! ProfileHeaderTableViewCell
 			cell.username = Utilities.getCurrentUsername()
-
+			headerCell = cell
 			return cell
 		}
 	}
@@ -317,9 +329,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate {
 			else{
 				return
 		}
-//		imageView_newImage.image = image
-//		self.image = image
-		
+		headerCell?.userImage = image
 		dismissViewControllerAnimated(true, completion: nil)
 	}
 }
