@@ -29,6 +29,8 @@ class ProfileViewController: UIViewController {
 	var followData = [String]()
 	var songBook = [Track]()
 	let blackView = UIView()
+	let imageOptions: [String] = ["Take a photo", "From library"]
+	let imageOptionsCellHeight: CGFloat = 50
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -209,7 +211,7 @@ class ProfileViewController: UIViewController {
 			blackView.backgroundColor = UIColor(white: 0, alpha: 0.5)
 			blackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.dismissSettings)))
 			
-			let height: CGFloat = 200
+			let height: CGFloat = CGFloat(imageOptions.count) * imageOptionsCellHeight
 			let y = window.frame.height - height
 			settingsCollectionView.frame = CGRectMake(0, window.frame.height, window.frame.width, height)
 			blackView.frame = window.frame
@@ -233,7 +235,6 @@ class ProfileViewController: UIViewController {
 				self.settingsCollectionView.frame = CGRectMake(0, window.frame.height, self.settingsCollectionView.frame.width, self.settingsCollectionView.frame.height)
 			}
 		}
-		
 	}
 }
 
@@ -324,21 +325,44 @@ extension ProfileViewController: UIScrollViewDelegate {
 
 extension ProfileViewController: UICollectionViewDataSource {
 	func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return 2
+		return imageOptions.count
 	}
+	
 	func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
 		return 1
 	}
 	
 	func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! SettingsCell
+		cell.optionLabel.text = imageOptions[indexPath.row]
 		return cell
+	}
+	
+	func collectionView(collectionView: UICollectionView, didUnhighlightItemAtIndexPath indexPath: NSIndexPath) {
+		let cell = collectionView.cellForItemAtIndexPath(indexPath)
+		
+		cell?.backgroundColor = UIColor.whiteColor()
+	}
+	
+	func collectionView(collectionView: UICollectionView, shouldHighlightItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+		let cell = collectionView.cellForItemAtIndexPath(indexPath)
+		
+		cell?.backgroundColor = UIColor.darkGrayColor()
+		return true
+	}
+	
+	func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+		// Do something when selecting an option
 	}
 }
 
 extension ProfileViewController: UICollectionViewDelegateFlowLayout {
 	func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-		return CGSizeMake(collectionView.frame.width, 50)
+		return CGSizeMake(collectionView.frame.width, imageOptionsCellHeight)
+	}
+	
+	func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+		return 0 // Helps to remove scrollings
 	}
 }
 

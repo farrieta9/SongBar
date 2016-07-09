@@ -29,6 +29,9 @@
                 <constraint firstItem="yfr-9t-0Ft" firstAttribute="width" secondItem="gTV-IL-0wX" secondAttribute="width" id="peg-QR-zEi"/>
             </constraints>
             <size key="customSize" width="317" height="87"/>
+            <connections>
+                <outlet property="optionLabel" destination="yfr-9t-0Ft" id="Z7K-QX-4aA"/>
+            </connections>
             <point key="canvasLocation" x="584.5" y="343.5"/>
         </collectionViewCell>
     </objects>

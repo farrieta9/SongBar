@@ -58,9 +58,15 @@ class SignUpViewController: UIViewController {
     }
 	
 	func setNavigationBarTransparent() -> Void {
+		self.navigationItem.title = "Create Account"
+		
 		self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
 		self.navigationController?.navigationBar.shadowImage = UIImage()
 		self.navigationController?.navigationBar.translucent = true
+		self.navigationController?.navigationBar.tintColor = UIColor.whiteColor() // Makes the back button white
+		
+		// Sets the title to white
+		self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
 	}
 	
 	@IBAction func onSignUp(sender: UIButton) {

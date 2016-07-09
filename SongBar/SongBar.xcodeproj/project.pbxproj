@@ -109,6 +109,13 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
+		8CC92F491D306B6400294F98 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		8CDF693F1D07B1D30024CE55 = {
 			isa = PBXGroup;
 			children = (
@@ -130,6 +137,7 @@
 		8CDF694A1D07B1D30024CE55 /* SongBar */ = {
 			isa = PBXGroup;
 			children = (
+				8CC92F491D306B6400294F98 /* Controllers */,
 				8C435F371D0E8A43002090B1 /* Images */,
 				8CDF69661D07B91B0024CE55 /* CustomCells */,
 				8CDF69611D07B4B40024CE55 /* ViewControllers */,
