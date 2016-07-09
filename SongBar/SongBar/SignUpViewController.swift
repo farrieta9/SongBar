@@ -73,6 +73,10 @@ class SignUpViewController: UIViewController {
 		self.createAccount()
 	}
 	
+	@IBAction func onBack(sender: UIButton) {
+		self.navigationController?.popViewControllerAnimated(true)
+	}
+	
 	func createAccount() {
 		// Check if fields are empty
 		if emailTextField.text!.isEmpty || passwordTextField.text!.isEmpty || usernameTextField.text!.isEmpty {

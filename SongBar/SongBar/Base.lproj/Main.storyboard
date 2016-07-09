@@ -664,7 +664,7 @@
                                 <rect key="frame" x="70" y="420" width="460" height="30"/>
                                 <state key="normal" title="Back"/>
                                 <connections>
-                                    <segue destination="hXZ-GR-5NO" kind="show" identifier="loginVC" id="dmD-NX-j7k"/>
+                                    <action selector="onBack:" destination="gBk-8W-Dt3" eventType="touchUpInside" id="piT-Nb-Mrx"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -809,14 +809,6 @@
                                                         <constraint firstAttribute="width" constant="69" id="eIU-05-GwW"/>
                                                     </constraints>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0gu-rD-Oye">
-                                                    <rect key="frame" x="18" y="18" width="46" height="30"/>
-                                                    <state key="normal" title="Button"/>
-                                                    <connections>
-                                                        <action selector="onActionButton:" destination="AXo-7S-Zgh" eventType="touchUpInside" id="8d8-JV-Li4"/>
-                                                        <segue destination="hXZ-GR-5NO" kind="show" id="RC8-Wa-F3F"/>
-                                                    </connections>
-                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="bottomMargin" secondItem="UH8-Rt-iPU" secondAttribute="bottom" constant="10" id="7Ad-aH-wgA"/>
@@ -825,13 +817,10 @@
                                                 <constraint firstItem="Ohz-KU-AMl" firstAttribute="centerX" secondItem="cik-Pw-P5c" secondAttribute="centerX" id="9Lr-pZ-Lga"/>
                                                 <constraint firstItem="cik-Pw-P5c" firstAttribute="top" secondItem="Ohz-KU-AMl" secondAttribute="bottom" constant="10" id="Lqy-kL-lDB"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="UH8-Rt-iPU" secondAttribute="trailing" constant="10" id="XFC-pW-3y5"/>
-                                                <constraint firstItem="0gu-rD-Oye" firstAttribute="top" secondItem="0u0-ku-Aj1" secondAttribute="topMargin" constant="10" id="ZfR-5l-mUR"/>
-                                                <constraint firstItem="0gu-rD-Oye" firstAttribute="leading" secondItem="0u0-ku-Aj1" secondAttribute="leadingMargin" constant="10" id="adT-od-MXJ"/>
                                                 <constraint firstItem="cik-Pw-P5c" firstAttribute="top" secondItem="0u0-ku-Aj1" secondAttribute="topMargin" constant="80" id="jQ7-7f-Ab5"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="logOutButton" destination="0gu-rD-Oye" id="Unq-ha-sYB"/>
                                             <outlet property="segmentController" destination="UH8-Rt-iPU" id="5er-Mq-KXX"/>
                                             <outlet property="userImageView" destination="Ohz-KU-AMl" id="qBP-6w-sml"/>
                                             <outlet property="usernameLabel" destination="cik-Pw-P5c" id="kkK-vu-39Y"/>
@@ -996,7 +985,4 @@
         <image name="neutral_user.png" width="32" height="32"/>
         <image name="search.png" width="32" height="32"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="RC8-Wa-F3F"/>
-    </inferredMetricsTieBreakers>
 </document>

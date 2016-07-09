@@ -153,9 +153,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 	}
 	
 	@IBAction func onActionButton(sender: UIButton) {
-		print(sender.tag)
-		print("onActionButton")
-		print(followData)
 		var selectedUser: String = ""
 		switch contentToDisplay {
 		case .Follow:
