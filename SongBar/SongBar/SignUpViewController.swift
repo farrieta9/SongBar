@@ -124,14 +124,11 @@ class SignUpViewController: UIViewController {
 					}
 				}
 
-				
 				self.view.endEditing(true)
 				self.messageLabel.text = "Success"
 				self.messageLabel.hidden = false
-				
-				self.performSegueWithIdentifier("loginVC", sender: self)
+				self.navigationController?.popViewControllerAnimated(true)
 			}
-		
 		})
 		
 	}

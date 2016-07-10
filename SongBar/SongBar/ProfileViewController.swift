@@ -35,12 +35,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 		return launcher
 	}()
 	
-//	lazy var headerCell: ProfileHeaderTableViewCell = {
-//		let cell = ProfileHeaderTableViewCell()
-//		return cell
-//	}()
-	
-//	var profileController: ProfileViewController?
 	var headerCell: ProfileHeaderTableViewCell?
 	
     override func viewDidLoad() {
@@ -63,10 +57,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 		refreshFollow()
 		refreshPosts()
     }
-	
-//	func setUserImage(image: UIImage) {
-//		headerCell.userImage = image
-//	}
 	
 	func refreshAudience() {
 		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/audience_by_id").observeEventType(.Value, withBlock: {(snapshot) in
@@ -198,10 +188,11 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 	// This pulls up the camera, or the photo library
 	func launchImagePicker(sourceType: UIImagePickerControllerSourceType){
 		if UIImagePickerController.isSourceTypeAvailable(sourceType){
-			let imagePickerVC = UIImagePickerController()
-			imagePickerVC.sourceType = sourceType
-			imagePickerVC.delegate = self
-			presentViewController(imagePickerVC, animated: true, completion: nil)
+			let imagePicker = UIImagePickerController()
+			imagePicker.sourceType = sourceType
+			imagePicker.delegate = self
+			imagePicker.allowsEditing = true
+			presentViewController(imagePicker, animated: true, completion: nil)
 		}
 	}
 	
@@ -237,6 +228,28 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 		path.addLineToPoint(CGPoint(x: 0, y:headerRect.height - tableHeaderCutAway))
 		
 		headerMaskLayer?.path = path.CGPath
+	}
+	
+	func uploadImageToFirebase(image: UIImage) {
+		guard let uploadData = UIImagePNGRepresentation((headerCell?.userImage)!) else {
+			return
+		}
+		
+		FIRStorage.storage().reference().child("profile_images/\(Utilities.getCurrentUID())").putData(uploadData, metadata: nil) { (metadata, error) in
+			if error != nil {
+				print(error)
+				return
+			}
+			
+			guard let profileImageURL = metadata?.downloadURL()?.absoluteString else {
+				return
+			}
+			self.registerImageToUser(profileImageURL)
+		}
+	}
+	
+	func registerImageToUser(imageURL: String) {
+		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())").updateChildValues(["profileImageURL": imageURL])
 	}
 }
 
@@ -325,11 +338,18 @@ extension ProfileViewController: UIScrollViewDelegate {
 
 extension ProfileViewController: UIImagePickerControllerDelegate {
 	func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: AnyObject]) {
-		guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage
-			else{
-				return
+		var selectedImageFromPicker: UIImage?
+		if let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
+			selectedImageFromPicker = editedImage
+			
+		} else if let orginalImage = info[UIImagePickerControllerOriginalImage]  as? UIImage {
+			selectedImageFromPicker = orginalImage
 		}
-		headerCell?.userImage = image
+		
+		if let selectedImage = selectedImageFromPicker {
+			headerCell?.userImage = selectedImage // Make sure selctedImageFromPicker is not nil
+			uploadImageToFirebase((headerCell?.userImage)!)
+		}
 		dismissViewControllerAnimated(true, completion: nil)
 	}
 }
