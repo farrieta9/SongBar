@@ -12,16 +12,17 @@ import Firebase
 class AnyUserViewController: UIViewController {
 	
 	enum contentType {
-		case Audience, Follow, Posts
+		case Fans, Following, Posts
 	}
 	
-	var contentToDisplay: contentType = .Audience
+	var contentToDisplay: contentType = .Fans
 	var audienceData = [String]()
 	var followData = [String]()
 	var postData = [String]()
 
-	var username = ""
-	var userFullname = ""
+	var username: String = ""
+	var userFullname: String = ""
+	var profileImageURL: String = ""
 	
 	@IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
@@ -48,29 +49,25 @@ class AnyUserViewController: UIViewController {
 		// Get the uid of the selected user
 		FIRDatabase.database().reference().child("users/users_by_name/\(self.username)").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
 			if let uid = snapshot.value!["uid"] as? String {
-				print(uid)
 				
 				// Add the data
-				FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())").child("friends_by_id").child(self.username).setValue([uid: self.username])
+				FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())").child("friends_by_id").child(self.username).setValue([uid: self.username, "profileImageURL": self.profileImageURL])
 				
 				// Audience is your followers
-				FIRDatabase.database().reference().child("users/users_by_name/\(self.username)").child("audience_by_id").child(Utilities.getCurrentUsername()).setValue([Utilities.getCurrentUID(): Utilities.getCurrentUsername()])
+				FIRDatabase.database().reference().child("users/users_by_name/\(self.username)").child("audience_by_id").child(Utilities.getCurrentUsername()).setValue([Utilities.getCurrentUID(): Utilities.getCurrentUsername(), "profileImageURL": Utilities.getProfileImageURL()])
+				print("Mine: \(Utilities.getProfileImageURL())")
+				print("Theirs: \(self.profileImageURL)")
 			} else {
-				print(snapshot)
-				print("addSelectedRowAsFriend() failed")
+				print("followUser() failed")
 			}
 		})
 	}
 	
 	func isFollowing(button: UIButton) -> Void {
 		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id/\(self.username)").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
-		
-			print(snapshot)
 			if snapshot.value is NSNull {
-				print("Not friends")
 				button.setTitle("+ Follow", forState: .Normal)
 			} else {
-				print("friends")
 				button.setTitle("Following", forState: .Normal)
 				button.backgroundColor = Utilities.getGreenColor()
 			}
@@ -87,9 +84,9 @@ class AnyUserViewController: UIViewController {
 	@IBAction func onSegmentOptionChange(sender: UISegmentedControl) {
 		switch sender.selectedSegmentIndex {
 		case 0:
-			contentToDisplay = .Audience
+			contentToDisplay = .Fans
 		case 1:
-			contentToDisplay = .Follow
+			contentToDisplay = .Following
 		case 2:
 			contentToDisplay = .Posts
 		default:
@@ -143,7 +140,7 @@ class AnyUserViewController: UIViewController {
 	}
 	
 	func refreshPosts() -> Void {
-		FIRDatabase.database().reference().child("users/users_by_name/\(username)/songs_for_audience").queryOrderedByKey().observeEventType(.Value, withBlock: {(snapshot) in
+		FIRDatabase.database().reference().child("users/users_by_name/\(username)/songs_for_fans").queryOrderedByKey().observeEventType(.Value, withBlock: {(snapshot) in
 			self.postData.removeAll()
 			
 			if snapshot.value is NSNull {
@@ -172,9 +169,9 @@ extension AnyUserViewController: UITableViewDataSource {
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		if section == 1 {
 			switch contentToDisplay {
-			case .Audience:
+			case .Fans:
 				return audienceData.count
-			case .Follow:
+			case .Following:
 				return followData.count
 			case .Posts:
 				return postData.count
@@ -192,9 +189,9 @@ extension AnyUserViewController: UITableViewDataSource {
 			let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UserTableViewCell
 			
 			switch contentToDisplay {
-			case .Audience:
+			case .Fans:
 				cell.title = audienceData[indexPath.row]
-			case .Follow:
+			case .Following:
 				cell.title = followData[indexPath.row]
 			case .Posts:
 				cell.title = postData[indexPath.row]

@@ -43,18 +43,24 @@ class ProfileTableViewCell: UITableViewCell {
 	
     override func awakeFromNib() {
         super.awakeFromNib()
-		subTitle = ""
 		
-        // Initialization code
-		actionButton.setTitle("Follow", forState: .Normal)
-		actionButton.backgroundColor = UIColor.clearColor()
-		actionButton.layer.cornerRadius = 15
-		actionButton.layer.borderWidth = 1
-		actionButton.layer.borderColor = UIColor.blackColor().CGColor
+		// Initialization code
+		setUpViews()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
     }
+	
+	private func setUpViews() {
+		subTitle = ""
+		actionButton.setTitle("Follow", forState: .Normal)
+		actionButton.backgroundColor = UIColor.clearColor()
+		actionButton.layer.cornerRadius = 15
+		actionButton.layer.borderWidth = 1
+		actionButton.layer.borderColor = UIColor.blackColor().CGColor
+		userImageView.layer.cornerRadius = userImageView.frame.width / 2
+		userImageView.layer.masksToBounds = true
+	}
 }

@@ -794,9 +794,9 @@
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="UH8-Rt-iPU">
                                                     <rect key="frame" x="18" y="135" width="564" height="29"/>
                                                     <segments>
-                                                        <segment title="Audience"/>
-                                                        <segment title="Follow"/>
-                                                        <segment title="Posts"/>
+                                                        <segment title="First"/>
+                                                        <segment title="Second"/>
+                                                        <segment title="Third"/>
                                                     </segments>
                                                     <connections>
                                                         <action selector="onContentDisplayChange:" destination="lFj-48-gJ2" eventType="valueChanged" id="78o-J5-7ve"/>

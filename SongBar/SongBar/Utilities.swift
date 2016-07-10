@@ -79,6 +79,7 @@ class Utilities {
 		userDefaults.setValue("", forKey: "password")
 		userDefaults.setValue("", forKey: "uid")
 		userDefaults.setValue("", forKey: "username")
+		userDefaults.setValue("", forKey: "profileImageURL")
 	}
 	
 	static func isFollowing(button: UIButton, username: String) -> Void {

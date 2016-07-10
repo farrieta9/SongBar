@@ -27,24 +27,30 @@ class ProfileHeaderTableViewCell: UITableViewCell {
 		}
 	}
 	
-	enum contentTypes {
-		case Audience, Follow
-	}
-	
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-
-//		To have a circular image, uncomment this line below with the following two lines
-//		userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
+		setUpImage()
+    }
+	
+	func setUpSegmentControl() {
+		segmentController.setTitle("Fans", forSegmentAtIndex: 0)
+		segmentController.setTitle("Following", forSegmentAtIndex: 1)
+		segmentController.setTitle("Posts", forSegmentAtIndex: 2)
+	}
+	
+	func setUpImage() {
+		setUpSegmentControl()
+		retrieveUserImage()
+		
+		//		To have a circular image, uncomment this line below with the following two lines
+		//		userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
 		userImageView.layer.cornerRadius = 10.0
 		userImageView.layer.borderColor = UIColor.whiteColor().CGColor
 		userImageView.layer.borderWidth = 3.0
-		userImageView.clipsToBounds	= true  // Makes the corners blend with the corner radius
+		userImageView.layer.masksToBounds = true
+		userImageView.clipsToBounds	= true
 		userImageView.contentMode = .ScaleAspectFill
-		
-		retrieveUserImage()
-    }
+	}
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

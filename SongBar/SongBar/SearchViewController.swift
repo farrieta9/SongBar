@@ -14,7 +14,6 @@ import AVFoundation
 class SearchViewController: UIViewController {
 	
 	var tableData = [SpotifyTrack]()
-	var peopleData = [String]()
 	var rootRef: FIRDatabaseReference!
 	var selectedRow = 0
 	var timer: NSTimer? = nil
@@ -23,6 +22,7 @@ class SearchViewController: UIViewController {
 	var searchContent: SearchContentType = .Music
 	var searchBar: UISearchBar!
 	var audioPlay : AVPlayer!
+	var users = [User]()
 	
 	
 	enum SearchContentType {
@@ -76,7 +76,8 @@ class SearchViewController: UIViewController {
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		if segue.identifier == "anyUserVC" {
 			let userVC = segue.destinationViewController as! AnyUserViewController
-			userVC.username = peopleData[selectedRow]
+			userVC.username = users[selectedRow].username
+			userVC.profileImageURL = users[selectedRow].profileImageURL
 			return
 		}
 		
@@ -88,27 +89,37 @@ class SearchViewController: UIViewController {
 	}
 	
 	func clearTable() -> Void {
-		tableData = []
-		peopleData = []
+		tableData.removeAll()
+		users.removeAll()
 		tableView.reloadData()
 	}
 	
 	func searchForPeople(searchText: String) -> Void {
-		self.peopleData = []
 		FIRDatabase.database().reference().child("users/users_by_name").queryOrderedByKey().queryStartingAtValue(searchText.lowercaseString).observeSingleEventOfType(.Value, withBlock: {(snapshot) in
 		
 			if let searchResults = snapshot.value as? [String: AnyObject] {
-				
+				var people = [String]()
 				let currentUsername = Utilities.getCurrentUsername()
 				for person in searchResults.keys {
 					if currentUsername != person {
-						self.peopleData.append(person)  // Do not include the current user in the search results
+						people.append(person)
 					}
+				}
+				
+				for person in people {
+					let user = User()
+					user.username = person
+					if let uid = searchResults[person]!["uid"] as? String {
+						user.uid = uid
+					}
+					if let profileImageURL = searchResults[person]!["profileImageURL"] as? String {
+						user.profileImageURL = profileImageURL
+					}
+					self.users.append(user)
 				}
 
 				self.tableView.reloadData()
 			} else {
-				print(snapshot)
 				print("Error")
 				return  // snapshot may be null. Nothing found, or internet may be slow
 			}
@@ -147,6 +158,10 @@ class SearchViewController: UIViewController {
 		default:
 			break
 		}
+	}
+	
+	func getProfileImageURLFromSelectedPerson() {
+		
 	}
 }
 
@@ -189,7 +204,7 @@ extension SearchViewController: UITableViewDataSource {
 		if tableData.count != 0 {
 			return tableData.count
 		} else {
-			return peopleData.count
+			return users.count
 		}
 	}
 	
@@ -214,7 +229,7 @@ extension SearchViewController: UITableViewDataSource {
 			session.resume()
 		} else {
 			cell.albumImageView.image = UIImage(named: "default_profile.png")
-			cell.title = peopleData[indexPath.row]
+			cell.title = users[indexPath.row].username
 			cell.subTitle = ""  // Load the persons first and last name here
 			
 		}
@@ -262,7 +277,6 @@ extension SearchViewController: UITableViewDelegate {
 	
 	func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
 		// the cells you would like the actions to appear needs to be editable
-//		let cell = tableView.cellForRowAtIndexPath(indexPath)
 		switch searchContent {
 		case .Music:
 			return true

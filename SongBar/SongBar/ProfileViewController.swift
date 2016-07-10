@@ -20,12 +20,13 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 	private var headerMaskLayer: CAShapeLayer!
 	
 	enum contentTypes {
-		case Audience, Follow, Posts
+		case Fans, Following, Posts
 	}
 	
-	var contentToDisplay: contentTypes = .Audience
-	var audienceData = [String]()
-	var followData = [String]()
+	var contentToDisplay: contentTypes = .Fans
+//	var followData = [String]()
+	var following = [User]()
+	var fans = [User]()
 	var songBook = [Track]()
 	let imageOptions: [String] = ["Take a photo", "From library"]
 	let imageOptionsCellHeight: CGFloat = 50
@@ -36,6 +37,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 	}()
 	
 	var headerCell: ProfileHeaderTableViewCell?
+	var audienceProfileImages = [String]()
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,15 +55,15 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 		
 		updateHeaderView()
 		
-		refreshAudience()
-		refreshFollow()
-		refreshPosts()
+		loadFans()
+		loadFollowing()
+		loadPosts()
     }
 	
 	
-	func refreshAudience() {
+	func loadFans() {
 		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/audience_by_id").observeEventType(.Value, withBlock: {(snapshot) in
-			self.audienceData.removeAll()
+			self.fans.removeAll()
 
 			if snapshot.value is NSNull {
 				print("No audience")
@@ -72,7 +74,15 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 				}
 				
 				for person in results.keys {
-					self.audienceData.append(person)
+					let user = User()
+					user.username = person
+					if let uid = results[person]!["uid"] {
+						user.uid = uid
+					}
+					if let profileImageURL = results[person]!["profileImageURL"] {
+						user.profileImageURL = profileImageURL
+					}
+					self.fans.append(user)
 				}
 			}
 			
@@ -82,8 +92,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 		})
 	}
 	
-	func refreshPosts() {
-		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/songs_for_audience").queryOrderedByKey().observeEventType(.Value, withBlock: {(snapshot) in
+	func loadPosts() {
+		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/songs_for_fans").queryOrderedByKey().observeEventType(.Value, withBlock: {(snapshot) in
 			self.songBook.removeAll()
 			
 			if snapshot.value is NSNull {
@@ -108,9 +118,9 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 		})
 	}
 	
-	func refreshFollow() {
+	func loadFollowing() {
 		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id").observeEventType(.Value, withBlock: {(snapshot) in
-			self.followData.removeAll()
+			self.following.removeAll()
 
 			if snapshot.value is NSNull {
 				print("No one you follow")
@@ -121,7 +131,15 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 				}
 
 				for person in results.keys {
-					self.followData.append(person)
+					let user = User()
+					user.username = person
+					if let uid = results[person]!["uid"] {
+						user.uid = uid
+					}
+					if let profileImageURL = results[person]!["profileImageURL"] {
+						user.profileImageURL = profileImageURL
+					}
+					self.following.append(user)
 				}
 			}
 			
@@ -144,9 +162,9 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 	@IBAction func onContentDisplayChange(sender: UISegmentedControl) {
 		switch sender.selectedSegmentIndex {
 		case 0:
-			contentToDisplay = .Audience
+			contentToDisplay = .Fans
 		case 1:
-			contentToDisplay = .Follow
+			contentToDisplay = .Following
 		case 2:
 			contentToDisplay = .Posts
 		default:
@@ -158,17 +176,17 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 	@IBAction func onActionButton(sender: UIButton) {
 		var selectedUser: String = ""
 		switch contentToDisplay {
-		case .Follow:
-			selectedUser = followData[sender.tag]
+		case .Following:
+			selectedUser = following[sender.tag].username
 			unFollow(selectedUser, index: sender.tag)
 			sender.backgroundColor = UIColor.clearColor()
-		case .Audience:
+		case .Fans:
 			if sender.titleLabel?.text! == "+ Follow" {
-				Utilities.followUser(audienceData[sender.tag])
+				Utilities.followUser(fans[sender.tag].username) //audienceData[sender.tag]
 				sender.setTitle("Following", forState: .Normal)
 				sender.backgroundColor = Utilities.getGreenColor()
 			} else {
-				Utilities.unFollow(audienceData[sender.tag])
+				Utilities.unFollow(fans[sender.tag].username)
 				sender.setTitle("+ Follow", forState: .Normal)
 				sender.backgroundColor = UIColor.clearColor()
 			}
@@ -267,10 +285,10 @@ extension ProfileViewController: UITableViewDataSource	{
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		if section == 1 {
 			switch contentToDisplay {
-			case .Audience:
-				return audienceData.count
-			case .Follow:
-				return followData.count
+			case .Fans:
+				return fans.count
+			case .Following:
+				return following.count
 			case .Posts:
 				return songBook.count
 			}
@@ -284,19 +302,55 @@ extension ProfileViewController: UITableViewDataSource	{
 			let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! ProfileTableViewCell
 			
 			switch contentToDisplay {
-			case .Audience:
-				cell.username = audienceData[indexPath.row]
-				cell.userImage = UIImage(named: "default_profile.png")
+			case .Fans:
+				cell.username = fans[indexPath.row].username
 				cell.actionButton.hidden = false
 				cell.subTitle = ""
 				Utilities.isFollowing(cell.actionButton, username: cell.username)
-			case .Follow:
-				cell.username = followData[indexPath.row]
 				cell.userImage = UIImage(named: "default_profile.png")
-				cell.actionButton.hidden = false
+				
+				let profileImageURLAsString = fans[indexPath.row].profileImageURL
+				
+				if profileImageURLAsString != "" {
+					let url = NSURL(string: fans[indexPath.row].profileImageURL)
+					
+					NSURLSession.sharedSession().dataTaskWithURL(url!, completionHandler: { (data, response, error) in
+						if error != nil {
+							print(error)
+							return
+						}
+						dispatch_async(dispatch_get_main_queue(), {
+							cell.userImage = UIImage(data: data!)
+							
+						})
+					}).resume()
+				}
+				
+			case .Following:
 				cell.subTitle = ""
+				cell.username = following[indexPath.row].username
+				cell.actionButton.hidden = false
 				cell.actionButton.backgroundColor = Utilities.getGreenColor()
 				cell.actionName = "Following"
+				cell.userImage = UIImage(named: "default_profile.png")
+				
+				let profileImageURLAsString = following[indexPath.row].profileImageURL
+				print(profileImageURLAsString)
+				if profileImageURLAsString != "" {
+					let url = NSURL(string: following[indexPath.row].profileImageURL)
+					
+					NSURLSession.sharedSession().dataTaskWithURL(url!, completionHandler: { (data, response, error) in
+						if error != nil {
+							print(error)
+							return
+						}
+						dispatch_async(dispatch_get_main_queue(), {
+							cell.userImage = UIImage(data: data!)
+							print("doen laoding image")
+						})
+					}).resume()
+				}
+				
 			case .Posts:
 				cell.username = songBook[indexPath.row].title
 				cell.actionButton.hidden = true
@@ -318,6 +372,7 @@ extension ProfileViewController: UITableViewDataSource	{
 			cell.actionButton.tag = indexPath.row
 			
 			return cell
+
 		} else {
 			let cell = tableView.dequeueReusableCellWithIdentifier("headerCell") as! ProfileHeaderTableViewCell
 			cell.username = Utilities.getCurrentUsername()
