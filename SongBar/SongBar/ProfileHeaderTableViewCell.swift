@@ -41,6 +41,9 @@ class ProfileHeaderTableViewCell: UITableViewCell {
 		userImageView.layer.borderColor = UIColor.whiteColor().CGColor
 		userImageView.layer.borderWidth = 3.0
 		userImageView.clipsToBounds	= true  // Makes the corners blend with the corner radius
+		userImageView.contentMode = .ScaleAspectFill
+		
+		retrieveUserImage()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -57,6 +60,28 @@ class ProfileHeaderTableViewCell: UITableViewCell {
 			print(error)
 		}
 		Utilities.resetCurrentUser()
+	}
+	
+	
+	func retrieveUserImage() {
+		let profileImageURL = Utilities.getProfileImageURL()
+		
+		if profileImageURL == "" {
+			return  // No image is stored
+		}
+		
+		let url = NSURL(string: profileImageURL)
+		NSURLSession.sharedSession().dataTaskWithURL(url!, completionHandler: { (data, response, error) in
+			if error != nil {
+				print(error)  // Failed to download
+				return
+			}
+			// Image downloaded successfully
+			dispatch_async(dispatch_get_main_queue(), {
+				self.userImage = UIImage(data: data!)
+			})
+			
+		}).resume()
 	}
 }
 

@@ -58,6 +58,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 		refreshPosts()
     }
 	
+	
 	func refreshAudience() {
 		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/audience_by_id").observeEventType(.Value, withBlock: {(snapshot) in
 			self.audienceData.removeAll()
@@ -245,11 +246,16 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 				return
 			}
 			self.registerImageToUser(profileImageURL)
+			self.storeProfileImageURL(profileImageURL)
 		}
 	}
 	
 	func registerImageToUser(imageURL: String) {
 		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())").updateChildValues(["profileImageURL": imageURL])
+	}
+	
+	func storeProfileImageURL(url: String) {
+		NSUserDefaults.standardUserDefaults().setValue(url, forKey: "profileImageURL")
 	}
 }
 

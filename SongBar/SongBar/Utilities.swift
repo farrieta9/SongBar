@@ -28,6 +28,13 @@ class Utilities {
 		return ""
 	}
 	
+	static func getProfileImageURL() -> String {
+		guard let profileImageURL = userDefaults.stringForKey("profileImageURL") else {
+			return ""
+		}
+		return profileImageURL
+	}
+	
 	static func getDate(daysAgo: Int = 4) -> String{
 		//        Source http://stackoverflow.com/questions/26942123/nsdate-of-yesterday
 		let dateFormatter = NSDateFormatter()
@@ -98,7 +105,7 @@ class Utilities {
 				// Audience is your followers
 				FIRDatabase.database().reference().child("users/users_by_name/\(username)").child("audience_by_id").child(Utilities.getCurrentUsername()).setValue([getCurrentUID(): Utilities.getCurrentUsername()])
 			} else {
-				print("addSelectedRowAsFriend() failed")
+				print("followUser() failed")
 			}
 		})
 	}
