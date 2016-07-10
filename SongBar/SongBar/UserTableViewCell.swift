@@ -34,6 +34,7 @@ class UserTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+		setUpViews()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -41,5 +42,12 @@ class UserTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+	
+	private func setUpViews() {
+		avatarImage.layer.borderColor = UIColor.blackColor().CGColor
+		avatarImage.layer.cornerRadius = avatarImage.frame.width / 2
+		avatarImage.layer.masksToBounds = true
+		subTitleLabel.text = ""
+	}
 
 }

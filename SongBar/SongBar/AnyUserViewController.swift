@@ -16,21 +16,22 @@ class AnyUserViewController: UIViewController {
 	}
 	
 	var contentToDisplay: contentType = .Fans
-	var audienceData = [String]()
-	var followData = [String]()
+	var fans = [User]()
+	var following = [User]()
 	var postData = [String]()
 
-	var username: String = ""
-	var userFullname: String = ""
-	var profileImageURL: String = ""
+	let user: User = {
+		let person = User()
+		return person
+	}()
 	
 	@IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
-		refreshAudience()
-		refreshFollow()
-		refreshPosts()
+		loadFans()
+		loadFollowing()
+		loadPosts()
     }
 
 	@IBAction func onActionButton(sender: UIButton) {
@@ -39,7 +40,7 @@ class AnyUserViewController: UIViewController {
 			sender.setTitle("Following", forState: .Normal)
 			sender.backgroundColor = Utilities.getGreenColor()
 		} else {
-			unFollow(username)
+			Utilities.unFollow(user.username)
 			sender.setTitle("+ Follow", forState: .Normal)
 			sender.backgroundColor = UIColor.clearColor()
 		}
@@ -47,16 +48,14 @@ class AnyUserViewController: UIViewController {
 	
 	func followUser() -> Void {
 		// Get the uid of the selected user
-		FIRDatabase.database().reference().child("users/users_by_name/\(self.username)").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+		FIRDatabase.database().reference().child("users/users_by_name/\(self.user.username)").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
 			if let uid = snapshot.value!["uid"] as? String {
 				
 				// Add the data
-				FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())").child("friends_by_id").child(self.username).setValue([uid: self.username, "profileImageURL": self.profileImageURL])
+				FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())").child("friends_by_id").child(self.user.username).setValue([uid: self.user.username, "profileImageURL": self.user.profileImageURL])
 				
-				// Audience is your followers
-				FIRDatabase.database().reference().child("users/users_by_name/\(self.username)").child("audience_by_id").child(Utilities.getCurrentUsername()).setValue([Utilities.getCurrentUID(): Utilities.getCurrentUsername(), "profileImageURL": Utilities.getProfileImageURL()])
-				print("Mine: \(Utilities.getProfileImageURL())")
-				print("Theirs: \(self.profileImageURL)")
+				// Fans is your followers
+				FIRDatabase.database().reference().child("users/users_by_name/\(self.user.username)").child("audience_by_id").child(Utilities.getCurrentUsername()).setValue([Utilities.getCurrentUID(): Utilities.getCurrentUsername(), "profileImageURL": Utilities.getProfileImageURL()])
 			} else {
 				print("followUser() failed")
 			}
@@ -64,7 +63,7 @@ class AnyUserViewController: UIViewController {
 	}
 	
 	func isFollowing(button: UIButton) -> Void {
-		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id/\(self.username)").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id/\(self.user.username)").observeSingleEventOfType(.Value, withBlock: {(snapshot) in
 			if snapshot.value is NSNull {
 				button.setTitle("+ Follow", forState: .Normal)
 			} else {
@@ -72,13 +71,6 @@ class AnyUserViewController: UIViewController {
 				button.backgroundColor = Utilities.getGreenColor()
 			}
 		})
-	}
-	
-	func unFollow(username: String) -> Void {
-		print("Unfollow \(username)")
-		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id/\(username)").removeValue()
-		
-		FIRDatabase.database().reference().child("users/users_by_name/\(username)/audience_by_id/\(Utilities.getCurrentUsername())").removeValue()
 	}
 	
 	@IBAction func onSegmentOptionChange(sender: UISegmentedControl) {
@@ -95,20 +87,28 @@ class AnyUserViewController: UIViewController {
 		tableView.reloadData()
 	}
 	
-	func refreshAudience() {
-		FIRDatabase.database().reference().child("users/users_by_name/\(username)/audience_by_id").observeEventType(.Value, withBlock: {(snapshot) in
+	private func loadFans() {
+		FIRDatabase.database().reference().child("users/users_by_name/\(user.username)/audience_by_id").observeEventType(.Value, withBlock: {(snapshot) in
 		
-			self.audienceData.removeAll()
+			self.fans.removeAll()
 			if snapshot.value is NSNull {
 				print("No audience")
 				return
 			}
 			guard let results = snapshot.value as? [String: [String: String]] else {
-				print("AnyUserViewController.refreshAudience() failed")
+				print("AnyUserViewController.loadFans() failed")
 				return
 			}
 			for person in results.keys {
-				self.audienceData.append(person)
+				let user = User()
+				user.username = person
+				if let uid = results[person]!["uid"] {
+					user.uid = uid
+				}
+				if let profileImageURL = results[person]!["profileImageURL"] {
+					user.profileImageURL = profileImageURL
+				}
+				self.fans.append(user)
 			}
 			
 			dispatch_async(dispatch_get_main_queue()) {
@@ -118,19 +118,28 @@ class AnyUserViewController: UIViewController {
 		})
 	}
 	
-	func refreshFollow() -> Void {
-		FIRDatabase.database().reference().child("users/users_by_name/\(username)/friends_by_id").observeEventType(.Value, withBlock: {(snapshot) in
-			self.followData.removeAll()
+	private func loadFollowing() -> Void {
+		FIRDatabase.database().reference().child("users/users_by_name/\(user.username)/friends_by_id").observeEventType(.Value, withBlock: {(snapshot) in
+			self.following.removeAll()
+			
 			if snapshot.value is NSNull {
 				print("This user follows no one")
 				return
 			}
 			guard let results = snapshot.value as? [String: [String: String]] else {
-				print("AnyUserViewController.refreshFollow() failed")
+				print("AnyUserViewController.loadFollowing() failed")
 				return
 			}
 			for person in results.keys {
-				self.followData.append(person)
+				let user = User()
+				user.username = person
+				if let uid = results[person]!["uid"] {
+					user.uid = uid
+				}
+				if let profileImageURL = results[person]!["profileImageURL"] {
+					user.profileImageURL = profileImageURL
+				}
+				self.following.append(user)
 			}
 			
 			dispatch_async(dispatch_get_main_queue()) { [unowned self] in
@@ -139,8 +148,8 @@ class AnyUserViewController: UIViewController {
 		})
 	}
 	
-	func refreshPosts() -> Void {
-		FIRDatabase.database().reference().child("users/users_by_name/\(username)/songs_for_fans").queryOrderedByKey().observeEventType(.Value, withBlock: {(snapshot) in
+	private func loadPosts() -> Void {
+		FIRDatabase.database().reference().child("users/users_by_name/\(user.username)/songs_for_fans").queryOrderedByKey().observeEventType(.Value, withBlock: {(snapshot) in
 			self.postData.removeAll()
 			
 			if snapshot.value is NSNull {
@@ -149,7 +158,7 @@ class AnyUserViewController: UIViewController {
 			}
 			
 			guard let results = snapshot.value as? [String: [String: String]] else {
-				print("AnyUserViewController.refreshPosts() failed")
+				print("AnyUserViewController.loadPosts() failed")
 				return
 			}
 			for (_, value) in results.sort({$0.0.compare($1.0) == NSComparisonResult.OrderedDescending}) {  // Sort by date while looping
@@ -160,7 +169,6 @@ class AnyUserViewController: UIViewController {
 			dispatch_async(dispatch_get_main_queue()) { [unowned self] in
 				self.tableView.reloadData()
 			}
-		
 		})
 	}
 }
@@ -170,9 +178,9 @@ extension AnyUserViewController: UITableViewDataSource {
 		if section == 1 {
 			switch contentToDisplay {
 			case .Fans:
-				return audienceData.count
+				return fans.count
 			case .Following:
-				return followData.count
+				return following.count
 			case .Posts:
 				return postData.count
 			}
@@ -188,11 +196,45 @@ extension AnyUserViewController: UITableViewDataSource {
 		if indexPath.section == 1 {
 			let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UserTableViewCell
 			
+			cell.avatar = UIImage(named: "default_profile.png")
+			
 			switch contentToDisplay {
 			case .Fans:
-				cell.title = audienceData[indexPath.row]
+				cell.title = fans[indexPath.row].username
+				
+				// Load profile image
+				let profileImageURLAsString = fans[indexPath.row].profileImageURL
+				if profileImageURLAsString != "" {
+					let url = NSURL(string: profileImageURLAsString)
+					NSURLSession.sharedSession().dataTaskWithURL(url!, completionHandler: { (data, response, error) in
+						if error != nil {
+							print(error)
+							return
+						}
+						dispatch_async(dispatch_get_main_queue(), { 
+							cell.avatar = UIImage(data: data!)
+						})
+					}).resume()
+				}
+				
 			case .Following:
-				cell.title = followData[indexPath.row]
+				cell.title = following[indexPath.row].username
+				
+				// Load profile image
+				let profileImageURLAsString = following[indexPath.row].profileImageURL
+				if profileImageURLAsString != "" {
+					let url = NSURL(string: profileImageURLAsString)
+					NSURLSession.sharedSession().dataTaskWithURL(url!, completionHandler: { (data, response, error) in
+						if error != nil {
+							print(error)
+							return
+						}
+						dispatch_async(dispatch_get_main_queue(), {
+							cell.avatar = UIImage(data: data!)
+						})
+					}).resume()
+				}
+				
 			case .Posts:
 				cell.title = postData[indexPath.row]
 			}
@@ -200,7 +242,7 @@ extension AnyUserViewController: UITableViewDataSource {
 			
 		} else {
 			let cell = tableView.dequeueReusableCellWithIdentifier("headerCell", forIndexPath: indexPath) as! UserHeaderTableViewCell
-			cell.title = username
+			cell.title = user.username
 			isFollowing(cell.actionButton)
 			return cell
 		}

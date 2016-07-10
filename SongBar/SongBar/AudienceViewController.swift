@@ -25,11 +25,7 @@ class AudienceViewController: UIViewController {
 		
 	}
 	@IBAction func onSend(sender: AnyObject) {
-		print("send")
-		print(selectedUsers)
-		
 		let date = Utilities.getServerTime()
-		
 		
 		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/songs_for_fans").child(date).setValue(["title": track.title, "artist": track.artist, "imageURL": track.imageUrl, "previewURL": track.previewUrl])
 		

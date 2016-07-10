@@ -24,7 +24,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 	}
 	
 	var contentToDisplay: contentTypes = .Fans
-//	var followData = [String]()
 	var following = [User]()
 	var fans = [User]()
 	var songBook = [Track]()
@@ -178,11 +177,11 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 		switch contentToDisplay {
 		case .Following:
 			selectedUser = following[sender.tag].username
-			unFollow(selectedUser, index: sender.tag)
+			Utilities.unFollow(selectedUser)
 			sender.backgroundColor = UIColor.clearColor()
 		case .Fans:
 			if sender.titleLabel?.text! == "+ Follow" {
-				Utilities.followUser(fans[sender.tag].username) //audienceData[sender.tag]
+				Utilities.followUser(fans[sender.tag].username)
 				sender.setTitle("Following", forState: .Normal)
 				sender.backgroundColor = Utilities.getGreenColor()
 			} else {
@@ -213,13 +212,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 			imagePicker.allowsEditing = true
 			presentViewController(imagePicker, animated: true, completion: nil)
 		}
-	}
-	
-	func unFollow(username: String, index: Int) -> Void {
-		print("Unfollow \(username)")
-		FIRDatabase.database().reference().child("users/users_by_name/\(Utilities.getCurrentUsername())/friends_by_id/\(username)").removeValue()
-		
-		FIRDatabase.database().reference().child("users/users_by_name/\(username)/audience_by_id/\(Utilities.getCurrentUsername())").removeValue()
 	}
 	
 	func signOut() {

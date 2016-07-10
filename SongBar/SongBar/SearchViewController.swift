@@ -76,14 +76,14 @@ class SearchViewController: UIViewController {
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		if segue.identifier == "anyUserVC" {
 			let userVC = segue.destinationViewController as! AnyUserViewController
-			userVC.username = users[selectedRow].username
-			userVC.profileImageURL = users[selectedRow].profileImageURL
+			userVC.user.username = users[selectedRow].username
+			userVC.user.profileImageURL = users[selectedRow].profileImageURL
+			userVC.user.uid = users[selectedRow].uid
 			return
 		}
 		
 		if segue.identifier	== "audienceVC" {
 			let vc = segue.destinationViewController as! AudienceViewController
-			print("Show audience")
 			vc.track = tableData[selectedRow]
 		}
 	}
