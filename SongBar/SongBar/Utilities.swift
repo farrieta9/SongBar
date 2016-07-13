@@ -132,7 +132,6 @@ class Utilities {
 			print(error)
 		}
 		self.resetCurrentUser()
-		print("logged out")
 	}
 
 }

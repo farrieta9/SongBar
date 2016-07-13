@@ -62,5 +62,6 @@ class ProfileTableViewCell: UITableViewCell {
 		actionButton.layer.borderColor = UIColor.blackColor().CGColor
 		userImageView.layer.cornerRadius = userImageView.frame.width / 2
 		userImageView.layer.masksToBounds = true
+//		userImageView.contentMode = .ScaleAspectFit
 	}
 }

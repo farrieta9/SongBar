@@ -169,7 +169,9 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 		default:
 			break
 		}
-		tableView.reloadData()
+		dispatch_async(dispatch_get_main_queue()) { 
+			self.tableView.reloadData()
+		}
 	}
 	
 	@IBAction func onActionButton(sender: UIButton) {
@@ -242,7 +244,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
 	}
 	
 	func uploadImageToFirebase(image: UIImage) {
-		guard let uploadData = UIImagePNGRepresentation((headerCell?.userImage)!) else {
+		guard let uploadData = UIImageJPEGRepresentation((headerCell?.userImage)!, 0.1) else {
 			return
 		}
 		
@@ -304,18 +306,7 @@ extension ProfileViewController: UITableViewDataSource	{
 				let profileImageURLAsString = fans[indexPath.row].profileImageURL
 				
 				if profileImageURLAsString != "" {
-					let url = NSURL(string: fans[indexPath.row].profileImageURL)
-					
-					NSURLSession.sharedSession().dataTaskWithURL(url!, completionHandler: { (data, response, error) in
-						if error != nil {
-							print(error)
-							return
-						}
-						dispatch_async(dispatch_get_main_queue(), {
-							cell.userImage = UIImage(data: data!)
-							
-						})
-					}).resume()
+					cell.userImageView.loadImageUsingCacheWithURLString(profileImageURLAsString)
 				}
 				
 			case .Following:
@@ -327,39 +318,15 @@ extension ProfileViewController: UITableViewDataSource	{
 				cell.userImage = UIImage(named: "default_profile.png")
 				
 				let profileImageURLAsString = following[indexPath.row].profileImageURL
-				print(profileImageURLAsString)
 				if profileImageURLAsString != "" {
-					let url = NSURL(string: following[indexPath.row].profileImageURL)
-					
-					NSURLSession.sharedSession().dataTaskWithURL(url!, completionHandler: { (data, response, error) in
-						if error != nil {
-							print(error)
-							return
-						}
-						dispatch_async(dispatch_get_main_queue(), {
-							cell.userImage = UIImage(data: data!)
-							print("doen laoding image")
-						})
-					}).resume()
+					cell.userImageView.loadImageUsingCacheWithURLString(profileImageURLAsString)
 				}
 				
 			case .Posts:
 				cell.username = songBook[indexPath.row].title
 				cell.actionButton.hidden = true
 				cell.subTitle = songBook[indexPath.row].artist
-				
-				let imageURL = songBook[indexPath.row].imageUrl
-				let url = NSURL(string: imageURL)
-				let session = NSURLSession.sharedSession().dataTaskWithURL(url!) {
-					(data, response, error) in
-					
-					if data != nil {
-						dispatch_async(dispatch_get_main_queue(), {
-							cell.userImage = UIImage(data: data!)
-						})
-					}
-				}
-				session.resume()
+				cell.userImageView.loadImageUsingCacheWithURLString(songBook[indexPath.row].imageUrl)
 			}
 			cell.actionButton.tag = indexPath.row
 			

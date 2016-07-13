@@ -42,8 +42,6 @@ class ProfileHeaderTableViewCell: UITableViewCell {
 		setUpSegmentControl()
 		retrieveUserImage()
 		
-		//		To have a circular image, uncomment this line below with the following two lines
-		//		userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
 		userImageView.layer.cornerRadius = 10.0
 		userImageView.layer.borderColor = UIColor.whiteColor().CGColor
 		userImageView.layer.borderWidth = 3.0

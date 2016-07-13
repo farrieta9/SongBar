@@ -35,19 +35,23 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sVb-Uv-uAw">
-                                                    <rect key="frame" x="147" y="8" width="42" height="21"/>
+                                                    <rect key="frame" x="128" y="8" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Song" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dEc-VG-nOI">
-                                                    <rect key="frame" x="147" y="49" width="40" height="21"/>
+                                                    <rect key="frame" x="128" y="49" width="40" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ln7-BE-Z90">
-                                                    <rect key="frame" x="8" y="8" width="119" height="78"/>
+                                                    <rect key="frame" x="8" y="8" width="100" height="100"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="100" id="LD8-NS-tBz"/>
+                                                        <constraint firstAttribute="width" constant="100" id="a6r-ut-mw5"/>
+                                                    </constraints>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -62,6 +66,12 @@
                                             <constraint firstItem="sVb-Uv-uAw" firstAttribute="top" secondItem="2VG-p4-jLx" secondAttribute="topMargin" id="vna-jT-jJY"/>
                                             <constraint firstItem="dEc-VG-nOI" firstAttribute="top" secondItem="sVb-Uv-uAw" secondAttribute="bottom" constant="20" id="wlN-nb-W5J"/>
                                         </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="KL4-vN-EAv"/>
+                                                <exclude reference="vbs-gp-qtX"/>
+                                            </mask>
+                                        </variation>
                                         <connections>
                                             <outlet property="albumImageView" destination="Ln7-BE-Z90" id="f7J-Td-QJa"/>
                                             <outlet property="artistLabel" destination="sVb-Uv-uAw" id="XNh-Cq-jdF"/>
