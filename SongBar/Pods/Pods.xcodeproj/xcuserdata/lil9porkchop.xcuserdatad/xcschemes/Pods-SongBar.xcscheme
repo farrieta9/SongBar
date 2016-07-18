@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'AECEA64D9E37CF3CD758E208'
+               BlueprintIdentifier = '565741704ABEF25A3DA65088'
                BlueprintName = 'Pods-SongBar'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'Pods_SongBar.framework'>

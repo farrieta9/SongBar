@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  SongBar
 //
-//  Created by Francisco Arrieta on 6/7/16.
+//  Created by Francisco Arrieta on 7/13/16.
 //  Copyright © 2016 lil9porkchop. All rights reserved.
 //
 
@@ -16,7 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+		
 		FIRApp.configure()
+		
 		return true
 	}
 

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8CDF69471D07B1D30024CE55"
+               BlueprintIdentifier = "8CD654221D36B77E00A6AC8E"
                BuildableName = "SongBar.app"
                BlueprintName = "SongBar"
                ReferencedContainer = "container:SongBar.xcodeproj">
@@ -32,7 +32,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8CDF69471D07B1D30024CE55"
+            BlueprintIdentifier = "8CD654221D36B77E00A6AC8E"
             BuildableName = "SongBar.app"
             BlueprintName = "SongBar"
             ReferencedContainer = "container:SongBar.xcodeproj">
@@ -55,7 +55,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8CDF69471D07B1D30024CE55"
+            BlueprintIdentifier = "8CD654221D36B77E00A6AC8E"
             BuildableName = "SongBar.app"
             BlueprintName = "SongBar"
             ReferencedContainer = "container:SongBar.xcodeproj">
@@ -74,7 +74,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8CDF69471D07B1D30024CE55"
+            BlueprintIdentifier = "8CD654221D36B77E00A6AC8E"
             BuildableName = "SongBar.app"
             BlueprintName = "SongBar"
             ReferencedContainer = "container:SongBar.xcodeproj">
