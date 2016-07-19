@@ -200,6 +200,8 @@ extension SearchController: UITableViewDataSource {
 			
 			if let imageString = peopleData[indexPath.row].imageString {
 				cell.pictureView.loadImageUsingURLString(imageString)
+			} else {
+				cell.pictureView.image = UIImage(named: "default_profile.png")
 			}
 			
 		}

@@ -31,6 +31,7 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 	var contentOptions: ContentOptions = .Posts
 	var selectedIndexPath: NSIndexPath?
 	var displayedUser: User?
+	let refreshControl: UIRefreshControl = UIRefreshControl()
 	
 	lazy var settingsLauncher: SettingsLauncher = {
 		let launcher = SettingsLauncher()
@@ -43,19 +44,6 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 	}
 	
 	@IBAction func handleProfileActionButton(sender: UIButton) {
-//		guard let user = displayedUser else {
-//						return
-//					}
-//			
-//					if sender.titleLabel?.text == "+ Follow" {
-//						followUser(user)
-//						sender.backgroundColor = UIColor.greenColor()
-//						sender.setTitle("Following", forState: .Normal)
-//					} else {
-//						unFollowUser(user)
-//						sender.backgroundColor = UIColor.blackColor()
-//						sender.setTitle("+ Follow", forState: .Normal)
-//					}
 		guard let user = displayedUser else {
 			return
 		}
@@ -103,8 +91,21 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 		tableView.delegate = self
 		tableView.dataSource = self
 		setUpProfile()
+		setUpView()
 		fetchFollowing()
 		fetchFans()
+	}
+	
+	func setUpView() {
+		refreshControl.addTarget(self, action: #selector(self.handleRefreshControl), forControlEvents: .ValueChanged)
+		tableView.addSubview(refreshControl)
+	}
+	
+	func handleRefreshControl() {
+		dispatch_async(dispatch_get_main_queue()) { 
+			self.tableView.reloadData()
+			self.refreshControl.endRefreshing()
+		}
 	}
 	
 	// This pulls up the camera, or the photo library
@@ -201,10 +202,6 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 					}, withCancelBlock: nil)
 			}
 			
-			dispatch_async(dispatch_get_main_queue(), {
-				self.tableView.reloadData()
-			})
-			
 			}, withCancelBlock: nil)
 	}
 	
@@ -244,9 +241,9 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 					}, withCancelBlock: nil)
 			}
 			
-			dispatch_async(dispatch_get_main_queue(), { 
-				self.tableView.reloadData()
-			})
+//			dispatch_async(dispatch_get_main_queue(), { 
+//				self.tableView.reloadData()
+//			})
 			
 			}, withCancelBlock: nil)
 	}

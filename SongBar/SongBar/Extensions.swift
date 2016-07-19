@@ -32,7 +32,7 @@ extension UIImageView {
 	func loadImageUsingURLString(urlString: String) {
 		let url = NSURL(string: urlString)
 		
-//		image = nil
+		image = nil
 		image = UIImage(named: "default_profile.png")
 		
 		if let imageFromCache = imageCache.objectForKey(urlString) as? UIImage {

@@ -140,9 +140,11 @@ class LoginController: UIViewController {
 		emailTextField.placeholder = "Email"
 		emailTextField.autocorrectionType = .No
 		emailTextField.keyboardType = .EmailAddress
+		emailTextField.delegate = self
 		
 		passwordTextField.placeholder = "Password"
 		passwordTextField.secureTextEntry = true
+		passwordTextField.delegate = self
 		
 		loginButton.setTitle("Login", forState: .Normal)
 		loginButton.backgroundColor = UIColor.rgb(229, green: 77, blue: 66)
@@ -172,4 +174,11 @@ class LoginController: UIViewController {
 		animateLayer()                                                          // start animation
 	}
 	
+}
+
+extension LoginController: UITextFieldDelegate {
+	func textFieldShouldReturn(textField: UITextField) -> Bool {
+		textField.resignFirstResponder()
+		return true
+	}
 }

@@ -33,30 +33,38 @@ class RegisterController: UIViewController {
 		if valideForm() == false {
 			return
 		}
-	
-		FIRAuth.auth()?.createUserWithEmail(email, password: password, completion: { (user, error) in
-			if error != nil {
-				print(error)
-				return
+
+		FIRDatabase.database().reference().child("users_by_name/\(username)").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+			
+			if snapshot.value is NSNull {
+				FIRAuth.auth()?.createUserWithEmail(email, password: password, completion: { (user, error) in
+					if error != nil {
+						print(error)
+						self.displayAlert("Invalid email or email is taken")
+						return
+					}
+					
+					guard let uid = user?.uid else {
+						return
+					}
+					// Successfully authenticated user
+					let usersByIdRef = self.ref.child("users_by_id").child(uid)
+					var values = ["username": username, "email": email, "fullname": fullname]
+					usersByIdRef.updateChildValues(values)
+					
+					
+					let usersByNameRef = self.ref.child("users_by_name").child(username)
+					values = ["username": username, "email": email, "fullname": fullname, "uid": uid]
+					usersByNameRef.updateChildValues(values)
+					
+					
+					self.backToLogin()
+				})
+			} else {
+				self.displayAlert("username is taken")
 			}
 			
-			guard let uid = user?.uid else {
-				return
-			}
-			
-			// Successfully authenticated user
-			let usersByIdRef = self.ref.child("users_by_id").child(uid)
-			var values = ["username": username, "email": email, "fullname": fullname]
-			usersByIdRef.updateChildValues(values)
-			
-			
-			let usersByNameRef = self.ref.child("users_by_name").child(username)
-			values = ["username": username, "email": email, "fullname": fullname, "uid": uid]
-			usersByNameRef.updateChildValues(values)
-			
-			
-			self.backToLogin()
-		})
+			}, withCancelBlock: nil)
 	}
 	
 	override func viewDidLoad() {

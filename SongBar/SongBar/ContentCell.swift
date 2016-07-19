@@ -16,8 +16,6 @@ class ContentCell: UITableViewCell {
 	@IBOutlet weak var titleLabel: UILabel!
 	@IBOutlet weak var detailLabel: UILabel!
 	
-	
-	
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -33,6 +31,10 @@ class ContentCell: UITableViewCell {
 	func setUpCell() {
 		pictureView.image = UIImage(named: "default_profile.png")
 //		pictureView.contentMode = .ScaleAspectFit
+		
+		pictureView.layer.borderColor = UIColor.blackColor().CGColor
+		pictureView.layer.cornerRadius = pictureView.frame.width / 2
+		pictureView.layer.masksToBounds = true
 		
 		detailLabel.font = UIFont.systemFontOfSize(13)
 	}
