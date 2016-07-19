@@ -56,10 +56,19 @@ class SearchController: UIViewController {
 		if segue.identifier == "userControllerID" {
 			let vc = segue.destinationViewController as! UserController
 			guard let indexPath = selectedIndexPath else {
-				return  // Have not selected a cell
+				return
 			}
 			let selectedUser = peopleData[indexPath.row]
 			vc.displayedUser = selectedUser
+		}
+	}
+	
+	override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+		switch searchContent {
+		case .Music:
+			return false
+		default:
+			return true
 		}
 	}
 	

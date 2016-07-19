@@ -31,6 +31,9 @@ class HomeController: UIViewController {
 				if let result = snapshot.value as? [String: AnyObject] {
 					CurrentUser.username = result["username"] as? String
 					CurrentUser.fullname = result["fullname"] as? String
+					CurrentUser.uid = uid
+					CurrentUser.imageString = result["imageURL"] as? String
+					CurrentUser.email = result["email"] as? String
 				}
 			})
 		}

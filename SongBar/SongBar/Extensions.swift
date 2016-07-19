@@ -32,11 +32,16 @@ extension UIImageView {
 	func loadImageUsingURLString(urlString: String) {
 		let url = NSURL(string: urlString)
 		
-		image = nil
+//		image = nil
+		image = UIImage(named: "default_profile.png")
 		
 		if let imageFromCache = imageCache.objectForKey(urlString) as? UIImage {
 			self.image = imageFromCache
 			return
+		}
+		
+		if urlString == "" {
+			return // has not image in firebase
 		}
 		
 		NSURLSession.sharedSession().dataTaskWithURL(url!) { (data, response, error) in

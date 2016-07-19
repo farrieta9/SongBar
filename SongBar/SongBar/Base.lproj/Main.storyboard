@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="wtj-vy-MED">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="wtj-vy-MED">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -138,7 +138,7 @@
                                             <outlet property="detailLabel" destination="sbf-Ci-Dpu" id="3yJ-0g-UPu"/>
                                             <outlet property="pictureView" destination="Z7y-QC-Lfw" id="DcG-cN-WQc"/>
                                             <outlet property="titleLabel" destination="I6i-fj-ley" id="8le-FL-fa8"/>
-                                            <segue destination="tld-ee-fPM" kind="show" id="z7a-9J-h4p"/>
+                                            <segue destination="tld-ee-fPM" kind="show" identifier="userControllerID" id="z7a-9J-h4p"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -385,7 +385,10 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dT6-XT-Bbj">
-                                            <rect key="frame" x="492" y="38" width="46" height="30"/>
+                                            <rect key="frame" x="460" y="38" width="100" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="100" id="TSw-Kr-hnU"/>
+                                            </constraints>
                                             <state key="normal" title="Button"/>
                                             <connections>
                                                 <action selector="handleProfileActionButton:" destination="tld-ee-fPM" eventType="touchUpInside" id="08b-g2-oVm"/>
@@ -404,7 +407,7 @@
                                     </subviews>
                                     <color key="backgroundColor" red="1" green="0.85886894479999998" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="dT6-XT-Bbj" secondAttribute="trailing" constant="22" id="2ud-Jc-w64"/>
+                                        <constraint firstAttribute="trailing" secondItem="dT6-XT-Bbj" secondAttribute="trailing" id="2ud-Jc-w64"/>
                                         <constraint firstItem="dT6-XT-Bbj" firstAttribute="centerY" secondItem="kwJ-Sb-2lN" secondAttribute="centerY" id="4UW-qA-Uf8"/>
                                         <constraint firstItem="kwJ-Sb-2lN" firstAttribute="top" secondItem="XhW-hc-jYt" secondAttribute="top" constant="16" id="5kO-ob-PJ3"/>
                                         <constraint firstItem="MSR-wO-khj" firstAttribute="leading" secondItem="XhW-hc-jYt" secondAttribute="leading" id="9DH-Jh-14Y"/>
@@ -458,7 +461,7 @@
                                             <outlet property="detailLabel" destination="I04-TS-aax" id="MMG-Wd-cdC"/>
                                             <outlet property="pictureView" destination="GKQ-Iy-AZi" id="rmO-V1-EYS"/>
                                             <outlet property="titleLabel" destination="hqw-aQ-c6f" id="hPz-8f-8hn"/>
-                                            <segue destination="tld-ee-fPM" kind="show" id="VSg-uc-oXK"/>
+                                            <segue destination="tld-ee-fPM" kind="show" identifier="userControllerID" id="VSg-uc-oXK"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -486,6 +489,7 @@
                         <outlet property="profileUsernameLabel" destination="kOg-K1-oZR" id="CgP-1S-QdC"/>
                         <outlet property="profileView" destination="XhW-hc-jYt" id="3oa-7R-fra"/>
                         <outlet property="segmentControl" destination="MSR-wO-khj" id="3dD-8N-OQU"/>
+                        <outlet property="settingsBarItem" destination="VXQ-X7-NaD" id="MjN-nJ-xMm"/>
                         <outlet property="tableView" destination="1uI-Q4-r8J" id="96X-HT-Ufu"/>
                     </connections>
                 </viewController>

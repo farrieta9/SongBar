@@ -25,7 +25,6 @@ class SpotifyTrack {
 				return
 		}
 		self.imageUrl = url
-		//        print("Image: " + String(images))
 		
 		guard let title = itemJSON["name"] as? String
 			else {

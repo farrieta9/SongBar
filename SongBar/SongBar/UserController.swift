@@ -18,6 +18,8 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 	@IBOutlet weak var profileFullnameLabel: UILabel!
 	@IBOutlet weak var profileActionButton: UIButton!
 	@IBOutlet weak var segmentControl: UISegmentedControl!
+	@IBOutlet weak var settingsBarItem: UIBarButtonItem!
+	
 	
 	enum ContentOptions {
 		case Posts, Fans, Following
@@ -27,14 +29,8 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 	var fansData = [User]()
 	var postsData = [SpotifyTrack]()
 	var contentOptions: ContentOptions = .Posts
-	
-	var username: String?
-	var fullname: String?
-	var uid: String?
-	var headerImageAsString: String?
-	var displayedUser: User?
 	var selectedIndexPath: NSIndexPath?
-	var shouldHideActionButton: Bool = true
+	var displayedUser: User?
 	
 	lazy var settingsLauncher: SettingsLauncher = {
 		let launcher = SettingsLauncher()
@@ -48,36 +44,29 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 	
 	@IBAction func handleProfileActionButton(sender: UIButton) {
 		print(123)
+		
+//		guard let user = displayedUser else {
+//						return
+//					}
+//			
+//					if sender.titleLabel?.text == "+ Follow" {
+//						followUser(user)
+//						sender.backgroundColor = UIColor.greenColor()
+//						sender.setTitle("Following", forState: .Normal)
+//					} else {
+//						unFollowUser(user)
+//						sender.backgroundColor = UIColor.blackColor()
+//						sender.setTitle("+ Follow", forState: .Normal)
+//					}
 		guard let user = displayedUser else {
 			return
 		}
-		print(user)
 		
 		if sender.titleLabel?.text == "+ Follow" {
 			followUser(user)
 			sender.backgroundColor = UIColor.greenColor()
 			sender.setTitle("Following", forState: .Normal)
-		} else {
-			unFollowUser(user)
-			sender.backgroundColor = UIColor.blackColor()
-			sender.setTitle("+ Follow", forState: .Normal)
 		}
-	}
-	
-	func setUpProfileActionButton() {
-		guard let uid = displayedUser?.uid, signedInUsersId = CurrentUser.uid else {
-			return
-		}
-		FIRDatabase.database().reference().child("users_by_id/\(signedInUsersId)/Following/\(uid)").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
-			if snapshot.value is NSNull {
-				self.profileActionButton.setTitle("+ Follow", forState: .Normal)
-				self.profileActionButton.backgroundColor = UIColor.clearColor()
-			} else {
-				self.profileActionButton.setTitle("Following", forState: .Normal)
-				self.profileActionButton.backgroundColor = UIColor.greenColor()
-			}
-	
-			}, withCancelBlock: nil)
 	}
 	
 	@IBAction func handleProfileSegmentControl(sender: UISegmentedControl) {
@@ -98,111 +87,9 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 		super.viewDidLoad()
 		tableView.delegate = self
 		tableView.dataSource = self
-		setUpView()
 		setUpProfile()
-	}
-	
-	func setUpView() {
-		profileView.backgroundColor = UIColor.clearColor()
-		segmentControl.setTitle("Posts", forSegmentAtIndex: 0)
-		segmentControl.setTitle("Fans", forSegmentAtIndex: 1)
-		segmentControl.insertSegmentWithTitle("Following", atIndex: 2, animated: false)
-	}
-	
-	func fetchFollowing() {
-		guard let signedInUsersId = CurrentUser.uid else {
-			return
-		}
-		FIRDatabase.database().reference().child("users_by_id/\(signedInUsersId)/Following").observeEventType(.Value, withBlock: { (snapshot) in
-			guard let results = snapshot.value as? [String: [String: String]] else {
-				return
-			}
-	
-			for (key, value) in results {
-	
-				let user = User(email: value["email"]!, fullname: value["fullname"]!, username: value["username"]!, uid: key, image: value["imageURL"]!)
-				self.followingData.append(user)
-			}
-			
-			dispatch_async(dispatch_get_main_queue(), {
-				self.tableView.reloadData()
-			})
-
-			}, withCancelBlock: nil)
-	}
-	
-	func setUpProfile() {
-		if displayedUser != nil {
-			username = displayedUser?.username
-			fullname = displayedUser?.fullname
-			uid = displayedUser?.uid
-			shouldHideActionButton = false
-		} else {
-			// Display the user that is signed in
-			username = CurrentUser.username
-			fullname = CurrentUser.fullname
-			uid = CurrentUser.uid
-			shouldHideActionButton = true
-		}
-		
-		profileActionButton.hidden = shouldHideActionButton
-		profileUsernameLabel.text = username
-		profileFullnameLabel.text = fullname
-
 		fetchFollowing()
-		setUpProfileActionButton()
-		fetchDisplayedUsersImage()
-	}
-	
-	func followUser(user: User) {
-		guard let signedInUsersId = CurrentUser.uid, signedInUsersUsername = CurrentUser.username, signedInUsersFullname = CurrentUser.fullname, signedInUsersEmail = CurrentUser.email else {
-			return // CurrentUser.uid has not been set
-		}
-		
-		guard let name = user.username, email = user.email, uid = user.uid, fname = user.fullname else {
-			return
-		}
-		
-		var value = ["username": name, "email": email, "fullname": fname, "imageURL": user.imageString!]
-		FIRDatabase.database().reference().child("users_by_id/\(signedInUsersId)").child("Following").child(uid).updateChildValues(value)
-		
-		value = ["username": signedInUsersUsername, "email": signedInUsersEmail, "fullname": signedInUsersFullname, "imageURL": CurrentUser.imageString!]
-		FIRDatabase.database().reference().child("users_by_id/\(uid)").child("Fans").child(signedInUsersId).updateChildValues(value)
-	}
-		
-	func unFollowUser(user: User) {
-		guard let uid = user.uid else {
-			return
-		}
-		
-		guard let signedInUsersId = CurrentUser.uid else {
-			return
-		}
-		
-		FIRDatabase.database().reference().child("users_by_id/\(uid)/Fans/\(signedInUsersId)").removeValue()
-		FIRDatabase.database().reference().child("users_by_id/\(signedInUsersId)/Following/\(uid)").removeValue()
-	}
-	
-	private func registerImageToUser(image: UIImage) {
-		// Stores the image into Firebase, and sets the image on the view
-		guard let uploadData = UIImageJPEGRepresentation(image, 0.1), userID = CurrentUser.uid, name = CurrentUser.username else {
-			return
-		}
-		
-		FIRStorage.storage().reference().child("user_images/\(userID)").putData(uploadData, metadata: nil) { (metadata, error) in
-			if error != nil {
-				print(error)
-				return
-			}
-
-			self.profileImageView.image = image
-			guard let imageURL = metadata?.downloadURL()?.absoluteString else {
-				print("Failed but why?")
-				return
-			}
-			FIRDatabase.database().reference().child("users_by_name/\(name)").updateChildValues(["imageURL": imageURL])
-			FIRDatabase.database().reference().child("users_by_id/\(userID)").updateChildValues(["imageURL": imageURL])
-		}
+		fetchFans()
 	}
 	
 	// This pulls up the camera, or the photo library
@@ -217,27 +104,32 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 	}
 	
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+//		if segue.identifier == "userControllerID" {
+//			let vc = segue.destinationViewController as! UserController
+//			guard let indexPath = selectedIndexPath else {
+//				return  // Have not selected a cell
+//			}
+//			var user = User()
+//			switch contentOptions {
+//			case .Fans:
+//				user = fansData[indexPath.row]
+//			case .Following:
+//				user = followingData[indexPath.row]
+//			default:
+//				return
+//			}
+////			vc.displayedUser = user
+//		}
 		if segue.identifier == "userControllerID" {
 			let vc = segue.destinationViewController as! UserController
 			guard let indexPath = selectedIndexPath else {
-				return  // Have not selected a cell
-			}
-			var user = User()
-			switch contentOptions {
-			case .Fans:
-				user = fansData[indexPath.row]
-			case .Following:
-				user = followingData[indexPath.row]
-			default:
 				return
 			}
-			
-			//			let user = tempUsers[indexPath.row]
-			vc.displayedUser = user
+			let selectedUser = followingData[indexPath.row]
+			vc.displayedUser = selectedUser
 		}
 	}
 
-	
 	override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
 		switch contentOptions {
 		case .Posts:
@@ -247,25 +139,196 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 		}
 	}
 	
-	func fetchDisplayedUsersImage() {
-		guard let name = username else {
-			return // username has not been set
+	func fetchDisplayedUsersImage(imageURLString: String) {
+		guard let uid = displayedUser?.uid else {
+			return
 		}
 		
-		FIRDatabase.database().reference().child("users_by_name/\(name)").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+		FIRDatabase.database().reference().child("users_by_id/\(uid)").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
 			if let result = snapshot.value as? [String: AnyObject] {
 				guard let urlString = result["imageURL"] as? String else {
-					return // Has no set image
+					return
 				}
-				CurrentUser.imageString = urlString
+				
 				self.profileImageView.loadImageUsingURLString(urlString)
 			}
 			
 			}, withCancelBlock: nil)
 	}
+	
+	func fetchFans() {
+		guard let uid = displayedUser?.uid else {
+			return
+		}
+		
+		FIRDatabase.database().reference().child("users_by_id/\(uid)/Fans").observeEventType(.Value, withBlock: { (snapshot) in
+			
+			guard let result = snapshot.value as? [String: [String: String]] else {
+				return
+			}
+			
+			for (key, _) in result {
+				
+				FIRDatabase.database().reference().child("users_by_id/\(key)").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+					guard let person = snapshot.value as? [String: AnyObject] else {
+						return
+					}
+					
+					var imageURL = ""
+					if let imageURAsString = person["imageURL"] as? String {
+						imageURL = imageURAsString
+					}
+					
+					if let email = person["email"] as? String, fullname = person["fullname"] as? String, username = person["username"] as? String {
+						let user = User(email: email, fullname: fullname, username: username, uid: key, image: imageURL)
+						self.fansData.append(user)
+					}
+					
+					}, withCancelBlock: nil)
+			}
+			
+			dispatch_async(dispatch_get_main_queue(), {
+				self.tableView.reloadData()
+			})
+			
+			}, withCancelBlock: nil)
+	}
+	
+	func fetchFollowing() {
+		guard let uid = displayedUser?.uid else {
+			return
+		}
+		
+		FIRDatabase.database().reference().child("users_by_id/\(uid)/Following").observeEventType(.Value, withBlock: { (snapshot) in
+			guard let result = snapshot.value as? [String: [String: String]] else {
+				return
+			}
+			
+			for (key, _) in result {
+				
+				FIRDatabase.database().reference().child("users_by_id/\(key)").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+					guard let person = snapshot.value as? [String: AnyObject] else {
+						return
+					}
+					
+					var imageURL = ""
+					if let imageURAsString = person["imageURL"] as? String {
+						imageURL = imageURAsString
+					}
+					
+					if let email = person["email"] as? String, fullname = person["fullname"] as? String, username = person["username"] as? String {
+						let user = User(email: email, fullname: fullname, username: username, uid: key, image: imageURL)
+						self.followingData.append(user)
+					}
+					
+					}, withCancelBlock: nil)
+			}
+			
+			dispatch_async(dispatch_get_main_queue(), { 
+				self.tableView.reloadData()
+			})
+			
+			}, withCancelBlock: nil)
+	}
+	
+	
+	func followUser(user: User) {
+		guard let signedInUsersId = CurrentUser.uid, signedInUsersUsername = CurrentUser.username, signedInUsersFullname = CurrentUser.fullname, signedInUsersEmail = CurrentUser.email else {
+			return // CurrentUser.uid has not been set
+		}
+	
+		guard let name = user.username, email = user.email, uid = user.uid, fname = user.fullname else {
+			return
+		}
+	
+		var value = ["username": name, "email": email, "fullname": fname]
+		FIRDatabase.database().reference().child("users_by_id/\(signedInUsersId)").child("Following").child(uid).updateChildValues(value)
+		
+		if let imageURLAsString = user.imageString {
+			FIRDatabase.database().reference().child("users_by_id/\(signedInUsersId)").child("Following").child(uid).updateChildValues(["imageURL": imageURLAsString])
+		}
+	
+		value = ["username": signedInUsersUsername, "email": signedInUsersEmail, "fullname": signedInUsersFullname]
+		
+		FIRDatabase.database().reference().child("users_by_id/\(uid)").child("Fans").child(signedInUsersId).updateChildValues(value)
+		
+		if let imageURLAsString = CurrentUser.imageString {
+			FIRDatabase.database().reference().child("users_by_id/\(uid)").child("Fans").child(signedInUsersId).updateChildValues(["imageURL": imageURLAsString])
+		}
+		
+	}
 
+	
+	private func registerImageToUser(image: UIImage) {
+		// Stores the image into Firebase, and sets the image on the view
+		guard let uploadData = UIImageJPEGRepresentation(image, 0.1), userID = CurrentUser.uid, name = CurrentUser.username else {
+			return
+		}
+		
+		
+		FIRStorage.storage().reference().child("user_images/\(userID)").putData(uploadData, metadata: nil) { (metadata, error) in
+			if error != nil {
+				print(error)
+				return
+			}
+			
+			self.profileImageView.image = image
+			guard let imageURL = metadata?.downloadURL()?.absoluteString else {
+				print("Failed but why?")
+				return
+			}
+			self.profileImageView.image = image
+			FIRDatabase.database().reference().child("users_by_name/\(name)").updateChildValues(["imageURL": imageURL])
+			FIRDatabase.database().reference().child("users_by_id/\(userID)").updateChildValues(["imageURL": imageURL])
+		}
+	}
 
+	func setUpProfileView() {
+		profileView.backgroundColor = UIColor.clearColor()
+		segmentControl.setTitle("Post", forSegmentAtIndex: 0)
+		segmentControl.setTitle("Fans", forSegmentAtIndex: 1)
+		segmentControl.insertSegmentWithTitle("Following", atIndex: 2, animated: false)
+		
+		profileActionButton.backgroundColor = UIColor.clearColor()
+		profileActionButton.layer.cornerRadius = 15
+		profileActionButton.layer.borderWidth = 1
+		profileActionButton.layer.borderColor = UIColor.blackColor().CGColor
+		
+		settingsBarItem.enabled = false
+	}
+	
+	func setUpActionButton() {
+			guard let uid = displayedUser?.uid, signedInUsersId = CurrentUser.uid else {
+				return
+			}
+			FIRDatabase.database().reference().child("users_by_id/\(signedInUsersId)/Following/\(uid)").observeSingleEventOfType(.Value,withBlock: { (snapshot) in
+			if snapshot.value is NSNull {
+				self.profileActionButton.setTitle("+ Follow", forState: .Normal)
+				self.profileActionButton.backgroundColor = UIColor.clearColor()
+			} else {
+				self.profileActionButton.setTitle("Following", forState: .Normal)
+				self.profileActionButton.backgroundColor = UIColor.greenColor()
+			}
 
+			}, withCancelBlock: nil)
+		}
+	
+	
+	func setUpProfile() {
+		setUpProfileView()
+		
+		if displayedUser == nil {
+			displayedUser = User()
+			profileActionButton.hidden = true
+			settingsBarItem.enabled = true
+		}
+		profileUsernameLabel.text = displayedUser?.username
+		profileFullnameLabel.text = displayedUser?.fullname
+		if let imageString = displayedUser?.imageString {
+			fetchDisplayedUsersImage(imageString)
+		}
+		setUpActionButton()
+	}
 }
 
 extension UserController: UITableViewDataSource {
@@ -290,13 +353,14 @@ extension UserController: UITableViewDataSource {
 	
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! ContentCell
-		cell.backgroundColor = UIColor.greenColor()
 		
 		switch contentOptions {
 		case .Posts:
 			return cell
 		case .Fans:
 			cell.titleLabel.text = fansData[indexPath.row].username
+			cell.detailLabel.text = fansData[indexPath.row].fullname
+			cell.pictureView.loadImageUsingURLString(fansData[indexPath.row].imageString!)
 		case .Following:
 			cell.titleLabel.text = followingData[indexPath.row].username
 			cell.detailLabel.text = followingData[indexPath.row].fullname
@@ -309,9 +373,8 @@ extension UserController: UITableViewDataSource {
 	func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 		return 70
 	}
-	
 }
-//
+
 extension UserController: UITableViewDelegate {
 	func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
 		selectedIndexPath = indexPath
@@ -332,11 +395,10 @@ extension UserController: UIImagePickerControllerDelegate {
 		if let selectedImage = selectedImageFromPicker {
 			self.registerImageToUser(selectedImage)
 		}
+		
 		dismissViewControllerAnimated(true, completion: nil)
 	}
 }
-
-
 
 
 

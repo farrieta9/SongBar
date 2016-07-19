@@ -85,7 +85,7 @@ class SettingsLauncher: NSObject, UICollectionViewDelegate, UICollectionViewData
 			}
 			
 			if setting.name != "" && setting.name == "Upload from library" {
-//				self.userController?.launchImagePicker(.PhotoLibrary)
+				self.userController?.launchImagePicker(.PhotoLibrary)
 				return
 			}
 			
