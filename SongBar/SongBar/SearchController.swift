@@ -59,7 +59,7 @@ class SearchController: UIViewController {
 				return  // Have not selected a cell
 			}
 			let selectedUser = peopleData[indexPath.row]
-//			vc.displayedUser = selectedUser
+			vc.displayedUser = selectedUser
 		}
 	}
 	

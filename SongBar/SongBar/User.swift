@@ -16,9 +16,7 @@ class User: NSObject {
 	var uid: String?
 	var imageString: String?
 	
-	override init() {
-		return
-	}
+	override init() {}
 	
 	init(email: String, fullname: String, username: String, uid: String) {
 		self.email = email

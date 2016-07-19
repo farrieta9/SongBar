@@ -138,6 +138,7 @@
                                             <outlet property="detailLabel" destination="sbf-Ci-Dpu" id="3yJ-0g-UPu"/>
                                             <outlet property="pictureView" destination="Z7y-QC-Lfw" id="DcG-cN-WQc"/>
                                             <outlet property="titleLabel" destination="I6i-fj-ley" id="8le-FL-fa8"/>
+                                            <segue destination="tld-ee-fPM" kind="show" id="z7a-9J-h4p"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -457,6 +458,7 @@
                                             <outlet property="detailLabel" destination="I04-TS-aax" id="MMG-Wd-cdC"/>
                                             <outlet property="pictureView" destination="GKQ-Iy-AZi" id="rmO-V1-EYS"/>
                                             <outlet property="titleLabel" destination="hqw-aQ-c6f" id="hPz-8f-8hn"/>
+                                            <segue destination="tld-ee-fPM" kind="show" id="VSg-uc-oXK"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -470,7 +472,13 @@
                             <constraint firstAttribute="trailingMargin" secondItem="1uI-Q4-r8J" secondAttribute="trailing" id="j8I-E6-VTF"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Xik-zD-YrH"/>
+                    <navigationItem key="navigationItem" id="Xik-zD-YrH">
+                        <barButtonItem key="rightBarButtonItem" title="Settings" id="VXQ-X7-NaD">
+                            <connections>
+                                <action selector="handleSettings:" destination="tld-ee-fPM" id="hyi-ek-62O"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="profileActionButton" destination="dT6-XT-Bbj" id="DdA-fZ-MJ3"/>
                         <outlet property="profileFullnameLabel" destination="bLU-cH-mAS" id="CvC-7Q-GnW"/>
@@ -483,7 +491,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u2A-Uf-YRI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1880" y="1684"/>
+            <point key="canvasLocation" x="1887" y="1684"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="r15-tv-9UJ">
@@ -508,4 +516,7 @@
     <resources>
         <image name="default_profile" width="300" height="300"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="z7a-9J-h4p"/>
+    </inferredMetricsTieBreakers>
 </document>
