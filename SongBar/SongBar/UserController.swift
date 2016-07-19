@@ -43,8 +43,6 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 	}
 	
 	@IBAction func handleProfileActionButton(sender: UIButton) {
-		print(123)
-		
 //		guard let user = displayedUser else {
 //						return
 //					}
@@ -66,7 +64,24 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 			followUser(user)
 			sender.backgroundColor = UIColor.greenColor()
 			sender.setTitle("Following", forState: .Normal)
+		} else {
+			unFollowUser(user)
+			sender.backgroundColor = UIColor.clearColor()
+			sender.setTitle("+ Follow", forState: .Normal)
 		}
+	}
+	
+	func unFollowUser(user: User) {
+		guard let uid = user.uid else {
+			return
+		}
+		
+		guard let signedInUsersId = CurrentUser.uid else {
+			return
+		}
+		
+		FIRDatabase.database().reference().child("users_by_id/\(uid)/Fans/\(signedInUsersId)").removeValue()
+		FIRDatabase.database().reference().child("users_by_id/\(signedInUsersId)/Following/\(uid)").removeValue()
 	}
 	
 	@IBAction func handleProfileSegmentControl(sender: UISegmentedControl) {
@@ -104,29 +119,22 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 	}
 	
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//		if segue.identifier == "userControllerID" {
-//			let vc = segue.destinationViewController as! UserController
-//			guard let indexPath = selectedIndexPath else {
-//				return  // Have not selected a cell
-//			}
-//			var user = User()
-//			switch contentOptions {
-//			case .Fans:
-//				user = fansData[indexPath.row]
-//			case .Following:
-//				user = followingData[indexPath.row]
-//			default:
-//				return
-//			}
-////			vc.displayedUser = user
-//		}
 		if segue.identifier == "userControllerID" {
 			let vc = segue.destinationViewController as! UserController
 			guard let indexPath = selectedIndexPath else {
 				return
 			}
-			let selectedUser = followingData[indexPath.row]
-			vc.displayedUser = selectedUser
+			
+			switch contentOptions {
+			case .Fans:
+				let selectedUser = fansData[indexPath.row]
+				vc.displayedUser = selectedUser
+			case .Following:
+				let selectedUser = followingData[indexPath.row]
+				vc.displayedUser = selectedUser
+			default:
+				return
+			}
 		}
 	}
 
@@ -161,8 +169,10 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 			return
 		}
 		
+		
 		FIRDatabase.database().reference().child("users_by_id/\(uid)/Fans").observeEventType(.Value, withBlock: { (snapshot) in
 			
+			self.fansData.removeAll()
 			guard let result = snapshot.value as? [String: [String: String]] else {
 				return
 			}
@@ -181,7 +191,11 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 					
 					if let email = person["email"] as? String, fullname = person["fullname"] as? String, username = person["username"] as? String {
 						let user = User(email: email, fullname: fullname, username: username, uid: key, image: imageURL)
-						self.fansData.append(user)
+						
+						// Check the user is not already in the table
+						if self.isUserADuplicateInTableData(key, tableData: self.fansData) == false {
+							self.fansData.append(user)
+						}
 					}
 					
 					}, withCancelBlock: nil)
@@ -200,9 +214,12 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 		}
 		
 		FIRDatabase.database().reference().child("users_by_id/\(uid)/Following").observeEventType(.Value, withBlock: { (snapshot) in
+			self.followingData.removeAll()
+			
 			guard let result = snapshot.value as? [String: [String: String]] else {
 				return
 			}
+
 			
 			for (key, _) in result {
 				
@@ -218,7 +235,10 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 					
 					if let email = person["email"] as? String, fullname = person["fullname"] as? String, username = person["username"] as? String {
 						let user = User(email: email, fullname: fullname, username: username, uid: key, image: imageURL)
-						self.followingData.append(user)
+						
+						if self.isUserADuplicateInTableData(key, tableData: self.followingData) == false {
+							self.followingData.append(user)
+						}
 					}
 					
 					}, withCancelBlock: nil)
@@ -229,6 +249,15 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 			})
 			
 			}, withCancelBlock: nil)
+	}
+	
+	private func isUserADuplicateInTableData(uid: String, tableData: [User]) -> Bool {
+		for user in tableData {
+			if user.uid == uid {
+				return true
+			}
+		}
+		return false
 	}
 	
 	
