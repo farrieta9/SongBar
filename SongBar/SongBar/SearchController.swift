@@ -53,6 +53,9 @@ class SearchController: UIViewController {
     }
 	
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+		guard let indexPath = selectedIndexPath else {
+			return
+		}
 		if segue.identifier == "userControllerID" {
 			let vc = segue.destinationViewController as! UserController
 			guard let indexPath = selectedIndexPath else {
@@ -65,6 +68,7 @@ class SearchController: UIViewController {
 		
 		if segue.identifier == "shareControllerID" {
 			let vc = segue.destinationViewController as! ShareController
+			vc.track = spotifyData[indexPath.row]
 		}
 	}
 	
@@ -208,17 +212,6 @@ extension SearchController: UITableViewDataSource {
 	func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 		return 76
 	}
-//	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//		selectedIndexPath = indexPath
-//		selectedRow = indexPath.row
-//		searchBar.resignFirstResponder()
-//		switch searchContent {
-//		case .Music:
-//			performSegueWithIdentifier("audienceVC", sender: self)
-//		case .People:
-//			performSegueWithIdentifier("anyUserVC", sender: self)
-//		}
-//	}
 	
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		switch searchContent {

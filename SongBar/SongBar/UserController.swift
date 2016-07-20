@@ -27,7 +27,7 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 	
 	var followingData = [User]()
 	var fansData = [User]()
-	var postsData = [SpotifyTrack]()
+	var postsData = [Track]()
 	var contentOptions: ContentOptions = .Posts
 	var selectedIndexPath: NSIndexPath?
 	var displayedUser: User?
@@ -92,6 +92,7 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 		tableView.dataSource = self
 		setUpProfile()
 		setUpView()
+		fetchPosts()
 		fetchFollowing()
 		fetchFans()
 	}
@@ -244,6 +245,31 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 			}, withCancelBlock: nil)
 	}
 	
+	func fetchPosts() {
+		guard let uid = displayedUser?.uid else {
+			return
+		}
+		FIRDatabase.database().reference().child("users_by_id/\(uid)/sent").observeEventType(.Value, withBlock: { (snapshot) in
+			guard let result = snapshot.value as? [String: [String: String]] else {
+				return
+			}
+			
+			for item in result.values {
+				print(item)
+				
+				if let artist = item["artist"], title = item["title"], imageURL = item["imageURL"], previewURL = item["previewURL"] {
+					let track = Track(artist: artist, title: title, previewURL: previewURL, imageURL: imageURL)
+					self.postsData.append(track)
+				}
+			}
+
+			dispatch_async(dispatch_get_main_queue(), { 
+				self.tableView.reloadData()
+			})
+			
+			}, withCancelBlock: nil)
+	}
+	
 	private func isUserADuplicateInTableData(uid: String, tableData: [User]) -> Bool {
 		for user in tableData {
 			if user.uid == uid {
@@ -307,7 +333,7 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 
 	func setUpProfileView() {
 		profileView.backgroundColor = UIColor.clearColor()
-		segmentControl.setTitle("Post", forSegmentAtIndex: 0)
+		segmentControl.setTitle("Posts", forSegmentAtIndex: 0)
 		segmentControl.setTitle("Fans", forSegmentAtIndex: 1)
 		segmentControl.insertSegmentWithTitle("Following", atIndex: 2, animated: false)
 		
@@ -378,7 +404,9 @@ extension UserController: UITableViewDataSource {
 		
 		switch contentOptions {
 		case .Posts:
-			return cell
+			cell.titleLabel.text = postsData[indexPath.row].title
+			cell.detailLabel.text = postsData[indexPath.row].artist
+			cell.pictureView.loadImageUsingURLString(postsData[indexPath.row].imageUrl)
 		case .Fans:
 			cell.titleLabel.text = fansData[indexPath.row].username
 			cell.detailLabel.text = fansData[indexPath.row].fullname
