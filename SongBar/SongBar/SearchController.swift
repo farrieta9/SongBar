@@ -60,15 +60,11 @@ class SearchController: UIViewController {
 			}
 			let selectedUser = peopleData[indexPath.row]
 			vc.displayedUser = selectedUser
+			return
 		}
-	}
-	
-	override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-		switch searchContent {
-		case .Music:
-			return false
-		default:
-			return true
+		
+		if segue.identifier == "shareControllerID" {
+			let vc = segue.destinationViewController as! ShareController
 		}
 	}
 	
@@ -201,6 +197,7 @@ extension SearchController: UITableViewDataSource {
 			if let imageString = peopleData[indexPath.row].imageString {
 				cell.pictureView.loadImageUsingURLString(imageString)
 			} else {
+				// When the user does not have a picture load the default picture
 				cell.pictureView.image = UIImage(named: "default_profile.png")
 			}
 			
@@ -210,6 +207,26 @@ extension SearchController: UITableViewDataSource {
 	
 	func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 		return 76
+	}
+//	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//		selectedIndexPath = indexPath
+//		selectedRow = indexPath.row
+//		searchBar.resignFirstResponder()
+//		switch searchContent {
+//		case .Music:
+//			performSegueWithIdentifier("audienceVC", sender: self)
+//		case .People:
+//			performSegueWithIdentifier("anyUserVC", sender: self)
+//		}
+//	}
+	
+	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+		switch searchContent {
+		case .Music:
+			performSegueWithIdentifier("shareControllerID", sender: self)
+		case .People:
+			performSegueWithIdentifier("userControllerID", sender: self)
+		}
 	}
 	
 	

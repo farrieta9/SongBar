@@ -11,6 +11,10 @@ import Firebase
 
 class HomeController: UIViewController {
 
+	
+	@IBOutlet weak var tableView: UITableView!
+	
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -19,7 +23,7 @@ class HomeController: UIViewController {
     }
 	
 	func setUpViews() {
-		
+		tableView.dataSource = self
 	}
 	
 	private func getLoggedInUser() {
@@ -38,5 +42,20 @@ class HomeController: UIViewController {
 			})
 		}
 	}
+}
 
+extension HomeController: UITableViewDataSource {
+	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+		return 1
+	}
+	
+	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return 5
+	}
+	
+	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+		let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! FeedCell
+		
+		return cell
+	}
 }

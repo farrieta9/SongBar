@@ -240,11 +240,7 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 					
 					}, withCancelBlock: nil)
 			}
-			
-//			dispatch_async(dispatch_get_main_queue(), { 
-//				self.tableView.reloadData()
-//			})
-			
+
 			}, withCancelBlock: nil)
 	}
 	
