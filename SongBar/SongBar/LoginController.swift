@@ -53,6 +53,7 @@ class LoginController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+		CurrentUser.signOut()
 		applyGradientBackground()
 
 		setUpViews()

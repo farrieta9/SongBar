@@ -109,12 +109,17 @@ class CurrentUser {
 		self.uid = uid
 	}
 	
+	static func signOutAndReset() {
+		signOut()
+		resetUser()
+	}
+	
 	static func signOut() {
 		do {
 			try FIRAuth.auth()?.signOut()
 		} catch let error {
 			print(error)
 		}
-		resetUser()
 	}
+	
 }

@@ -90,7 +90,7 @@ class SettingsLauncher: NSObject, UICollectionViewDelegate, UICollectionViewData
 			}
 			
 			if setting.name != "" && setting.name == "Sign Out" {
-				CurrentUser.signOut()
+				CurrentUser.signOutAndReset()
 				self.userController?.dismissViewControllerAnimated(true, completion: nil)
 				return
 			}
