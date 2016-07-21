@@ -55,6 +55,7 @@ class LoginController: UIViewController {
         super.viewDidLoad()
 		CurrentUser.signOut()
 		applyGradientBackground()
+		addToolBar()
 
 		setUpViews()
 		autoLogin()

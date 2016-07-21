@@ -50,6 +50,7 @@ class SearchController: UIViewController {
         super.viewDidLoad()
 
 		setUpView()
+		addToolBar()
     }
 	
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

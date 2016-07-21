@@ -23,6 +23,7 @@ class HomeController: UIViewController {
 		getLoggedInUser()
 		setUpViews()
 		fetchReceived()
+		addToolBar()
     }
 	
 	func setUpViews() {
