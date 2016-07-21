@@ -171,7 +171,6 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 			return
 		}
 		
-		
 		FIRDatabase.database().reference().child("users_by_id/\(uid)/Fans").observeEventType(.Value, withBlock: { (snapshot) in
 			
 			self.fansData.removeAll()
@@ -250,22 +249,24 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 			return
 		}
 		FIRDatabase.database().reference().child("users_by_id/\(uid)/sent").observeEventType(.Value, withBlock: { (snapshot) in
-			guard let result = snapshot.value as? [String: [String: String]] else {
+			guard let results = snapshot.value as? [String: [String: String]] else {
 				return
 			}
 			
-			for item in result.values {
-				print(item)
+			self.postsData.removeAll()
+			
+			for (_, value) in results.sort({$0.0.compare($1.0) == NSComparisonResult.OrderedDescending}) {
 				
-				if let artist = item["artist"], title = item["title"], imageURL = item["imageURL"], previewURL = item["previewURL"] {
+				if let artist = value["artist"], title = value["title"], imageURL = value["imageURL"], previewURL = value["previewURL"] {
 					let track = Track(artist: artist, title: title, previewURL: previewURL, imageURL: imageURL)
 					self.postsData.append(track)
 				}
 			}
 
-			dispatch_async(dispatch_get_main_queue(), { 
+			dispatch_async(dispatch_get_main_queue(), {
 				self.tableView.reloadData()
 			})
+			
 			
 			}, withCancelBlock: nil)
 	}
@@ -303,7 +304,6 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 		if let imageURLAsString = CurrentUser.imageString {
 			FIRDatabase.database().reference().child("users_by_id/\(uid)").child("Fans").child(signedInUsersId).updateChildValues(["imageURL": imageURLAsString])
 		}
-		
 	}
 
 	
@@ -360,7 +360,6 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 
 			}, withCancelBlock: nil)
 		}
-	
 	
 	func setUpProfile() {
 		setUpProfileView()

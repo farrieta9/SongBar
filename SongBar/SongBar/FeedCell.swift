@@ -20,6 +20,12 @@ class FeedCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+		
+		
+		pictureView.layer.borderColor = UIColor.blackColor().CGColor
+		pictureView.layer.cornerRadius = 15
+		pictureView.layer.masksToBounds = true
+
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

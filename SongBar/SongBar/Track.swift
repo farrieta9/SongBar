@@ -14,6 +14,8 @@ class Track {
 	var artist: String
 	var previewUrl: String
 	var imageUrl: String
+	var donor: String = ""
+	var date: String = ""
 	init(artist: String, title: String, previewURL: String, imageURL: String) {
 		self.title = title
 		self.artist = artist

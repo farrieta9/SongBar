@@ -14,12 +14,15 @@ class HomeController: UIViewController {
 	
 	@IBOutlet weak var tableView: UITableView!
 	
+	var spotifyData = [Track]()
+	var donorsData = [User]()
 	
     override func viewDidLoad() {
         super.viewDidLoad()
 
-		setUpViews()
 		getLoggedInUser()
+		setUpViews()
+		fetchReceived()
     }
 	
 	func setUpViews() {
@@ -42,6 +45,64 @@ class HomeController: UIViewController {
 			})
 		}
 	}
+	
+	func fetchReceived() {
+		guard let uid = CurrentUser.uid else {
+			return
+		}
+		FIRDatabase.database().reference().child("users_by_id/\(uid)/received").observeEventType(.Value, withBlock: { (snapshot) in
+			
+			guard let results = snapshot.value as? [String: [String: String]] else {
+				return
+			}
+			
+			self.spotifyData.removeAll()
+			self.donorsData.removeAll()
+			
+			for (key, value) in results.sort({$0.0.compare($1.0) == NSComparisonResult.OrderedDescending}) {
+				
+				guard let uid = value["donor"] else {
+					return
+				}
+				
+				FIRDatabase.database().reference().child("users_by_id/\(uid)").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+					
+					if let results = snapshot.value as? [String: AnyObject] {
+						
+						if let artist = value["artist"], title = value["title"], imageURL = value["imageURL"], previewURL = value["previewURL"], username = results["username"] as? String, fullname = results["fullname"] as? String, email = results["email"] as? String {
+							
+							var imageUrlAsString = ""
+							if let image = results["imageURL"] as? String {
+								imageUrlAsString = image
+							}
+							
+							let track = Track(artist: artist, title: title, previewURL: previewURL, imageURL: imageURL)
+							let user = User(email: email, fullname: fullname, username: username, uid: uid, image: imageUrlAsString)
+							
+							track.date = key
+							track.donor = uid
+							self.spotifyData.append(track)
+							self.donorsData.append(user)
+						}
+					}
+					
+					
+					dispatch_async(dispatch_get_main_queue(), {
+						self.tableView.reloadData()
+					})
+					
+					
+					}, withCancelBlock: nil)
+			}
+			
+//			dispatch_async(dispatch_get_main_queue(), {
+//				self.tableView.reloadData()
+//			})
+			
+			
+			
+			}, withCancelBlock: nil)
+	}
 }
 
 extension HomeController: UITableViewDataSource {
@@ -50,11 +111,15 @@ extension HomeController: UITableViewDataSource {
 	}
 	
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return 5
+		return spotifyData.count
 	}
 	
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! FeedCell
+		cell.titleLabel.text = spotifyData[indexPath.row].title
+		cell.detailLabel.text = spotifyData[indexPath.row].artist
+		cell.donorLabel.text = donorsData[indexPath.row].username
+		cell.pictureView.loadImageUsingURLString(spotifyData[indexPath.row].imageUrl)
 		
 		return cell
 	}
