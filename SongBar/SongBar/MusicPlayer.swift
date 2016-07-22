@@ -17,7 +17,7 @@ enum MusicStatus {
 
 class MusicPlayer {
 	
-	static var hidden = false
+	static var hidden = true
 	static var audioPlay: AVPlayer!
 	static var musicStatus: MusicStatus = .Pause
 }

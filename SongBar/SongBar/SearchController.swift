@@ -11,9 +11,6 @@ import Firebase
 
 class SearchController: UIViewController {
 
-	
-	
-
 	@IBOutlet weak var playButton: UIBarButtonItem!
 	@IBOutlet weak var toolBar: UIToolbar!
 	@IBOutlet weak var tableView: UITableView!
@@ -49,26 +46,24 @@ class SearchController: UIViewController {
 	@IBAction func onPlay(sender: UIBarButtonItem) {
 		switch MusicPlayer.musicStatus {
 		case .Pause:
-			playPauseButton = UIBarButtonItem(barButtonSystemItem: .Pause, target: self, action: #selector(self.onPlay(_:)))
 			MusicPlayer.musicStatus = .Play
+			loadPauseButton()
 		case .Play:
-			playPauseButton = UIBarButtonItem(barButtonSystemItem: .Play, target: self, action: #selector(self.onPlay(_:)))
 			MusicPlayer.musicStatus = .Pause
+			loadPlayButton()
 		}
-		
-		var items = toolBar.items!
-		items[0] = playPauseButton
-		toolBar.setItems(items, animated: false)
 	}
 	
 	@IBAction func onStop(sender: UIBarButtonItem) {
-		
+		toolBar.hidden = true
+		MusicPlayer.hidden = true
 	}
 	
 	enum SearchContentType {
 		case Music
 		case People
 	}
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 

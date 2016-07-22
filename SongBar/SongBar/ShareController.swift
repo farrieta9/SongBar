@@ -87,7 +87,7 @@ class ShareController: UIViewController {
 		tableView.delegate = self
 		tableView.allowsMultipleSelection = true
 		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Send", style: .Plain, target: self, action: #selector(self.handleSend))
-		
+		self.navigationItem.title = "Fans"
 	}
 }
 
@@ -128,7 +128,11 @@ extension ShareController: UITableViewDelegate {
 	func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
 		let cell = tableView.cellForRowAtIndexPath(indexPath) as! ContentCell
 		cell.accessoryType = .None
-		selectedRows.removeAtIndex(indexPath.row)
+
+		let index = selectedRows.indexOf(indexPath.row)
+		if let i = index {
+			selectedRows.removeAtIndex(i)
+		}
 	}
 	
 	func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import AVFoundation
 
 class HomeController: UIViewController {
 
@@ -23,23 +24,21 @@ class HomeController: UIViewController {
 	@IBAction func onStopToolBar(sender: UIBarButtonItem) {
 		toolBar.hidden = true
 		MusicPlayer.hidden = true
+		MusicPlayer.audioPlay.pause()
 	}
 	
 	@IBAction func onPlay(sender: UIBarButtonItem) {
 		switch MusicPlayer.musicStatus {
 		case .Pause:
-			playPauseButton = UIBarButtonItem(barButtonSystemItem: .Pause, target: self, action: #selector(self.onPlay(_:)))
 			MusicPlayer.musicStatus = .Play
+			loadPauseButton()
+			MusicPlayer.audioPlay.play()
 
 		case .Play:
-			playPauseButton = UIBarButtonItem(barButtonSystemItem: .Play, target: self, action: #selector(self.onPlay(_:)))
 			MusicPlayer.musicStatus = .Pause
-
+			loadPlayButton()
+			MusicPlayer.audioPlay.pause()
 		}
-		
-		var items = toolBar.items!
-		items[0] = playPauseButton
-		toolBar.setItems(items, animated: false)
 	}
 	
     override func viewDidLoad() {
@@ -173,6 +172,13 @@ extension HomeController: UITableViewDelegate {
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		MusicPlayer.hidden = false
 		toolBar.hidden = false
+		let previewURL = spotifyData[indexPath.row].previewUrl
+		let url = NSURL(string: previewURL)
+		MusicPlayer.audioPlay = AVPlayer(URL: url!)
+		MusicPlayer.audioPlay.play()
+		MusicPlayer.musicStatus = .Play
+		loadPauseButton()
+		
 	}
 }
 

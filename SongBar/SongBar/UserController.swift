@@ -19,6 +19,7 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 	@IBOutlet weak var profileActionButton: UIButton!
 	@IBOutlet weak var segmentControl: UISegmentedControl!
 	@IBOutlet weak var settingsBarItem: UIBarButtonItem!
+	@IBOutlet weak var toolBar: UIToolbar!
 	
 	
 	enum ContentOptions {
@@ -32,6 +33,7 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 	var selectedIndexPath: NSIndexPath?
 	var displayedUser: User?
 	let refreshControl: UIRefreshControl = UIRefreshControl()
+	var playPauseButton: UIBarButtonItem!
 	
 	lazy var settingsLauncher: SettingsLauncher = {
 		let launcher = SettingsLauncher()
@@ -43,6 +45,23 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 		settingsLauncher.showSettings()
 	}
 	
+	@IBAction func onPlayPause(sender: UIBarButtonItem) {
+		switch MusicPlayer.musicStatus {
+		case .Pause:
+			MusicPlayer.musicStatus = .Play
+			loadPauseButton()
+			MusicPlayer.audioPlay.play()
+			
+		case .Play:
+			MusicPlayer.musicStatus = .Pause
+			loadPlayButton()
+			MusicPlayer.audioPlay.pause()
+		}
+	}
+	
+	@IBAction func onStop(sender: UIBarButtonItem) {
+		
+	}
 	@IBAction func handleProfileActionButton(sender: UIButton) {
 		guard let user = displayedUser else {
 			return
@@ -70,6 +89,33 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 		
 		FIRDatabase.database().reference().child("users_by_id/\(uid)/Fans/\(signedInUsersId)").removeValue()
 		FIRDatabase.database().reference().child("users_by_id/\(signedInUsersId)/Following/\(uid)").removeValue()
+	}
+	
+	
+	private func loadPlayButton() {
+		playPauseButton = UIBarButtonItem(barButtonSystemItem: .Play, target: self, action: #selector(self.onPlayPause(_:)))
+		var items = toolBar.items!
+		items[0] = playPauseButton
+		toolBar.setItems(items, animated: false)
+	}
+	
+	private func loadPauseButton() {
+		playPauseButton = UIBarButtonItem(barButtonSystemItem: .Pause, target: self, action: #selector(self.onPlayPause(_:)))
+		var items = toolBar.items!
+		items[0] = playPauseButton
+		toolBar.setItems(items, animated: false)
+	}
+	
+	override func viewWillAppear(animated: Bool) {
+		super.viewWillAppear(animated)
+		toolBar.hidden = MusicPlayer.hidden
+		
+		switch MusicPlayer.musicStatus {
+		case .Play:
+			loadPauseButton()
+		case .Pause:
+			loadPlayButton()
+		}
 	}
 	
 	@IBAction func handleProfileSegmentControl(sender: UISegmentedControl) {
