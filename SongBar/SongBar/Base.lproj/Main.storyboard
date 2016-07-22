@@ -142,11 +142,30 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qLi-DD-jg3">
+                                <rect key="frame" x="0.0" y="507" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem systemItem="play" id="N3w-E8-frl">
+                                        <connections>
+                                            <action selector="onPlay:" destination="Uda-cC-u1n" id="4t7-Yl-goQ"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="F1t-Bo-qnd"/>
+                                    <barButtonItem systemItem="stop" id="OCp-Bn-2oU">
+                                        <connections>
+                                            <action selector="onStop:" destination="Uda-cC-u1n" id="5pW-3m-atK"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="qLi-DD-jg3" firstAttribute="width" secondItem="1IP-pq-bWH" secondAttribute="width" id="0Yj-yU-9Nj"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Dno-Ys-BFo" secondAttribute="trailing" id="2as-s3-IXw"/>
+                            <constraint firstItem="hHa-Xz-5or" firstAttribute="top" secondItem="qLi-DD-jg3" secondAttribute="bottom" id="4J9-bz-sQl"/>
                             <constraint firstItem="Jyu-8f-mmM" firstAttribute="width" secondItem="1IP-pq-bWH" secondAttribute="width" id="7aL-PX-YLr"/>
+                            <constraint firstItem="qLi-DD-jg3" firstAttribute="centerX" secondItem="Jyu-8f-mmM" secondAttribute="centerX" id="Ebw-jz-JSQ"/>
                             <constraint firstItem="Jyu-8f-mmM" firstAttribute="centerX" secondItem="1IP-pq-bWH" secondAttribute="centerX" id="Eri-45-23B"/>
                             <constraint firstItem="Jyu-8f-mmM" firstAttribute="top" secondItem="Dno-Ys-BFo" secondAttribute="bottom" id="GCR-Ac-dic"/>
                             <constraint firstItem="hHa-Xz-5or" firstAttribute="top" secondItem="Jyu-8f-mmM" secondAttribute="bottom" id="InQ-ff-uGN"/>
@@ -162,8 +181,10 @@
                     </view>
                     <navigationItem key="navigationItem" id="lFD-87-ZUI"/>
                     <connections>
+                        <outlet property="playButton" destination="N3w-E8-frl" id="3zU-gk-2Mp"/>
                         <outlet property="segmentControl" destination="Dno-Ys-BFo" id="IKu-fR-adZ"/>
                         <outlet property="tableView" destination="Jyu-8f-mmM" id="X3j-IJ-SyI"/>
+                        <outlet property="toolBar" destination="qLi-DD-jg3" id="e5M-qs-CET"/>
                         <segue destination="wL2-gu-URR" kind="show" identifier="shareControllerID" id="26f-Jh-mAl"/>
                         <segue destination="tld-ee-fPM" kind="show" identifier="userControllerID" id="Ohk-vR-j6F"/>
                     </connections>
@@ -322,18 +343,39 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2U5-5c-fDm">
+                                <rect key="frame" x="0.0" y="507" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem systemItem="play" id="NQD-D4-lR7">
+                                        <connections>
+                                            <action selector="onPlay:" destination="wdR-tR-g4H" id="tBP-L0-pDK"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="aJl-p6-n7C"/>
+                                    <barButtonItem systemItem="stop" id="3S0-vI-dgX">
+                                        <connections>
+                                            <action selector="onStopToolBar:" destination="wdR-tR-g4H" id="xtr-aH-c5O"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Ueg-5C-7WB" firstAttribute="top" secondItem="124-er-dWo" secondAttribute="bottom" id="AyD-Pc-5FK"/>
                             <constraint firstItem="124-er-dWo" firstAttribute="width" secondItem="q84-lb-RLZ" secondAttribute="width" id="CWC-Ln-xaP"/>
+                            <constraint firstItem="2U5-5c-fDm" firstAttribute="width" secondItem="124-er-dWo" secondAttribute="width" id="LEv-cr-GDM"/>
+                            <constraint firstItem="2U5-5c-fDm" firstAttribute="centerX" secondItem="124-er-dWo" secondAttribute="centerX" id="Rdt-vJ-MO6"/>
                             <constraint firstItem="124-er-dWo" firstAttribute="centerX" secondItem="q84-lb-RLZ" secondAttribute="centerX" id="TTi-M1-85u"/>
+                            <constraint firstItem="Ueg-5C-7WB" firstAttribute="top" secondItem="2U5-5c-fDm" secondAttribute="bottom" id="X79-zu-Ijs"/>
                             <constraint firstItem="124-er-dWo" firstAttribute="top" secondItem="9iw-Gt-QSd" secondAttribute="bottom" id="dzc-mD-449"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="1Sx-og-vDP"/>
                     <connections>
+                        <outlet property="playButton" destination="NQD-D4-lR7" id="0fp-aH-BxD"/>
                         <outlet property="tableView" destination="124-er-dWo" id="J3g-tx-VMN"/>
+                        <outlet property="toolBar" destination="2U5-5c-fDm" id="s8B-Ne-dQs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Lu-nk-PYw" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -685,6 +727,10 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="TkU-fr-m73">
+                        <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="wdR-tR-g4H" kind="relationship" relationship="rootViewController" id="sWO-O8-vhs"/>
                     </connections>

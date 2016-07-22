@@ -11,7 +11,11 @@ import Firebase
 
 class SearchController: UIViewController {
 
+	
+	
 
+	@IBOutlet weak var playButton: UIBarButtonItem!
+	@IBOutlet weak var toolBar: UIToolbar!
 	@IBOutlet weak var tableView: UITableView!
 	@IBOutlet weak var segmentControl: UISegmentedControl!
 	
@@ -22,6 +26,7 @@ class SearchController: UIViewController {
 	var spotifyData = [SpotifyTrack]()
 	var searchContent: SearchContentType = .Music
 	var selectedIndexPath: NSIndexPath?
+	var playPauseButton: UIBarButtonItem!
 	
 	@IBAction func onSegmentConrol(sender: UISegmentedControl) {
 		
@@ -41,17 +46,59 @@ class SearchController: UIViewController {
 		}
 	}
 	
+	@IBAction func onPlay(sender: UIBarButtonItem) {
+		switch MusicPlayer.musicStatus {
+		case .Pause:
+			playPauseButton = UIBarButtonItem(barButtonSystemItem: .Pause, target: self, action: #selector(self.onPlay(_:)))
+			MusicPlayer.musicStatus = .Play
+		case .Play:
+			playPauseButton = UIBarButtonItem(barButtonSystemItem: .Play, target: self, action: #selector(self.onPlay(_:)))
+			MusicPlayer.musicStatus = .Pause
+		}
+		
+		var items = toolBar.items!
+		items[0] = playPauseButton
+		toolBar.setItems(items, animated: false)
+	}
+	
+	@IBAction func onStop(sender: UIBarButtonItem) {
+		
+	}
+	
 	enum SearchContentType {
 		case Music
 		case People
 	}
-	
     override func viewDidLoad() {
         super.viewDidLoad()
 
 		setUpView()
-		addToolBar()
     }
+	
+	override func viewWillAppear(animated: Bool) {
+		super.viewWillAppear(animated)
+		toolBar.hidden = MusicPlayer.hidden
+		switch MusicPlayer.musicStatus {
+		case .Play:
+			loadPauseButton()
+		case .Pause:
+			loadPlayButton()
+		}
+	}
+	
+	private func loadPlayButton() {
+		playPauseButton = UIBarButtonItem(barButtonSystemItem: .Play, target: self, action: #selector(self.onPlay(_:)))
+		var items = toolBar.items!
+		items[0] = playPauseButton
+		toolBar.setItems(items, animated: false)
+	}
+	
+	private func loadPauseButton() {
+		playPauseButton = UIBarButtonItem(barButtonSystemItem: .Pause, target: self, action: #selector(self.onPlay(_:)))
+		var items = toolBar.items!
+		items[0] = playPauseButton
+		toolBar.setItems(items, animated: false)
+	}
 	
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		guard let indexPath = selectedIndexPath else {
@@ -231,7 +278,6 @@ extension SearchController: UITableViewDataSource {
 }
 
 extension SearchController: UITableViewDelegate {
-	
 }
 
 extension SearchController: UISearchBarDelegate {

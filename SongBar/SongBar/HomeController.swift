@@ -11,23 +11,73 @@ import Firebase
 
 class HomeController: UIViewController {
 
-	
 	@IBOutlet weak var tableView: UITableView!
+	
+	@IBOutlet weak var toolBar: UIToolbar!
+	@IBOutlet weak var playButton: UIBarButtonItem!
 	
 	var spotifyData = [Track]()
 	var donorsData = [User]()
+	var playPauseButton: UIBarButtonItem!
+	
+	@IBAction func onStopToolBar(sender: UIBarButtonItem) {
+		toolBar.hidden = true
+		MusicPlayer.hidden = true
+	}
+	
+	@IBAction func onPlay(sender: UIBarButtonItem) {
+		switch MusicPlayer.musicStatus {
+		case .Pause:
+			playPauseButton = UIBarButtonItem(barButtonSystemItem: .Pause, target: self, action: #selector(self.onPlay(_:)))
+			MusicPlayer.musicStatus = .Play
+
+		case .Play:
+			playPauseButton = UIBarButtonItem(barButtonSystemItem: .Play, target: self, action: #selector(self.onPlay(_:)))
+			MusicPlayer.musicStatus = .Pause
+
+		}
+		
+		var items = toolBar.items!
+		items[0] = playPauseButton
+		toolBar.setItems(items, animated: false)
+	}
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-
 		getLoggedInUser()
 		setUpViews()
 		fetchReceived()
-		addToolBar()
     }
 	
+	override func viewWillAppear(animated: Bool) {
+		super.viewWillAppear(animated)
+		toolBar.hidden = MusicPlayer.hidden
+		
+		switch MusicPlayer.musicStatus {
+		case .Play:
+			loadPauseButton()
+		case .Pause:
+			loadPlayButton()
+		}
+	}
+	
+	private func loadPlayButton() {
+		playPauseButton = UIBarButtonItem(barButtonSystemItem: .Play, target: self, action: #selector(self.onPlay(_:)))
+		var items = toolBar.items!
+		items[0] = playPauseButton
+		toolBar.setItems(items, animated: false)
+	}
+	
+	private func loadPauseButton() {
+		playPauseButton = UIBarButtonItem(barButtonSystemItem: .Pause, target: self, action: #selector(self.onPlay(_:)))
+		var items = toolBar.items!
+		items[0] = playPauseButton
+		toolBar.setItems(items, animated: false)
+	}
+
 	func setUpViews() {
 		tableView.dataSource = self
+		tableView.delegate = self
 	}
 	
 	private func getLoggedInUser() {
@@ -95,13 +145,6 @@ class HomeController: UIViewController {
 					
 					}, withCancelBlock: nil)
 			}
-			
-//			dispatch_async(dispatch_get_main_queue(), {
-//				self.tableView.reloadData()
-//			})
-			
-			
-			
 			}, withCancelBlock: nil)
 	}
 }
@@ -125,3 +168,17 @@ extension HomeController: UITableViewDataSource {
 		return cell
 	}
 }
+
+extension HomeController: UITableViewDelegate {
+	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+		MusicPlayer.hidden = false
+		toolBar.hidden = false
+	}
+}
+
+
+
+
+
+
+
