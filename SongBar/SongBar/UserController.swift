@@ -21,6 +21,7 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 	@IBOutlet weak var settingsBarItem: UIBarButtonItem!
 	@IBOutlet weak var toolBar: UIToolbar!
 	
+	@IBOutlet weak var toolBarTitleItem: UIBarButtonItem!
 	
 	enum ContentOptions {
 		case Posts, Fans, Following
@@ -60,7 +61,9 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 	}
 	
 	@IBAction func onStop(sender: UIBarButtonItem) {
-		
+		toolBar.hidden = true
+		MusicPlayer.hidden = true
+		MusicPlayer.audioPlay.pause()
 	}
 	@IBAction func handleProfileActionButton(sender: UIButton) {
 		guard let user = displayedUser else {
@@ -116,6 +119,8 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 		case .Pause:
 			loadPlayButton()
 		}
+		
+		toolBarTitleItem.title = MusicPlayer.title
 	}
 	
 	@IBAction func handleProfileSegmentControl(sender: UISegmentedControl) {

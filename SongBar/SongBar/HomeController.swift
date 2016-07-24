@@ -17,6 +17,7 @@ class HomeController: UIViewController {
 	@IBOutlet weak var toolBar: UIToolbar!
 	@IBOutlet weak var playButton: UIBarButtonItem!
 	
+	@IBOutlet weak var toolBarTitleItem: UIBarButtonItem!
 	var spotifyData = [Track]()
 	var donorsData = [User]()
 	var playPauseButton: UIBarButtonItem!
@@ -58,6 +59,7 @@ class HomeController: UIViewController {
 		case .Pause:
 			loadPlayButton()
 		}
+		toolBarTitleItem.title = MusicPlayer.title
 	}
 	
 	private func loadPlayButton() {
@@ -177,6 +179,8 @@ extension HomeController: UITableViewDelegate {
 		MusicPlayer.audioPlay = AVPlayer(URL: url!)
 		MusicPlayer.audioPlay.play()
 		MusicPlayer.musicStatus = .Play
+		MusicPlayer.title = spotifyData[indexPath.row].title
+		toolBarTitleItem.title = MusicPlayer.title
 		loadPauseButton()
 		
 	}

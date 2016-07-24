@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import AVFoundation
 
 class SearchController: UIViewController {
 
@@ -15,6 +16,7 @@ class SearchController: UIViewController {
 	@IBOutlet weak var toolBar: UIToolbar!
 	@IBOutlet weak var tableView: UITableView!
 	@IBOutlet weak var segmentControl: UISegmentedControl!
+	@IBOutlet weak var toolBarTitleItem: UIBarButtonItem!
 	
 	var searchBar: UISearchBar!
 	var indicator = UIActivityIndicatorView()
@@ -48,15 +50,19 @@ class SearchController: UIViewController {
 		case .Pause:
 			MusicPlayer.musicStatus = .Play
 			loadPauseButton()
+			MusicPlayer.audioPlay.play()
+			
 		case .Play:
 			MusicPlayer.musicStatus = .Pause
 			loadPlayButton()
+			MusicPlayer.audioPlay.pause()
 		}
 	}
 	
 	@IBAction func onStop(sender: UIBarButtonItem) {
 		toolBar.hidden = true
 		MusicPlayer.hidden = true
+		MusicPlayer.audioPlay.pause()
 	}
 	
 	enum SearchContentType {
@@ -79,6 +85,8 @@ class SearchController: UIViewController {
 		case .Pause:
 			loadPlayButton()
 		}
+		
+		toolBarTitleItem.title = MusicPlayer.title
 	}
 	
 	private func loadPlayButton() {
@@ -122,6 +130,7 @@ class SearchController: UIViewController {
 		activityIndicator()
 		segmentControl.setTitle("Music", forSegmentAtIndex: 0)
 		segmentControl.setTitle("People", forSegmentAtIndex: 1)
+//		self.hideKeyboardWhenTappedAround()
 	}
 	
 	func activityIndicator() {
@@ -270,9 +279,39 @@ extension SearchController: UITableViewDataSource {
 		selectedIndexPath = indexPath
 		return indexPath
 	}
+	
 }
 
 extension SearchController: UITableViewDelegate {
+	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+		let playAction = UITableViewRowAction()
+		
+		return [playAction]
+	}
+	
+	func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+		// you need to implement this method too or you can't swipe to display the actions
+	}
+	
+	func tableView(tableView: UITableView, willBeginEditingRowAtIndexPath indexPath: NSIndexPath) {
+		switch searchContent {
+		case .Music:
+			let url = NSURL(string: self.spotifyData[indexPath.row].previewUrl)
+			MusicPlayer.audioPlay = AVPlayer(URL: url!)
+			MusicPlayer.audioPlay.play()
+			toolBar.hidden = false
+			MusicPlayer.hidden = false
+			loadPauseButton()
+			MusicPlayer.title = self.spotifyData[indexPath.row].title
+			toolBarTitleItem.title = MusicPlayer.title
+		default:
+			return
+		}
+	}
+	
+	func tableView(tableView: UITableView, didEndEditingRowAtIndexPath indexPath: NSIndexPath) {
+		MusicPlayer.audioPlay.pause()
+	}
 }
 
 extension SearchController: UISearchBarDelegate {

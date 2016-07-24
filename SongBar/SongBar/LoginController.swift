@@ -157,6 +157,7 @@ class LoginController: UIViewController {
 		registerButton.backgroundColor = UIColor.rgb(44, green: 62, blue: 79)
 		registerButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
 		registerButton.layer.cornerRadius = 10
+		self.hideKeyboardWhenTappedAround()
 	}
 	
 	func toggleFromDayToNight() {

@@ -20,4 +20,5 @@ class MusicPlayer {
 	static var hidden = true
 	static var audioPlay: AVPlayer!
 	static var musicStatus: MusicStatus = .Pause
+	static var title: String = ""
 }

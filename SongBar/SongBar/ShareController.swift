@@ -68,6 +68,10 @@ class ShareController: UIViewController {
 			return // No signed in user
 		}
 		
+		if selectedRows.count == 0 {
+			return 
+		}
+		
 		let date = CurrentUser.getServerTime()
 		for row in selectedRows {
 			

@@ -107,6 +107,7 @@ class RegisterController: UIViewController {
 		backButton.backgroundColor = UIColor.greenColor()
 		backButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
 		backButton.layer.cornerRadius = 10
+		self.hideKeyboardWhenTappedAround()
 	}
 	
 	func valideForm() -> Bool {
