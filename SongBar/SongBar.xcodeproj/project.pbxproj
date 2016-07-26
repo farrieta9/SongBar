@@ -14,6 +14,7 @@
 		8C4EC9441D3EE3E000AE8AD7 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4EC9431D3EE3E000AE8AD7 /* FeedCell.swift */; };
 		8C5878071D41982300C9C113 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5878061D41982300C9C113 /* MusicPlayer.swift */; };
 		8C9A46C91D3FD3A200CBD446 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9A46C81D3FD3A200CBD446 /* Track.swift */; };
+		8C9EF90D1D47D09500F7F1B4 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9EF90C1D47D09500F7F1B4 /* TabBarController.swift */; };
 		8CD654271D36B77E00A6AC8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD654261D36B77E00A6AC8E /* AppDelegate.swift */; };
 		8CD6542C1D36B77E00A6AC8E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CD6542A1D36B77E00A6AC8E /* Main.storyboard */; };
 		8CD6542E1D36B77E00A6AC8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8CD6542D1D36B77E00A6AC8E /* Assets.xcassets */; };
@@ -43,6 +44,7 @@
 		8C4EC9431D3EE3E000AE8AD7 /* FeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		8C5878061D41982300C9C113 /* MusicPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		8C9A46C81D3FD3A200CBD446 /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
+		8C9EF90C1D47D09500F7F1B4 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		8CD654231D36B77E00A6AC8E /* SongBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SongBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CD654261D36B77E00A6AC8E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8CD6542B1D36B77E00A6AC8E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				8CE827111D3A89C2006485AF /* SearchController.swift */,
 				8CED2EBD1D3D9AF900929AF8 /* UserController.swift */,
 				8C2733B71D3EECC90013F20A /* ShareController.swift */,
+				8C9EF90C1D47D09500F7F1B4 /* TabBarController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				8C46B2B91D37064E000FF0AB /* User.swift in Sources */,
 				8CFAA96E1D380C620094A726 /* SettingsCell.swift in Sources */,
 				8CFAA96C1D380C500094A726 /* BaseCell.swift in Sources */,
+				8C9EF90D1D47D09500F7F1B4 /* TabBarController.swift in Sources */,
 				8CD654271D36B77E00A6AC8E /* AppDelegate.swift in Sources */,
 				8C2733B81D3EECC90013F20A /* ShareController.swift in Sources */,
 				8CD654401D36C23A00A6AC8E /* Extensions.swift in Sources */,

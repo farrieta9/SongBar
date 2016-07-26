@@ -106,7 +106,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Z7y-QC-Lfw">
-                                                    <rect key="frame" x="16" y="33.5" width="56" height="56"/>
+                                                    <rect key="frame" x="16" y="33" width="56" height="56"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="56" id="C3c-UX-f1j"/>
                                                         <constraint firstAttribute="width" constant="56" id="iEM-uw-BTx"/>
@@ -142,32 +142,11 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qLi-DD-jg3">
-                                <rect key="frame" x="0.0" y="507" width="600" height="44"/>
-                                <items>
-                                    <barButtonItem systemItem="play" id="N3w-E8-frl">
-                                        <connections>
-                                            <action selector="onPlay:" destination="Uda-cC-u1n" id="4t7-Yl-goQ"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="UfK-SY-dln"/>
-                                    <barButtonItem title="Item" id="2y2-SK-0hV"/>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="F1t-Bo-qnd"/>
-                                    <barButtonItem systemItem="stop" id="OCp-Bn-2oU">
-                                        <connections>
-                                            <action selector="onStop:" destination="Uda-cC-u1n" id="5pW-3m-atK"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="qLi-DD-jg3" firstAttribute="width" secondItem="1IP-pq-bWH" secondAttribute="width" id="0Yj-yU-9Nj"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Dno-Ys-BFo" secondAttribute="trailing" id="2as-s3-IXw"/>
-                            <constraint firstItem="hHa-Xz-5or" firstAttribute="top" secondItem="qLi-DD-jg3" secondAttribute="bottom" id="4J9-bz-sQl"/>
                             <constraint firstItem="Jyu-8f-mmM" firstAttribute="width" secondItem="1IP-pq-bWH" secondAttribute="width" id="7aL-PX-YLr"/>
-                            <constraint firstItem="qLi-DD-jg3" firstAttribute="centerX" secondItem="Jyu-8f-mmM" secondAttribute="centerX" id="Ebw-jz-JSQ"/>
                             <constraint firstItem="Jyu-8f-mmM" firstAttribute="centerX" secondItem="1IP-pq-bWH" secondAttribute="centerX" id="Eri-45-23B"/>
                             <constraint firstItem="Jyu-8f-mmM" firstAttribute="top" secondItem="Dno-Ys-BFo" secondAttribute="bottom" id="GCR-Ac-dic"/>
                             <constraint firstItem="hHa-Xz-5or" firstAttribute="top" secondItem="Jyu-8f-mmM" secondAttribute="bottom" id="InQ-ff-uGN"/>
@@ -183,11 +162,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="lFD-87-ZUI"/>
                     <connections>
-                        <outlet property="playButton" destination="N3w-E8-frl" id="3zU-gk-2Mp"/>
                         <outlet property="segmentControl" destination="Dno-Ys-BFo" id="IKu-fR-adZ"/>
                         <outlet property="tableView" destination="Jyu-8f-mmM" id="X3j-IJ-SyI"/>
-                        <outlet property="toolBar" destination="qLi-DD-jg3" id="e5M-qs-CET"/>
-                        <outlet property="toolBarTitleItem" destination="2y2-SK-0hV" id="ADn-p4-YB2"/>
                         <segue destination="wL2-gu-URR" kind="show" identifier="shareControllerID" id="26f-Jh-mAl"/>
                         <segue destination="tld-ee-fPM" kind="show" identifier="userControllerID" id="Ohk-vR-j6F"/>
                     </connections>
@@ -346,42 +322,18 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2U5-5c-fDm">
-                                <rect key="frame" x="0.0" y="507" width="600" height="44"/>
-                                <items>
-                                    <barButtonItem systemItem="play" id="NQD-D4-lR7">
-                                        <connections>
-                                            <action selector="onPlay:" destination="wdR-tR-g4H" id="tBP-L0-pDK"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="rvm-80-BLG"/>
-                                    <barButtonItem title="Item" id="f4P-Ho-952"/>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="aJl-p6-n7C"/>
-                                    <barButtonItem systemItem="stop" id="3S0-vI-dgX">
-                                        <connections>
-                                            <action selector="onStopToolBar:" destination="wdR-tR-g4H" id="xtr-aH-c5O"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Ueg-5C-7WB" firstAttribute="top" secondItem="124-er-dWo" secondAttribute="bottom" id="AyD-Pc-5FK"/>
                             <constraint firstItem="124-er-dWo" firstAttribute="width" secondItem="q84-lb-RLZ" secondAttribute="width" id="CWC-Ln-xaP"/>
-                            <constraint firstItem="2U5-5c-fDm" firstAttribute="width" secondItem="124-er-dWo" secondAttribute="width" id="LEv-cr-GDM"/>
-                            <constraint firstItem="2U5-5c-fDm" firstAttribute="centerX" secondItem="124-er-dWo" secondAttribute="centerX" id="Rdt-vJ-MO6"/>
                             <constraint firstItem="124-er-dWo" firstAttribute="centerX" secondItem="q84-lb-RLZ" secondAttribute="centerX" id="TTi-M1-85u"/>
-                            <constraint firstItem="Ueg-5C-7WB" firstAttribute="top" secondItem="2U5-5c-fDm" secondAttribute="bottom" id="X79-zu-Ijs"/>
                             <constraint firstItem="124-er-dWo" firstAttribute="top" secondItem="9iw-Gt-QSd" secondAttribute="bottom" id="dzc-mD-449"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="1Sx-og-vDP"/>
                     <connections>
-                        <outlet property="playButton" destination="NQD-D4-lR7" id="0fp-aH-BxD"/>
                         <outlet property="tableView" destination="124-er-dWo" id="J3g-tx-VMN"/>
-                        <outlet property="toolBar" destination="2U5-5c-fDm" id="s8B-Ne-dQs"/>
-                        <outlet property="toolBarTitleItem" destination="f4P-Ho-952" id="Fpu-f0-84L"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Lu-nk-PYw" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -391,7 +343,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="5wg-X8-3AN">
             <objects>
-                <tabBarController id="uJO-w4-0kV" sceneMemberID="viewController">
+                <tabBarController id="uJO-w4-0kV" customClass="TabBarController" customModule="SongBar" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="i4A-kX-QSX">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -664,24 +616,6 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="usM-H0-GuM">
-                                <rect key="frame" x="0.0" y="507" width="600" height="44"/>
-                                <items>
-                                    <barButtonItem systemItem="play" id="ZLH-7p-M8V">
-                                        <connections>
-                                            <action selector="onPlayPause:" destination="tld-ee-fPM" id="ZNm-kL-7bj"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="xuf-kh-FPR"/>
-                                    <barButtonItem title="Item" id="kD1-t6-tv2"/>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="YpI-0c-zWI"/>
-                                    <barButtonItem systemItem="stop" id="GCp-Xp-oJ1">
-                                        <connections>
-                                            <action selector="onStop:" destination="tld-ee-fPM" id="dgb-wx-Hsg"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -689,11 +623,8 @@
                             <constraint firstItem="1uI-Q4-r8J" firstAttribute="centerX" secondItem="kQ3-XD-j7D" secondAttribute="centerX" id="F9t-rB-lfv"/>
                             <constraint firstItem="1uI-Q4-r8J" firstAttribute="width" secondItem="kQ3-XD-j7D" secondAttribute="width" id="HT1-qj-BQN"/>
                             <constraint firstItem="XzA-qm-j1Z" firstAttribute="top" secondItem="1uI-Q4-r8J" secondAttribute="bottom" id="Mkd-5x-86W"/>
-                            <constraint firstItem="usM-H0-GuM" firstAttribute="centerX" secondItem="kQ3-XD-j7D" secondAttribute="centerX" id="QMh-iB-47V"/>
-                            <constraint firstItem="usM-H0-GuM" firstAttribute="width" secondItem="kQ3-XD-j7D" secondAttribute="width" id="RV9-yR-af1"/>
                             <constraint firstItem="1uI-Q4-r8J" firstAttribute="leading" secondItem="kQ3-XD-j7D" secondAttribute="leadingMargin" id="hqm-Wu-VaJ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="1uI-Q4-r8J" secondAttribute="trailing" id="j8I-E6-VTF"/>
-                            <constraint firstItem="XzA-qm-j1Z" firstAttribute="top" secondItem="usM-H0-GuM" secondAttribute="bottom" id="rJe-Yf-cmk"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -718,8 +649,6 @@
                         <outlet property="segmentControl" destination="MSR-wO-khj" id="3dD-8N-OQU"/>
                         <outlet property="settingsBarItem" destination="VXQ-X7-NaD" id="MjN-nJ-xMm"/>
                         <outlet property="tableView" destination="1uI-Q4-r8J" id="96X-HT-Ufu"/>
-                        <outlet property="toolBar" destination="usM-H0-GuM" id="pXA-El-TFx"/>
-                        <outlet property="toolBarTitleItem" destination="kD1-t6-tv2" id="vJT-Ui-ebU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u2A-Uf-YRI" userLabel="First Responder" sceneMemberID="firstResponder"/>

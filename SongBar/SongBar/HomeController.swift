@@ -14,33 +14,8 @@ class HomeController: UIViewController {
 
 	@IBOutlet weak var tableView: UITableView!
 	
-	@IBOutlet weak var toolBar: UIToolbar!
-	@IBOutlet weak var playButton: UIBarButtonItem!
-	
-	@IBOutlet weak var toolBarTitleItem: UIBarButtonItem!
 	var spotifyData = [Track]()
 	var donorsData = [User]()
-	var playPauseButton: UIBarButtonItem!
-	
-	@IBAction func onStopToolBar(sender: UIBarButtonItem) {
-		toolBar.hidden = true
-		MusicPlayer.hidden = true
-		MusicPlayer.audioPlay.pause()
-	}
-	
-	@IBAction func onPlay(sender: UIBarButtonItem) {
-		switch MusicPlayer.musicStatus {
-		case .Pause:
-			MusicPlayer.musicStatus = .Play
-			loadPauseButton()
-			MusicPlayer.audioPlay.play()
-
-		case .Play:
-			MusicPlayer.musicStatus = .Pause
-			loadPlayButton()
-			MusicPlayer.audioPlay.pause()
-		}
-	}
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,33 +23,6 @@ class HomeController: UIViewController {
 		setUpViews()
 		fetchReceived()
     }
-	
-	override func viewWillAppear(animated: Bool) {
-		super.viewWillAppear(animated)
-		toolBar.hidden = MusicPlayer.hidden
-		
-		switch MusicPlayer.musicStatus {
-		case .Play:
-			loadPauseButton()
-		case .Pause:
-			loadPlayButton()
-		}
-		toolBarTitleItem.title = MusicPlayer.title
-	}
-	
-	private func loadPlayButton() {
-		playPauseButton = UIBarButtonItem(barButtonSystemItem: .Play, target: self, action: #selector(self.onPlay(_:)))
-		var items = toolBar.items!
-		items[0] = playPauseButton
-		toolBar.setItems(items, animated: false)
-	}
-	
-	private func loadPauseButton() {
-		playPauseButton = UIBarButtonItem(barButtonSystemItem: .Pause, target: self, action: #selector(self.onPlay(_:)))
-		var items = toolBar.items!
-		items[0] = playPauseButton
-		toolBar.setItems(items, animated: false)
-	}
 
 	func setUpViews() {
 		tableView.dataSource = self
@@ -172,17 +120,13 @@ extension HomeController: UITableViewDataSource {
 
 extension HomeController: UITableViewDelegate {
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		MusicPlayer.hidden = false
-		toolBar.hidden = false
 		let previewURL = spotifyData[indexPath.row].previewUrl
 		let url = NSURL(string: previewURL)
 		MusicPlayer.audioPlay = AVPlayer(URL: url!)
 		MusicPlayer.audioPlay.play()
 		MusicPlayer.musicStatus = .Play
-		MusicPlayer.title = spotifyData[indexPath.row].title
-		toolBarTitleItem.title = MusicPlayer.title
-		loadPauseButton()
-		
+		MusicPlayer.playView?.hidden = false
+		MusicPlayer.titleLabel?.text = spotifyData[indexPath.row].title
 	}
 }
 

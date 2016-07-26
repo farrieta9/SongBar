@@ -12,11 +12,10 @@ import AVFoundation
 
 class SearchController: UIViewController {
 
-	@IBOutlet weak var playButton: UIBarButtonItem!
-	@IBOutlet weak var toolBar: UIToolbar!
 	@IBOutlet weak var tableView: UITableView!
 	@IBOutlet weak var segmentControl: UISegmentedControl!
-	@IBOutlet weak var toolBarTitleItem: UIBarButtonItem!
+	
+	
 	
 	var searchBar: UISearchBar!
 	var indicator = UIActivityIndicatorView()
@@ -45,25 +44,6 @@ class SearchController: UIViewController {
 		}
 	}
 	
-	@IBAction func onPlay(sender: UIBarButtonItem) {
-		switch MusicPlayer.musicStatus {
-		case .Pause:
-			MusicPlayer.musicStatus = .Play
-			loadPauseButton()
-			MusicPlayer.audioPlay.play()
-			
-		case .Play:
-			MusicPlayer.musicStatus = .Pause
-			loadPlayButton()
-			MusicPlayer.audioPlay.pause()
-		}
-	}
-	
-	@IBAction func onStop(sender: UIBarButtonItem) {
-		toolBar.hidden = true
-		MusicPlayer.hidden = true
-		MusicPlayer.audioPlay.pause()
-	}
 	
 	enum SearchContentType {
 		case Music
@@ -75,33 +55,6 @@ class SearchController: UIViewController {
 
 		setUpView()
     }
-	
-	override func viewWillAppear(animated: Bool) {
-		super.viewWillAppear(animated)
-		toolBar.hidden = MusicPlayer.hidden
-		switch MusicPlayer.musicStatus {
-		case .Play:
-			loadPauseButton()
-		case .Pause:
-			loadPlayButton()
-		}
-		
-		toolBarTitleItem.title = MusicPlayer.title
-	}
-	
-	private func loadPlayButton() {
-		playPauseButton = UIBarButtonItem(barButtonSystemItem: .Play, target: self, action: #selector(self.onPlay(_:)))
-		var items = toolBar.items!
-		items[0] = playPauseButton
-		toolBar.setItems(items, animated: false)
-	}
-	
-	private func loadPauseButton() {
-		playPauseButton = UIBarButtonItem(barButtonSystemItem: .Pause, target: self, action: #selector(self.onPlay(_:)))
-		var items = toolBar.items!
-		items[0] = playPauseButton
-		toolBar.setItems(items, animated: false)
-	}
 	
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		guard let indexPath = selectedIndexPath else {
@@ -131,6 +84,7 @@ class SearchController: UIViewController {
 		segmentControl.setTitle("Music", forSegmentAtIndex: 0)
 		segmentControl.setTitle("People", forSegmentAtIndex: 1)
 //		self.hideKeyboardWhenTappedAround()
+
 	}
 	
 	func activityIndicator() {
@@ -299,11 +253,8 @@ extension SearchController: UITableViewDelegate {
 			let url = NSURL(string: self.spotifyData[indexPath.row].previewUrl)
 			MusicPlayer.audioPlay = AVPlayer(URL: url!)
 			MusicPlayer.audioPlay.play()
-			toolBar.hidden = false
-			MusicPlayer.hidden = false
-			loadPauseButton()
-			MusicPlayer.title = self.spotifyData[indexPath.row].title
-			toolBarTitleItem.title = MusicPlayer.title
+			MusicPlayer.playView?.hidden = false
+			MusicPlayer.titleLabel?.text = self.spotifyData[indexPath.row].title
 		default:
 			return
 		}
