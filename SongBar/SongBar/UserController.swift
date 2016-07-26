@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import AVFoundation
 
 class UserController: UIViewController, UINavigationControllerDelegate {
 	
@@ -428,6 +429,22 @@ extension UserController: UITableViewDelegate {
 	func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
 		selectedIndexPath = indexPath
 		return indexPath
+	}
+	
+	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+		switch contentOptions {
+		case .Posts:
+			let previewURL = postsData[indexPath.row].previewUrl
+			let url = NSURL(string: previewURL)
+			MusicPlayer.audioPlay = AVPlayer(URL: url!)
+			MusicPlayer.audioPlay.play()
+			MusicPlayer.musicStatus = .Play
+			MusicPlayer.playView?.hidden = false
+			MusicPlayer.titleLabel?.text = postsData[indexPath.row].title
+			
+		default:
+			return
+		}
 	}
 }
 

@@ -22,9 +22,11 @@ class TabBarController: UITabBarController {
 		let view = UIView()
 		view.backgroundColor = UIColor.redColor()
 		view.translatesAutoresizingMaskIntoConstraints = false
-		view.hidden = false
+		view.hidden = true
+		view.backgroundColor = UIColor.rgb(225, green: 227, blue: 228)
 		return view
 	}()
+	
 
 	let titleLabel: UILabel = {
 		let label = UILabel()
