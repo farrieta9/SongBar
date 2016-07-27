@@ -253,10 +253,10 @@
             </objects>
             <point key="canvasLocation" x="1206" y="2386"/>
         </scene>
-        <!--Home Controller-->
+        <!--Feed Controller-->
         <scene sceneID="yN8-GQ-dyg">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="wdR-tR-g4H" customClass="HomeController" customModule="SongBar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="wdR-tR-g4H" customClass="FeedController" customModule="SongBar" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9iw-Gt-QSd"/>
                         <viewControllerLayoutGuide type="bottom" id="Ueg-5C-7WB"/>
@@ -674,11 +674,11 @@
             </objects>
             <point key="canvasLocation" x="1206" y="961"/>
         </scene>
-        <!--Home-->
+        <!--Feed-->
         <scene sceneID="sDW-Fz-Yg8">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="f9t-05-nAN" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Home" id="SFc-lO-Hvy"/>
+                    <tabBarItem key="tabBarItem" title="Feed" image="activity_feed" id="SFc-lO-Hvy"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Tl4-R1-QVF">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -699,6 +699,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="activity_feed" width="25" height="25"/>
         <image name="default_profile" width="300" height="300"/>
     </resources>
     <inferredMetricsTieBreakers>

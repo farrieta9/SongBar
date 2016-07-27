@@ -1,5 +1,5 @@
 //
-//  HomeController.swift
+//  FeedController.swift
 //  SongBar
 //
 //  Created by Francisco Arrieta on 7/13/16.
@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import AVFoundation
 
-class HomeController: UIViewController {
+class FeedController: UIViewController {
 
 	@IBOutlet weak var tableView: UITableView!
 	
@@ -98,7 +98,7 @@ class HomeController: UIViewController {
 	}
 }
 
-extension HomeController: UITableViewDataSource {
+extension FeedController: UITableViewDataSource {
 	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 		return 1
 	}
@@ -118,7 +118,7 @@ extension HomeController: UITableViewDataSource {
 	}
 }
 
-extension HomeController: UITableViewDelegate {
+extension FeedController: UITableViewDelegate {
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		let previewURL = spotifyData[indexPath.row].previewUrl
 		let url = NSURL(string: previewURL)

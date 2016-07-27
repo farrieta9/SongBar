@@ -12,9 +12,9 @@ class TabBarController: UITabBarController {
 
 	let stopButton: UIButton = {
 		let button = UIButton()
-		button.setTitle("Stop", forState: .Normal)
-		button.setTitleColor(UIColor.blueColor(), forState: .Normal)
 		button.translatesAutoresizingMaskIntoConstraints = false
+		let image = UIImage(named: "delete.png")
+		button.setImage(image, forState: .Normal)
 		return button
 	}()
 	
@@ -22,25 +22,34 @@ class TabBarController: UITabBarController {
 		let view = UIView()
 		view.backgroundColor = UIColor.redColor()
 		view.translatesAutoresizingMaskIntoConstraints = false
-		view.hidden = true
+		view.hidden = false
 		view.backgroundColor = UIColor.rgb(225, green: 227, blue: 228)
 		return view
 	}()
 	
-
 	let titleLabel: UILabel = {
 		let label = UILabel()
 		label.text = "123"
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.textAlignment = .Center
+		label.font = UIFont.systemFontOfSize(15)
+		return label
+	}()
+	
+	let detailLabel: UILabel = {
+		let label = UILabel()
+		label.text = "Detail"
+		label.translatesAutoresizingMaskIntoConstraints = false
+		label.textAlignment = .Center
+		label.font = UIFont.systemFontOfSize(15)
 		return label
 	}()
 	
 	let playButton: UIButton = {
 		let button = UIButton()
-		button.setTitle("Pause", forState: .Normal)
-		button.setTitleColor(UIColor.blueColor(), forState: .Normal)
 		button.translatesAutoresizingMaskIntoConstraints = false
+		let image = UIImage(named: "pause.png")
+		button.setImage(image, forState: .Normal)
 		return button
 	}()
 	
@@ -52,6 +61,7 @@ class TabBarController: UITabBarController {
 		view.addSubview(playerView)
 		playerView.addSubview(stopButton)
 		playerView.addSubview(titleLabel)
+		playerView.addSubview(detailLabel)
 		playerView.addSubview(playButton)
 		
 		// Need x, y, width, and height
@@ -69,9 +79,15 @@ class TabBarController: UITabBarController {
 		
 		// Need x, y, width, and height
 		titleLabel.centerXAnchor.constraintEqualToAnchor(playerView.centerXAnchor).active = true
-		titleLabel.centerYAnchor.constraintEqualToAnchor(playerView.centerYAnchor).active = true
-		titleLabel.widthAnchor.constraintEqualToAnchor(playerView.widthAnchor, constant: -10).active = true
+		titleLabel.centerYAnchor.constraintEqualToAnchor(playerView.centerYAnchor, constant: -8).active = true
+		titleLabel.widthAnchor.constraintEqualToAnchor(playerView.widthAnchor, constant: -150).active = true
 		titleLabel.heightAnchor.constraintEqualToConstant(30).active = true
+		
+		// Need x, y, width, and height
+		detailLabel.centerXAnchor.constraintEqualToAnchor(playerView.centerXAnchor).active = true
+		detailLabel.centerYAnchor.constraintEqualToAnchor(playerView.centerYAnchor, constant: 8).active = true
+		detailLabel.widthAnchor.constraintEqualToAnchor(playerView.widthAnchor, constant: -150).active = true
+		detailLabel.heightAnchor.constraintEqualToConstant(30).active = true
 		
 		// Need x, y, width, and height
 		playButton.centerXAnchor.constraintEqualToAnchor(playerView.leftAnchor, constant: 36).active = true
@@ -102,13 +118,16 @@ class TabBarController: UITabBarController {
 		switch MusicPlayer.musicStatus {
 		case .Pause:
 			MusicPlayer.musicStatus = .Play
-			sender.setTitle("Pause", forState: .Normal)
+			let image = UIImage(named: "pause")
+			sender.setImage(image, forState: .Normal)
 			audioPlayer.play()
 			
 		case .Play:
 			MusicPlayer.musicStatus = .Pause
-			sender.setTitle("Play", forState: .Normal)
+			let image = UIImage(named: "play")
+			sender.setImage(image, forState: .Normal)
 			audioPlayer.pause()
 		}
+		
 	}
 }
