@@ -102,6 +102,7 @@ class SearchController: UIViewController {
 		searchBar.delegate = self
 		searchBar.autocorrectionType = .No
 		searchBar.autocapitalizationType = .None
+		searchBar.returnKeyType = .Done
 		self.navigationItem.titleView = searchBar
 	}
 	
@@ -197,20 +198,14 @@ extension SearchController: UITableViewDataSource {
 		
 		switch searchContent {
 		case .Music:
-			cell.titleLabel.text = spotifyData[indexPath.row].title
-			cell.detailLabel.text = spotifyData[indexPath.row].artist
-			cell.pictureView.loadImageUsingURLString(spotifyData[indexPath.row].imageUrl)
+			cell.setCell(spotifyData[indexPath.row].title, detail: spotifyData[indexPath.row].artist, imageString: spotifyData[indexPath.row].imageUrl)
 		case .People:
-			cell.titleLabel.text = peopleData[indexPath.row].username
-			cell.detailLabel.text = peopleData[indexPath.row].fullname
 			
+			var image = ""
 			if let imageString = peopleData[indexPath.row].imageString {
-				cell.pictureView.loadImageUsingURLString(imageString)
-			} else {
-				// When the user does not have a picture load the default picture
-				cell.pictureView.image = UIImage(named: "default_profile.png")
+				image = imageString
 			}
-			
+			cell.setCell(peopleData[indexPath.row].username!, detail: peopleData[indexPath.row].fullname!, imageString: image)
 		}
 		return cell
 	}

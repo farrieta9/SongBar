@@ -404,17 +404,13 @@ extension UserController: UITableViewDataSource {
 		
 		switch contentOptions {
 		case .Posts:
-			cell.titleLabel.text = postsData[indexPath.row].title
-			cell.detailLabel.text = postsData[indexPath.row].artist
-			cell.pictureView.loadImageUsingURLString(postsData[indexPath.row].imageUrl)
+			cell.setCell(postsData[indexPath.row].title, detail: postsData[indexPath.row].artist, imageString: postsData[indexPath.row].imageUrl)
+			
 		case .Fans:
-			cell.titleLabel.text = fansData[indexPath.row].username
-			cell.detailLabel.text = fansData[indexPath.row].fullname
-			cell.pictureView.loadImageUsingURLString(fansData[indexPath.row].imageString!)
+			cell.setCell(fansData[indexPath.row].username!, detail: fansData[indexPath.row].fullname!, imageString: fansData[indexPath.row].imageString!)
+			
 		case .Following:
-			cell.titleLabel.text = followingData[indexPath.row].username
-			cell.detailLabel.text = followingData[indexPath.row].fullname
-			cell.pictureView.loadImageUsingURLString(followingData[indexPath.row].imageString!)
+			cell.setCell(followingData[indexPath.row].username!, detail: followingData[indexPath.row].fullname!, imageString: followingData[indexPath.row].imageString!)
 		}
 		
 		return cell
