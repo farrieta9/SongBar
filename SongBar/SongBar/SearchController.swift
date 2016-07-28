@@ -245,11 +245,8 @@ extension SearchController: UITableViewDelegate {
 	func tableView(tableView: UITableView, willBeginEditingRowAtIndexPath indexPath: NSIndexPath) {
 		switch searchContent {
 		case .Music:
-			let url = NSURL(string: self.spotifyData[indexPath.row].previewUrl)
-			MusicPlayer.audioPlay = AVPlayer(URL: url!)
-			MusicPlayer.audioPlay.play()
-			MusicPlayer.playView?.hidden = false
-			MusicPlayer.titleLabel?.text = self.spotifyData[indexPath.row].title
+			MusicPlayer.playSong(self.spotifyData[indexPath.row].previewUrl, title: self.spotifyData[indexPath.row].title)
+			self.searchBar.resignFirstResponder()
 		default:
 			return
 		}

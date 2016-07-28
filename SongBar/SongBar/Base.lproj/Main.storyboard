@@ -481,7 +481,7 @@
         <scene sceneID="l2u-2K-f1H">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="3om-oq-h6G" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" id="fae-ep-Wow"/>
+                    <tabBarItem key="tabBarItem" title="Profile" image="neutral_user" id="fae-ep-Wow"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="yoJ-LI-wZO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -701,8 +701,9 @@
     <resources>
         <image name="activity_feed" width="25" height="25"/>
         <image name="default_profile" width="300" height="300"/>
+        <image name="neutral_user" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Ohk-vR-j6F"/>
+        <segue reference="pKL-s6-Haj"/>
     </inferredMetricsTieBreakers>
 </document>

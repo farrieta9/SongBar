@@ -22,7 +22,7 @@ class TabBarController: UITabBarController {
 		let view = UIView()
 		view.backgroundColor = UIColor.redColor()
 		view.translatesAutoresizingMaskIntoConstraints = false
-		view.hidden = false
+		view.hidden = true
 		view.backgroundColor = UIColor.rgb(225, green: 227, blue: 228)
 		return view
 	}()
@@ -57,6 +57,7 @@ class TabBarController: UITabBarController {
         super.viewDidLoad()
 		MusicPlayer.playView = playerView
 		MusicPlayer.titleLabel = titleLabel
+		MusicPlayer.playButton = playButton
 		
 		view.addSubview(playerView)
 		playerView.addSubview(stopButton)
@@ -66,7 +67,7 @@ class TabBarController: UITabBarController {
 		
 		// Need x, y, width, and height
 		playerView.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
-		playerView.centerYAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: -74).active = true
+		playerView.centerYAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: -70).active = true
 		playerView.widthAnchor.constraintEqualToAnchor(view.widthAnchor).active = true
 		playerView.heightAnchor.constraintEqualToConstant(50).active = true
 	
@@ -75,7 +76,6 @@ class TabBarController: UITabBarController {
 		stopButton.centerYAnchor.constraintEqualToAnchor(playerView.centerYAnchor, constant: 0).active = true
 		stopButton.widthAnchor.constraintEqualToConstant(50).active = true
 		stopButton.heightAnchor.constraintEqualToConstant(50).active = true
-		
 		
 		// Need x, y, width, and height
 		titleLabel.centerXAnchor.constraintEqualToAnchor(playerView.centerXAnchor).active = true
@@ -90,7 +90,7 @@ class TabBarController: UITabBarController {
 		detailLabel.heightAnchor.constraintEqualToConstant(30).active = true
 		
 		// Need x, y, width, and height
-		playButton.centerXAnchor.constraintEqualToAnchor(playerView.leftAnchor, constant: 36).active = true
+		playButton.centerXAnchor.constraintEqualToAnchor(playerView.leftAnchor, constant: 32).active = true
 		playButton.centerYAnchor.constraintEqualToAnchor(playerView.centerYAnchor).active = true
 		playButton.widthAnchor.constraintEqualToConstant(50).active = true
 		playButton.heightAnchor.constraintEqualToConstant(50).active = true
