@@ -22,14 +22,16 @@ class MusicPlayer {
 	static var playView: UIView?
 	static var titleLabel: UILabel?
 	static var playButton: UIButton?
+	static var detailLabel: UILabel?
 	
-	static func playSong(urlString: String, title: String) {
+	static func playSong(urlString: String, title: String, detail: String) {
 		if let url = NSURL(string: urlString) {
 			audioPlay = AVPlayer(URL: url)
 			audioPlay.play()
 			musicStatus = .Play
 			playView?.hidden = false
 			titleLabel?.text = title
+			detailLabel?.text = detail
 			let image = UIImage(named: "pause")
 			playButton?.setImage(image, forState: .Normal)
 		}

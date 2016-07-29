@@ -245,15 +245,15 @@ extension SearchController: UITableViewDelegate {
 	func tableView(tableView: UITableView, willBeginEditingRowAtIndexPath indexPath: NSIndexPath) {
 		switch searchContent {
 		case .Music:
-			MusicPlayer.playSong(self.spotifyData[indexPath.row].previewUrl, title: self.spotifyData[indexPath.row].title)
+			MusicPlayer.playSong(self.spotifyData[indexPath.row].previewUrl, title: self.spotifyData[indexPath.row].title, detail: self.spotifyData[indexPath.row].artist)
 			self.searchBar.resignFirstResponder()
 		default:
 			return
 		}
 	}
 	
-	func tableView(tableView: UITableView, didEndEditingRowAtIndexPath indexPath: NSIndexPath) {
-		MusicPlayer.audioPlay.pause()
+	func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+		searchBar.resignFirstResponder()
 	}
 }
 

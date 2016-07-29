@@ -57,6 +57,7 @@ class TabBarController: UITabBarController {
         super.viewDidLoad()
 		MusicPlayer.playView = playerView
 		MusicPlayer.titleLabel = titleLabel
+		MusicPlayer.detailLabel = detailLabel
 		MusicPlayer.playButton = playButton
 		
 		view.addSubview(playerView)

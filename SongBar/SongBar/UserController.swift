@@ -431,13 +431,7 @@ extension UserController: UITableViewDelegate {
 		switch contentOptions {
 		case .Posts:
 			let previewURL = postsData[indexPath.row].previewUrl
-			let url = NSURL(string: previewURL)
-			MusicPlayer.audioPlay = AVPlayer(URL: url!)
-			MusicPlayer.audioPlay.play()
-			MusicPlayer.musicStatus = .Play
-			MusicPlayer.playView?.hidden = false
-			MusicPlayer.titleLabel?.text = postsData[indexPath.row].title
-			
+			MusicPlayer.playSong(previewURL, title: postsData[indexPath.row].title, detail: postsData[indexPath.row].artist)
 		default:
 			return
 		}

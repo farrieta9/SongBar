@@ -84,29 +84,36 @@ class RegisterController: UIViewController {
 		usernameTextField.placeholder = "Username"
 		usernameTextField.autocorrectionType = .No
 		usernameTextField.delegate = self
+		usernameTextField.textAlignment = .Left
 		
 		fullnameTextField.delegate = self
 		fullnameTextField.autocorrectionType = .No
 		fullnameTextField.placeholder = "Fullname"
+		fullnameTextField.textAlignment = .Left
 		
 		emailTextField.placeholder = "Email"
 		emailTextField.autocorrectionType = .No
 		emailTextField.keyboardType = .EmailAddress
 		emailTextField.delegate = self
+		emailTextField.textAlignment = .Left
 		
 		passwordTextField.placeholder = "Password"
 		passwordTextField.secureTextEntry = true
 		passwordTextField.delegate = self
+		passwordTextField.textAlignment = .Left
 		
 		registerButton.setTitle("Register", forState: .Normal)
 		registerButton.backgroundColor = UIColor.rgb(44, green: 62, blue: 79)
 		registerButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
 		registerButton.layer.cornerRadius = 10
+		registerButton.applyGraidentToButton()
 		
 		backButton.setTitle("Back", forState: .Normal)
 		backButton.backgroundColor = UIColor.greenColor()
 		backButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
 		backButton.layer.cornerRadius = 10
+		backButton.applyGraidentToButton()
+		
 		self.hideKeyboardWhenTappedAround()
 	}
 	

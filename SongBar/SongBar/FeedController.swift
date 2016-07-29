@@ -120,7 +120,7 @@ extension FeedController: UITableViewDataSource {
 
 extension FeedController: UITableViewDelegate {
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		MusicPlayer.playSong(spotifyData[indexPath.row].previewUrl, title: spotifyData[indexPath.row].title)
+		MusicPlayer.playSong(spotifyData[indexPath.row].previewUrl, title: spotifyData[indexPath.row].title, detail: spotifyData[indexPath.row].artist)
 	}
 }
 

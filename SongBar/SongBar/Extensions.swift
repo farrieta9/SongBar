@@ -72,3 +72,20 @@ extension UIViewController {
 	}
 }
 
+extension UIButton {
+	func applyGraidentToButton() {
+		let colors = [UIColor.rgb(60, green: 148, blue: 139).CGColor,
+		              UIColor.rgb(225, green: 227, blue: 228).CGColor]
+		
+		let gradient: CAGradientLayer = CAGradientLayer()
+		gradient.colors = colors
+		gradient.frame = self.bounds
+		self.clipsToBounds = true
+		
+		// Make gradient horizontal
+		gradient.startPoint = CGPointMake(0.0, 0.5)
+		gradient.endPoint = CGPointMake(1.0, 0.5)
+		
+		self.layer.insertSublayer(gradient, atIndex: 0)
+	}
+}
