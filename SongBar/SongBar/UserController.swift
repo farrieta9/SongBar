@@ -101,6 +101,7 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 	func setUpView() {
 		refreshControl.addTarget(self, action: #selector(self.handleRefreshControl), forControlEvents: .ValueChanged)
 		tableView.addSubview(refreshControl)
+		self.navigationItem.title = "Profile"
 	}
 	
 	func handleRefreshControl() {

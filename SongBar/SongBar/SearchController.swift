@@ -215,6 +215,7 @@ extension SearchController: UITableViewDataSource {
 	}
 	
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+		
 		switch searchContent {
 		case .Music:
 			performSegueWithIdentifier("shareControllerID", sender: self)
@@ -225,6 +226,7 @@ extension SearchController: UITableViewDataSource {
 	
 	
 	func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+		searchBar.resignFirstResponder()
 		selectedIndexPath = indexPath
 		return indexPath
 	}

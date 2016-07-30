@@ -27,6 +27,7 @@ class FeedController: UIViewController {
 	func setUpViews() {
 		tableView.dataSource = self
 		tableView.delegate = self
+		self.navigationItem.title = "Feed"
 	}
 	
 	private func getLoggedInUser() {

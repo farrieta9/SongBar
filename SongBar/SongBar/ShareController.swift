@@ -16,13 +16,61 @@ class ShareController: UIViewController {
 	var selectedRows = [Int]()
 	var fansData = [User]()
 	var track: SpotifyTrack!
+	var inputContainerBottomAnchor: NSLayoutConstraint?
+	
+	let textField: UITextField = {
+		let tf = UITextField()
+		tf.placeholder = "Add a thought..."
+		tf.returnKeyType = .Done
+		tf.translatesAutoresizingMaskIntoConstraints = false
+		return tf
+	}()
+	
+	let inputContainerView: UIView = {
+		let view = UIView()
+		view.backgroundColor = UIColor(white: 0.97, alpha: 1.0)
+		view.translatesAutoresizingMaskIntoConstraints = false
+		return view
+	}()
 	
     override func viewDidLoad() {
         super.viewDidLoad()
 
 		setUpView()
+		setUpKeyboardObservers()
 		fetchFans()
     }
+	
+	override func viewDidDisappear(animated: Bool) {
+		super.viewDidDisappear(animated)
+		
+		NSNotificationCenter.defaultCenter().removeObserver(self)  // To prevent memory leak
+	}
+	
+	func setUpKeyboardObservers() {
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.handleKeyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.handleKeyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+	}
+	
+	func handleKeyboardWillShow(notification: NSNotification) {
+		let keyboardFrame = notification.userInfo?[UIKeyboardFrameBeginUserInfoKey]?.CGRectValue()
+		let keyboardDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey]?.doubleValue
+		
+		// Move inputContainerView up
+		inputContainerBottomAnchor?.constant = -keyboardFrame!.height
+		UIView.animateWithDuration(keyboardDuration!) {
+			self.view.layoutIfNeeded()
+		}
+	}
+	
+	
+	func handleKeyboardWillHide(notification: NSNotification) {
+		let keyboardDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey]?.doubleValue
+		inputContainerBottomAnchor?.constant = -50
+		UIView.animateWithDuration(keyboardDuration!) {
+			self.view.layoutIfNeeded()
+		}
+	}
 	
 	func fetchFans() {
 		
@@ -73,25 +121,42 @@ class ShareController: UIViewController {
 		}
 		
 		let date = CurrentUser.getServerTime()
+		let comment = textField.text!
 		for row in selectedRows {
 			
 			if let uid = fansData[row].uid {
-				let value = ["title": track.title, "artist": track.artist, "imageURL": track.imageUrl, "previewURL": track.previewUrl, "donor": currentUserUid]
+				let value = ["title": track.title, "artist": track.artist, "imageURL": track.imageUrl, "previewURL": track.previewUrl, "donor": currentUserUid, "comment": comment]
 				FIRDatabase.database().reference().child("users_by_id/\(uid)/received").child(date).setValue(value)
 			}
 		}
-		let value = ["title": track.title, "artist": track.artist, "imageURL": track.imageUrl, "previewURL": track.previewUrl]
+		let value = ["title": track.title, "artist": track.artist, "imageURL": track.imageUrl, "previewURL": track.previewUrl, "comment": comment]
 		FIRDatabase.database().reference().child("users_by_id/\(currentUserUid)/sent").child(date).setValue(value)
 		
 		navigationController?.popViewControllerAnimated(true)
 	}
 	
+	
 	func setUpView() {
 		tableView.dataSource = self
 		tableView.delegate = self
+		textField.delegate = self
 		tableView.allowsMultipleSelection = true
 		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Send", style: .Plain, target: self, action: #selector(self.handleSend))
 		self.navigationItem.title = "Fans"
+		
+		view.addSubview(inputContainerView)
+		inputContainerView.addSubview(textField)
+		
+		inputContainerView.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
+		inputContainerBottomAnchor = inputContainerView.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: -50)
+		inputContainerBottomAnchor?.active = true
+		inputContainerView.widthAnchor.constraintEqualToAnchor(view.widthAnchor).active = true
+		inputContainerView.heightAnchor.constraintEqualToConstant(50).active = true
+		
+		textField.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
+		textField.centerYAnchor.constraintEqualToAnchor(inputContainerView.centerYAnchor).active = true
+		textField.widthAnchor.constraintEqualToAnchor(inputContainerView.widthAnchor, constant: -16).active = true
+		textField.heightAnchor.constraintEqualToConstant(50).active = true
 	}
 }
 
@@ -145,7 +210,12 @@ extension ShareController: UITableViewDelegate {
 }
 
 
-
+extension ShareController: UITextFieldDelegate {
+	func textFieldShouldReturn(textField: UITextField) -> Bool {
+		textField.resignFirstResponder()
+		return true
+	}
+}
 
 
 
