@@ -130,7 +130,7 @@ class ShareController: UIViewController {
 	}
 	
 	func handleSend() {
-		guard let currentUserUid = CurrentUser.uid else {
+		guard let currentUserUid = CurrentUser.uid, username = CurrentUser.username else {
 			return // No signed in user
 		}
 		
@@ -140,19 +140,26 @@ class ShareController: UIViewController {
 		
 		let date = CurrentUser.getServerTime()
 		let comment = textField.text!
+		
+		let ref = FIRDatabase.database().reference().child("comments").childByAutoId()
+		ref.child(date).setValue([username: comment])
+		
+		let value = ["title": track.title, "artist": track.artist, "imageURL": track.imageUrl, "previewURL": track.previewUrl, "donor": username, "comment_reference": ref.key]
+		
 		for row in selectedRows {
 			
 			if let uid = fansData[row].uid {
-				let value = ["title": track.title, "artist": track.artist, "imageURL": track.imageUrl, "previewURL": track.previewUrl, "donor": currentUserUid, "comment": comment]
+				
 				FIRDatabase.database().reference().child("users_by_id/\(uid)/received").child(date).setValue(value)
 			}
 		}
-		let value = ["title": track.title, "artist": track.artist, "imageURL": track.imageUrl, "previewURL": track.previewUrl, "comment": comment]
+		
 		FIRDatabase.database().reference().child("users_by_id/\(currentUserUid)/sent").child(date).setValue(value)
+		FIRDatabase.database().reference().child("users_by_id/\(currentUserUid)/received").child(date).setValue(value)
+		
 		
 		navigationController?.popViewControllerAnimated(true)
 	}
-	
 	
 	func setUpView() {
 		tableView.dataSource = self
