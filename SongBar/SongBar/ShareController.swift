@@ -142,7 +142,8 @@ class ShareController: UIViewController {
 		let comment = textField.text!
 		
 		let ref = FIRDatabase.database().reference().child("comments").childByAutoId()
-		ref.child(date).setValue([username: comment])
+		ref.child("initial").setValue(["date": date, "comment": comment, "username": username])
+		ref.child("comments").child(date).setValue([username: comment])
 		
 		let value = ["title": track.title, "artist": track.artist, "imageURL": track.imageUrl, "previewURL": track.previewUrl, "donor": username, "comment_reference": ref.key]
 		

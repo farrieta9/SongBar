@@ -49,43 +49,32 @@ class FeedCell: UITableViewCell {
 		donorLabel.text = track.donor
 		commentLabel.text = ""
 		
-		activateComments()
+		fetchInitialComment()
 	}
 	
-	
-	private func activateComments() {
-		guard let commentReference = track?.commentReference, currentUsername = CurrentUser.username  else {
+	private func fetchInitialComment() {
+		
+		guard let commentReference = track?.commentReference, currentUsername = CurrentUser.username else {
 			return
 		}
 		
-		
 		FIRDatabase.database().reference().child("comments/\(commentReference)").observeEventType(.Value, withBlock: { (snapshot) in
 			
-			guard let results = snapshot.value as? [String: [String: String]] else {
+			guard let results = snapshot.value as? [String: AnyObject] else {
 				return
 			}
 			
-			for date in results.keys {
-				
-				let firstComment = results[date]
-				
-				for (username, commentString) in firstComment! {
+			if let initial = results["initial"] {
+				if let username = initial["username"] as? String, comment = initial["comment"] as? String {
 					
-					var donor: String = username
-					if username == currentUsername {
-						donor = "You"
+					var name = username
+					if name == currentUsername {
+						name = "You"
 					}
 					
-					if commentString != "" {
-						self.commentLabel.text = "\(donor): \(commentString)"
-					}
-					
-					break
+					self.commentLabel.text = "\(name): \(comment)"
 				}
-				
-				break
 			}
-			
 		}, withCancelBlock: nil)
 	}
 }
