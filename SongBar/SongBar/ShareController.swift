@@ -17,6 +17,7 @@ class ShareController: UIViewController {
 	var fansData = [User]()
 	var track: SpotifyTrack!
 	var inputContainerBottomAnchor: NSLayoutConstraint?
+	var hideMusicPlayer: Bool = false
 	
 	let textField: UITextField = {
 		let tf = UITextField()
@@ -45,6 +46,23 @@ class ShareController: UIViewController {
 		super.viewDidDisappear(animated)
 		
 		NSNotificationCenter.defaultCenter().removeObserver(self)  // To prevent memory leak
+	}
+	
+	override func viewWillAppear(animated: Bool) {
+		super.viewWillAppear(animated)
+		
+		if MusicPlayer.playView?.hidden == false {
+			hideMusicPlayer = true
+			MusicPlayer.playView?.hidden = true
+		}
+	}
+	
+	override func viewWillDisappear(animated: Bool) {
+		super.viewWillDisappear(animated)
+		
+		if hideMusicPlayer == true {
+			MusicPlayer.playView?.hidden = false
+		}
 	}
 	
 	func setUpKeyboardObservers() {

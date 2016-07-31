@@ -441,22 +441,15 @@ extension UserController: UITableViewDelegate {
 
 extension UserController: UIImagePickerControllerDelegate {
 	func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: AnyObject]) {
-		var selectedImageFromPicker: UIImage?
-		if let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
-			selectedImageFromPicker = editedImage
-			
-		} else if let orginalImage = info[UIImagePickerControllerOriginalImage]  as? UIImage {
-			selectedImageFromPicker = orginalImage
+		
+		guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage  else {
+			return
 		}
 		
-		if let selectedImage = selectedImageFromPicker {
-			self.registerImageToUser(selectedImage)
-		}
-		
+		self.registerImageToUser(image)
 		dismissViewControllerAnimated(true, completion: nil)
 	}
 }
-
 
 
 

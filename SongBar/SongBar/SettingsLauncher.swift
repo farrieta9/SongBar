@@ -80,7 +80,7 @@ class SettingsLauncher: NSObject, UICollectionViewDelegate, UICollectionViewData
 		}) { (completed: Bool) in
 			
 			if setting.name != "nil" && setting.name == "Take a picture" {
-//				self.profileController?.launchImagePicker(.Camera)
+				self.userController?.launchImagePicker(.Camera)
 				return
 			}
 			
