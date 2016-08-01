@@ -27,7 +27,7 @@ class FeedController: UIViewController {
 	func setUpViews() {
 		tableView.dataSource = self
 		tableView.delegate = self
-		self.navigationItem.title = "Feed"
+		self.navigationItem.title = "SongBar"
 	}
 	
 	private func getLoggedInUser() {
@@ -60,7 +60,7 @@ class FeedController: UIViewController {
 				return
 			}
 
-			for (key, value) in results {
+			for (key, value) in results.sort({$0.0.compare($1.0) == NSComparisonResult.OrderedDescending}) {
 				if let artist = value["artist"], title = value["title"],
 					donor = value["donor"], imageURL = value["imageURL"],
 					commentReference = value["comment_reference"], previewURL = value["previewURL"] {
