@@ -27,6 +27,7 @@ class CommentCell: UITableViewCell {
 	let commentLabel: UILabel = {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
+		label.numberOfLines = 0
 		return label
 		
 	}()
@@ -43,7 +44,7 @@ class CommentCell: UITableViewCell {
 	}
 	
 	private func setUpViews() {
-		pictureView.leftAnchor.constraintEqualToAnchor(self.leftAnchor, constant: 8).active = true
+		pictureView.leftAnchor.constraintEqualToAnchor(self.leftAnchor, constant: 16).active = true
 		pictureView.centerYAnchor.constraintEqualToAnchor(self.centerYAnchor).active = true
 		pictureView.widthAnchor.constraintEqualToConstant(40).active = true
 		pictureView.heightAnchor.constraintEqualToConstant(40).active = true
@@ -54,8 +55,8 @@ class CommentCell: UITableViewCell {
 		usernameLabel.heightAnchor.constraintEqualToConstant(30).active = true
 		
 		commentLabel.leftAnchor.constraintEqualToAnchor(pictureView.rightAnchor, constant: 8).active = true
+		commentLabel.rightAnchor.constraintEqualToAnchor(self.rightAnchor).active = true
 		commentLabel.centerYAnchor.constraintEqualToAnchor(self.centerYAnchor, constant: 8).active = true
-		commentLabel.widthAnchor.constraintEqualToAnchor(self.widthAnchor, constant: -50)
 		commentLabel.heightAnchor.constraintEqualToConstant(30).active = true
 		
 	}

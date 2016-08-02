@@ -15,7 +15,6 @@ class FeedCell: UITableViewCell {
 	@IBOutlet weak var titleLabel: UILabel!
 	@IBOutlet weak var detailLabel: UILabel!
 	@IBOutlet weak var commentView: UIView!
-//	@IBOutlet weak var commentLabel: UILabel!
 	@IBOutlet weak var donorLabel: UILabel!
 	@IBOutlet weak var donorButton: UIButton!
 	
@@ -31,7 +30,6 @@ class FeedCell: UITableViewCell {
 		donorButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
 		donorButton.contentHorizontalAlignment = .Left
 		donorButton.titleLabel?.lineBreakMode = .ByTruncatingTail
-//		commentLabel.enabled = false
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -47,7 +45,6 @@ class FeedCell: UITableViewCell {
 		detailLabel.text = track.artist
 		pictureView.loadImageUsingURLString(track.imageUrl)
 		donorLabel.text = "\(track.donor)   "
-//		commentLabel.text = ""
 		donorButton.setTitle(track.donor, forState: .Normal)
 		fetchInitialComment()
 	}
@@ -66,10 +63,7 @@ class FeedCell: UITableViewCell {
 			
 			if let initial = results["initial"] {
 				if let comment = initial["comment"] as? String {
-					
-					
 					if comment != "" {
-//						self.commentLabel.text = "\(comment)"
 						self.donorButton.setTitle(comment, forState: .Normal)
 					}
 					

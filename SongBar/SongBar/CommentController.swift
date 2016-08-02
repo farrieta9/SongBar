@@ -101,12 +101,17 @@ class CommentController: UITableViewController {
 	}
 	
 	func handleSend() {
-		print(inputTextField.text)
+		let date = CurrentUser.getServerTime()
+		let comment = inputTextField.text!
+		let username = CurrentUser.username!
+		FIRDatabase.database().reference().child("comments/\(commentKey)/comments").child(date).setValue(["comment": comment, "username": username])
+		
 		inputTextField.text = ""
 	}
 	
 	func fetchComments() {
 		FIRDatabase.database().reference().child("comments/\(commentKey)").observeEventType(.Value, withBlock: { (snapshot) in
+			
 			
 			guard let results = snapshot.value as? [String: AnyObject], comments = results["comments"] as? [String: [String: String]] else {
 				return
@@ -117,30 +122,41 @@ class CommentController: UITableViewController {
 			for (key, value) in comments {
 				
 				if let com = value["comment"], username = value["username"] {
-					self.fetchCommentWithUserDetails(username, comment: com, date: key)
 					
+					FIRDatabase.database().reference().child("users_by_name/\(username)").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+						
+						guard let userResults = snapshot.value as? [String: String] else {
+							return
+						}
+						
+						if let fullname = userResults["fullname"], email = userResults["email"], uid = userResults["uid"] {
+							
+							var imageString = ""
+							if let imageURL = userResults["imageURL"] {
+								imageString = imageURL
+							}
+							
+							let user = User(email: email, fullname: fullname, username: username, uid: uid, image: imageString)
+							print(123)
+							let comment = Comment(user: user, comment: com, timestamp: key)
+							self.tableData.append(comment)
+						} else {
+							print(userResults)
+						}
+
+						dispatch_async(dispatch_get_main_queue(), {
+							self.tableView.reloadData()
+						})
+						
+					}, withCancelBlock: nil)
 				}
 			}
-		}, withCancelBlock: nil)
-	}
-	
-	private func fetchCommentWithUserDetails(username: String, comment: String, date: String) {
-		FIRDatabase.database().reference().child("users_by_name/\(username)").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
 			
-			guard let userResults = snapshot.value as? [String: String] else {
-				return
-			}
 			
-			if let fullname = userResults["fullname"], imageURL = userResults["imageURL"], email = userResults["email"], uid = userResults["uid"] {
-				let user = User(email: email, fullname: fullname, username: username, uid: uid, image: imageURL)
-				let comment = Comment(user: user, comment: comment, timestamp: date)
-				self.tableData.append(comment)
-			}
 			dispatch_async(dispatch_get_main_queue(), {
 				self.tableView.reloadData()
 			})
-			
-			}, withCancelBlock: nil)
+		}, withCancelBlock: nil)
 	}
 }
 

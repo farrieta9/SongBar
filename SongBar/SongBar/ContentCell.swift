@@ -21,12 +21,6 @@ class ContentCell: UITableViewCell {
         // Initialization code
 		setUpCell()
     }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
 	
 	func setUpCell() {
 		pictureView.image = UIImage(named: "default_profile.png")

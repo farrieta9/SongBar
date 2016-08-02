@@ -18,7 +18,6 @@ class FeedController: UIViewController {
 	var donorsData = [User]()
 	
 	@IBAction func handleDonorButton(sender: UIButton) {
-		print(spotifyData[sender.tag].artist)
 		let commentController = CommentController()
 		commentController.commentKey = spotifyData[sender.tag].commentReference
 		navigationController?.pushViewController(commentController, animated: true)
