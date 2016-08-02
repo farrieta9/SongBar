@@ -49,13 +49,13 @@ class CommentCell: UITableViewCell {
 		pictureView.heightAnchor.constraintEqualToConstant(40).active = true
 		
 		usernameLabel.leftAnchor.constraintEqualToAnchor(pictureView.rightAnchor, constant: 8).active = true
-		usernameLabel.centerYAnchor.constraintEqualToAnchor(self.centerYAnchor, constant: -8).active = true
+		usernameLabel.centerYAnchor.constraintEqualToAnchor(self.centerYAnchor, constant: -12).active = true
 		usernameLabel.widthAnchor.constraintEqualToConstant(100).active = true
 		usernameLabel.heightAnchor.constraintEqualToConstant(30).active = true
 		
 		commentLabel.leftAnchor.constraintEqualToAnchor(pictureView.rightAnchor, constant: 8).active = true
 		commentLabel.centerYAnchor.constraintEqualToAnchor(self.centerYAnchor, constant: 8).active = true
-		commentLabel.widthAnchor.constraintEqualToConstant(100).active = true
+		commentLabel.widthAnchor.constraintEqualToAnchor(self.widthAnchor, constant: -50)
 		commentLabel.heightAnchor.constraintEqualToConstant(30).active = true
 		
 	}
@@ -64,9 +64,12 @@ class CommentCell: UITableViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	func setCellContent(imageString: String, username: String, comment: String) {
-		pictureView.loadImageUsingURLString(imageString)
-		usernameLabel.text = username
+	func setCellContent(user: User, comment: String) {
+		if let image = user.imageString {
+			pictureView.loadImageUsingURLString(image)
+		}
+		
+		usernameLabel.text = user.username
 		commentLabel.text = comment
 	}
 }

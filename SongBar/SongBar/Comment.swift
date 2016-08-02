@@ -9,6 +9,18 @@
 import Foundation
 
 class Comment: NSObject {
-	var user: String = ""
+	var user: User?
 	var comment: String = ""
+	var timestamp: String = ""
+	
+	override init() {
+		self.comment = ""
+		self.timestamp = ""
+	}
+	
+	init(user: User, comment: String, timestamp: String) {
+		self.user = user
+		self.comment = comment
+		self.timestamp = timestamp
+	}
 }

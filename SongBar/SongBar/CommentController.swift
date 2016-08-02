@@ -67,7 +67,6 @@ class CommentController: UITableViewController {
 		super.viewDidLoad()
 		navigationItem.title = "Comment"
 		tableView.registerClass(CommentCell.self, forCellReuseIdentifier: cellId)
-		print(commentKey)
 		fetchComments()
 	}
 	
@@ -82,7 +81,7 @@ class CommentController: UITableViewController {
 	}
 	
 	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return 5
+		return tableData.count
 	}
 	
 	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -92,7 +91,8 @@ class CommentController: UITableViewController {
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath) as! CommentCell
 		
-		cell.setCellContent("", username: "username", comment: "comment")
+		cell.setCellContent(tableData[indexPath.row].user!, comment: tableData[indexPath.row].comment)
+		
 		return cell
 	}
 	
@@ -107,8 +107,40 @@ class CommentController: UITableViewController {
 	
 	func fetchComments() {
 		FIRDatabase.database().reference().child("comments/\(commentKey)").observeEventType(.Value, withBlock: { (snapshot) in
-			print(snapshot)
+			
+			guard let results = snapshot.value as? [String: AnyObject], comments = results["comments"] as? [String: [String: String]] else {
+				return
+			}
+			
+			self.tableData.removeAll()
+			
+			for (key, value) in comments {
+				
+				if let com = value["comment"], username = value["username"] {
+					self.fetchCommentWithUserDetails(username, comment: com, date: key)
+					
+				}
+			}
 		}, withCancelBlock: nil)
+	}
+	
+	private func fetchCommentWithUserDetails(username: String, comment: String, date: String) {
+		FIRDatabase.database().reference().child("users_by_name/\(username)").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+			
+			guard let userResults = snapshot.value as? [String: String] else {
+				return
+			}
+			
+			if let fullname = userResults["fullname"], imageURL = userResults["imageURL"], email = userResults["email"], uid = userResults["uid"] {
+				let user = User(email: email, fullname: fullname, username: username, uid: uid, image: imageURL)
+				let comment = Comment(user: user, comment: comment, timestamp: date)
+				self.tableData.append(comment)
+			}
+			dispatch_async(dispatch_get_main_queue(), {
+				self.tableView.reloadData()
+			})
+			
+			}, withCancelBlock: nil)
 	}
 }
 
