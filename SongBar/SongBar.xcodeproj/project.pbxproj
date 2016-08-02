@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		50892F7B1B28E6CD3ADA5F21 /* Pods_SongBar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B557B86B0915E9CDFE7037B /* Pods_SongBar.framework */; };
 		8C2733B81D3EECC90013F20A /* ShareController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2733B71D3EECC90013F20A /* ShareController.swift */; };
+		8C2DB1791D5003D800E27753 /* CommentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2DB1781D5003D800E27753 /* CommentController.swift */; };
+		8C31C6F41D50343F008A8B8E /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C31C6F31D50343F008A8B8E /* CommentCell.swift */; };
+		8C31C6F61D50499C008A8B8E /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C31C6F51D50499C008A8B8E /* Comment.swift */; };
 		8C46B2B91D37064E000FF0AB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C46B2B81D37064E000FF0AB /* User.swift */; };
 		8C46B2BD1D3714C0000FF0AB /* FeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C46B2BC1D3714C0000FF0AB /* FeedController.swift */; };
 		8C4EC9441D3EE3E000AE8AD7 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4EC9431D3EE3E000AE8AD7 /* FeedCell.swift */; };
@@ -39,6 +42,9 @@
 		1AE5E0131F7780BA673B201D /* Pods-SongBar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SongBar.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SongBar/Pods-SongBar.debug.xcconfig"; sourceTree = "<group>"; };
 		1B557B86B0915E9CDFE7037B /* Pods_SongBar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SongBar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C2733B71D3EECC90013F20A /* ShareController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareController.swift; sourceTree = "<group>"; };
+		8C2DB1781D5003D800E27753 /* CommentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentController.swift; sourceTree = "<group>"; };
+		8C31C6F31D50343F008A8B8E /* CommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
+		8C31C6F51D50499C008A8B8E /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		8C46B2B81D37064E000FF0AB /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		8C46B2BC1D3714C0000FF0AB /* FeedController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedController.swift; sourceTree = "<group>"; };
 		8C4EC9431D3EE3E000AE8AD7 /* FeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
@@ -104,6 +110,7 @@
 				8C9A46C81D3FD3A200CBD446 /* Track.swift */,
 				8CE827161D3AA639006485AF /* SpotifyTrack.swift */,
 				8C5878061D41982300C9C113 /* MusicPlayer.swift */,
+				8C31C6F51D50499C008A8B8E /* Comment.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -153,6 +160,7 @@
 				8CDB3ABF1D3891D800D0A46C /* UserContentOptionsCell.swift */,
 				8CDB3AC11D3891E400D0A46C /* ContentCell.swift */,
 				8C4EC9431D3EE3E000AE8AD7 /* FeedCell.swift */,
+				8C31C6F31D50343F008A8B8E /* CommentCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -160,6 +168,7 @@
 		8CD6543B1D36BC3100A6AC8E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				8C2DB1781D5003D800E27753 /* CommentController.swift */,
 				8C46B2BC1D3714C0000FF0AB /* FeedController.swift */,
 				8CD6543C1D36BF7700A6AC8E /* LoginController.swift */,
 				8CD654411D36CEDD00A6AC8E /* RegisterController.swift */,
@@ -318,6 +327,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8CE827171D3AA639006485AF /* SpotifyTrack.swift in Sources */,
+				8C2DB1791D5003D800E27753 /* CommentController.swift in Sources */,
 				8CE827151D3AA61E006485AF /* SpotifyAPI.swift in Sources */,
 				8C4EC9441D3EE3E000AE8AD7 /* FeedCell.swift in Sources */,
 				8CD654421D36CEDD00A6AC8E /* RegisterController.swift in Sources */,
@@ -329,11 +339,13 @@
 				8CDB3ABE1D3891C200D0A46C /* UserHeaderCell.swift in Sources */,
 				8CFAA9701D380C760094A726 /* SettingsLauncher.swift in Sources */,
 				8C46B2BD1D3714C0000FF0AB /* FeedController.swift in Sources */,
+				8C31C6F41D50343F008A8B8E /* CommentCell.swift in Sources */,
 				8C46B2B91D37064E000FF0AB /* User.swift in Sources */,
 				8CFAA96E1D380C620094A726 /* SettingsCell.swift in Sources */,
 				8CFAA96C1D380C500094A726 /* BaseCell.swift in Sources */,
 				8C9EF90D1D47D09500F7F1B4 /* TabBarController.swift in Sources */,
 				8CD654271D36B77E00A6AC8E /* AppDelegate.swift in Sources */,
+				8C31C6F61D50499C008A8B8E /* Comment.swift in Sources */,
 				8C2733B81D3EECC90013F20A /* ShareController.swift in Sources */,
 				8CD654401D36C23A00A6AC8E /* Extensions.swift in Sources */,
 				8C5878071D41982300C9C113 /* MusicPlayer.swift in Sources */,

@@ -15,11 +15,11 @@ class FeedCell: UITableViewCell {
 	@IBOutlet weak var titleLabel: UILabel!
 	@IBOutlet weak var detailLabel: UILabel!
 	@IBOutlet weak var commentView: UIView!
-	@IBOutlet weak var commentLabel: UILabel!
+//	@IBOutlet weak var commentLabel: UILabel!
 	@IBOutlet weak var donorLabel: UILabel!
+	@IBOutlet weak var donorButton: UIButton!
 	
 	var track: Track?
-	
     override func awakeFromNib() {
         super.awakeFromNib()
 		pictureView.layer.borderColor = UIColor.blackColor().CGColor
@@ -28,6 +28,10 @@ class FeedCell: UITableViewCell {
 		
 		commentView.backgroundColor = UIColor.whiteColor()
 		donorLabel.font = UIFont.boldSystemFontOfSize(13)
+		donorButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
+		donorButton.contentHorizontalAlignment = .Left
+		donorButton.titleLabel?.lineBreakMode = .ByTruncatingTail
+//		commentLabel.enabled = false
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -43,7 +47,8 @@ class FeedCell: UITableViewCell {
 		detailLabel.text = track.artist
 		pictureView.loadImageUsingURLString(track.imageUrl)
 		donorLabel.text = "\(track.donor)   "
-		commentLabel.text = ""
+//		commentLabel.text = ""
+		donorButton.setTitle(track.donor, forState: .Normal)
 		fetchInitialComment()
 	}
 	
@@ -64,7 +69,8 @@ class FeedCell: UITableViewCell {
 					
 					
 					if comment != "" {
-						self.commentLabel.text = "\(comment)"
+//						self.commentLabel.text = "\(comment)"
+						self.donorButton.setTitle(comment, forState: .Normal)
 					}
 					
 				}

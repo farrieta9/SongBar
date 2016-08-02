@@ -13,6 +13,7 @@ class RegisterController: UIViewController {
 	
 	let ref = FIRDatabase.database().reference()
 	
+	@IBOutlet weak var inputContainerView: UIView!
 	@IBOutlet weak var usernameTextField: UITextField!
 	@IBOutlet weak var emailTextField: UITextField!
 	@IBOutlet weak var fullnameTextField: UITextField!
@@ -52,7 +53,6 @@ class RegisterController: UIViewController {
 					var values = ["username": username, "email": email, "fullname": fullname]
 					usersByIdRef.updateChildValues(values)
 					
-					
 					let usersByNameRef = self.ref.child("users_by_name").child(username)
 					values = ["username": username, "email": email, "fullname": fullname, "uid": uid]
 					usersByNameRef.updateChildValues(values)
@@ -81,6 +81,8 @@ class RegisterController: UIViewController {
 		view.backgroundColor = UIColor.rgb(59, green: 59, blue: 59)
 		self.navigationItem.title = "Register"
 		
+		inputContainerView.backgroundColor = UIColor.clearColor()
+		
 		usernameTextField.placeholder = "Username"
 		usernameTextField.autocorrectionType = .No
 		usernameTextField.delegate = self
@@ -105,13 +107,15 @@ class RegisterController: UIViewController {
 		registerButton.setTitle("Register", forState: .Normal)
 		registerButton.backgroundColor = UIColor.rgb(44, green: 62, blue: 79)
 		registerButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-		registerButton.layer.cornerRadius = 10
+		registerButton.layer.cornerRadius = 8
+		registerButton.titleLabel?.font = UIFont.boldSystemFontOfSize(16)
 		registerButton.applyGraidentToButton()
 		
 		backButton.setTitle("Back", forState: .Normal)
 		backButton.backgroundColor = UIColor.greenColor()
 		backButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-		backButton.layer.cornerRadius = 10
+		backButton.layer.cornerRadius = 8
+		backButton.titleLabel?.font = UIFont.boldSystemFontOfSize(16)
 		backButton.applyGraidentToButton()
 		
 		self.hideKeyboardWhenTappedAround()

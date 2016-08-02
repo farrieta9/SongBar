@@ -17,6 +17,13 @@ class FeedController: UIViewController {
 	var spotifyData = [Track]()
 	var donorsData = [User]()
 	
+	@IBAction func handleDonorButton(sender: UIButton) {
+		print(spotifyData[sender.tag].artist)
+		let commentController = CommentController()
+		commentController.commentKey = spotifyData[sender.tag].commentReference
+		navigationController?.pushViewController(commentController, animated: true)
+	}
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 		getLoggedInUser()
@@ -77,7 +84,6 @@ class FeedController: UIViewController {
 				self.tableView.reloadData()
 			})
 			
-			
 		}, withCancelBlock: nil)
 	}
 }
@@ -95,7 +101,7 @@ extension FeedController: UITableViewDataSource {
 		let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! FeedCell
 		
 		cell.setCellContent(spotifyData[indexPath.row])
-		
+		cell.donorButton.tag = indexPath.row
 		return cell
 	}
 }

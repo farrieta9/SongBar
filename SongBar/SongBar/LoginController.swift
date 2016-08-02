@@ -12,6 +12,7 @@ import Firebase
 class LoginController: UIViewController {
 	
 	
+	@IBOutlet weak var inputContainerView: UIView!
 	@IBOutlet weak var emailTextField: UITextField!
 	@IBOutlet weak var passwordTextField: UITextField!
 	@IBOutlet weak var loginButton: UIButton!
@@ -77,6 +78,7 @@ class LoginController: UIViewController {
 		self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
 		
 		view.backgroundColor = UIColor.rgb(59, green: 59, blue: 59)
+		inputContainerView.backgroundColor = UIColor.clearColor()
 		
 		emailTextField.placeholder = "Email"
 		emailTextField.autocorrectionType = .No
@@ -92,13 +94,15 @@ class LoginController: UIViewController {
 		loginButton.setTitle("Login", forState: .Normal)
 		loginButton.backgroundColor = UIColor.rgb(229, green: 77, blue: 66)
 		loginButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-		loginButton.layer.cornerRadius = 10
+		loginButton.layer.cornerRadius = 8
+		loginButton.titleLabel?.font = UIFont.boldSystemFontOfSize(16)
 		loginButton.applyGraidentToButton()
 		
 		registerButton.setTitle("Register", forState: .Normal)
 		registerButton.backgroundColor = UIColor.rgb(44, green: 62, blue: 79)
 		registerButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-		registerButton.layer.cornerRadius = 10
+		registerButton.layer.cornerRadius = 8
+		registerButton.titleLabel?.font = UIFont.boldSystemFontOfSize(16)
 		registerButton.applyGraidentToButton()
 		
 		
