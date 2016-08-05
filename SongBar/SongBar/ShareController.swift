@@ -137,8 +137,8 @@ class ShareController: UIViewController {
 		if selectedRows.count == 0 {
 			return 
 		}
-		
-		let date = CurrentUser.getServerTime()
+
+		let date = String(Int(NSDate().timeIntervalSince1970))
 		let comment = textField.text!
 		
 		let ref = FIRDatabase.database().reference().child("comments").childByAutoId()

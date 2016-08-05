@@ -23,6 +23,10 @@ class ContentCell: UITableViewCell {
     }
 	
 	func setUpCell() {
+		self.preservesSuperviewLayoutMargins = false
+		self.separatorInset = UIEdgeInsetsZero
+		self.layoutMargins = UIEdgeInsetsZero
+		
 		pictureView.image = UIImage(named: "default_profile.png")
 		
 		pictureView.layer.borderColor = UIColor.blackColor().CGColor

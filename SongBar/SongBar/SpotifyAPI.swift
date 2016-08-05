@@ -22,7 +22,6 @@ class SpotifyAPI {
 			else {
 				return
 		}
-		//        print("Return query: " + String(url))
 		
 		let task = NSURLSession.sharedSession().dataTaskWithURL(url) {
 			(data, response, error) in
@@ -40,8 +39,6 @@ class SpotifyAPI {
 			}
 			
 			let tracks = parseTracksFrom(json)
-			//            print("Tracks: " + String(tracks))
-			
 			
 			completion(tracks: tracks)
 		}

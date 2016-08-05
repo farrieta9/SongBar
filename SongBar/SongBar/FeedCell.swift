@@ -21,6 +21,10 @@ class FeedCell: UITableViewCell {
 	var track: Track?
     override func awakeFromNib() {
         super.awakeFromNib()
+		self.preservesSuperviewLayoutMargins = false
+		self.separatorInset = UIEdgeInsetsZero
+		self.layoutMargins = UIEdgeInsetsZero
+		
 		pictureView.layer.borderColor = UIColor.blackColor().CGColor
 		pictureView.layer.cornerRadius = 15
 		pictureView.layer.masksToBounds = true

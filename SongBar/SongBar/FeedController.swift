@@ -33,6 +33,7 @@ class FeedController: UIViewController {
 	func setUpViews() {
 		tableView.dataSource = self
 		tableView.delegate = self
+		tableView.separatorInset = UIEdgeInsetsZero
 		self.navigationItem.title = "SongBar"
 	}
 	
@@ -101,6 +102,7 @@ extension FeedController: UITableViewDataSource {
 		
 		cell.setCellContent(spotifyData[indexPath.row])
 		cell.donorButton.tag = indexPath.row
+		
 		return cell
 	}
 }

@@ -79,6 +79,7 @@ class SearchController: UIViewController {
 	func setUpView() {
 		tableView.delegate = self
 		tableView.dataSource = self
+		tableView.separatorInset = UIEdgeInsetsZero
 		createSearchBarInNavigationBar()
 		activityIndicator()
 		segmentControl.setTitle("Music", forSegmentAtIndex: 0)

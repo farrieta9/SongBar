@@ -66,7 +66,9 @@ class CommentController: UITableViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		navigationItem.title = "Comment"
+		tableView.allowsSelection = false
 		tableView.registerClass(CommentCell.self, forCellReuseIdentifier: cellId)
+		tableView.separatorInset = UIEdgeInsetsZero
 		fetchComments()
 	}
 	
@@ -91,7 +93,7 @@ class CommentController: UITableViewController {
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath) as! CommentCell
 		
-		cell.setCellContent(tableData[indexPath.row].user!, comment: tableData[indexPath.row].comment)
+		cell.setCellContent(tableData[indexPath.row].user!, comment: tableData[indexPath.row].comment, date: tableData[indexPath.row].timestamp)
 		
 		return cell
 	}
@@ -101,7 +103,8 @@ class CommentController: UITableViewController {
 	}
 	
 	func handleSend() {
-		let date = CurrentUser.getServerTime()
+		let date = String(Int(NSDate().timeIntervalSince1970))
+		
 		let comment = inputTextField.text!
 		let username = CurrentUser.username!
 		FIRDatabase.database().reference().child("comments/\(commentKey)/comments").child(date).setValue(["comment": comment, "username": username])
@@ -118,10 +121,13 @@ class CommentController: UITableViewController {
 			}
 			
 			self.tableData.removeAll()
-			
-			for (key, value) in comments {
+			for (key, value) in comments.sort({$0.0.compare($1.0) == NSComparisonResult.OrderedAscending}) {
 				
 				if let com = value["comment"], username = value["username"] {
+					
+					if com.isEmpty {
+						continue
+					}
 					
 					FIRDatabase.database().reference().child("users_by_name/\(username)").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
 						
@@ -137,11 +143,13 @@ class CommentController: UITableViewController {
 							}
 							
 							let user = User(email: email, fullname: fullname, username: username, uid: uid, image: imageString)
-							print(123)
 							let comment = Comment(user: user, comment: com, timestamp: key)
+							
 							self.tableData.append(comment)
-						} else {
-							print(userResults)
+							
+							self.tableData.sortInPlace({ (element1, element2) -> Bool in
+								return element1.timestamp < element2.timestamp
+							})
 						}
 
 						dispatch_async(dispatch_get_main_queue(), {
@@ -151,11 +159,6 @@ class CommentController: UITableViewController {
 					}, withCancelBlock: nil)
 				}
 			}
-			
-			
-			dispatch_async(dispatch_get_main_queue(), {
-				self.tableView.reloadData()
-			})
 		}, withCancelBlock: nil)
 	}
 }

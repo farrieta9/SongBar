@@ -89,8 +89,6 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		tableView.delegate = self
-		tableView.dataSource = self
 		setUpProfile()
 		setUpView()
 		fetchPosts()
@@ -99,6 +97,10 @@ class UserController: UIViewController, UINavigationControllerDelegate {
 	}
 	
 	func setUpView() {
+		tableView.delegate = self
+		tableView.dataSource = self
+		tableView.separatorInset = UIEdgeInsetsZero
+		
 		refreshControl.addTarget(self, action: #selector(self.handleRefreshControl), forControlEvents: .ValueChanged)
 		tableView.addSubview(refreshControl)
 		self.navigationItem.title = "Profile"
