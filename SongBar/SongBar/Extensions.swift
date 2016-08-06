@@ -89,3 +89,43 @@ extension UIButton {
 		self.layer.insertSublayer(gradient, atIndex: 0)
 	}
 }
+
+
+extension NSDate {
+	
+	func getElapsedInterval() -> String {
+		
+		var interval = NSCalendar.currentCalendar().components(.Year, fromDate: self, toDate: NSDate(), options: []).year
+		
+		if interval > 0 {
+			return interval == 1 ? "\(interval)" + " " + "year" :
+				"\(interval)" + "yr ago"
+		}
+		
+		interval = NSCalendar.currentCalendar().components(.Month, fromDate: self, toDate: NSDate(), options: []).month
+		if interval > 0 {
+			return interval == 1 ? "\(interval)" + " " + "month" :
+				"\(interval)" + "m"
+		}
+		
+		interval = NSCalendar.currentCalendar().components(.Day, fromDate: self, toDate: NSDate(), options: []).day
+		if interval > 0 {
+			return interval == 1 ? "\(interval)" + " " + "day" :
+				"\(interval)" + "d"
+		}
+		
+		interval = NSCalendar.currentCalendar().components(.Hour, fromDate: self, toDate: NSDate(), options: []).hour
+		if interval > 0 {
+			return interval == 1 ? "\(interval)" + " " + "hour" :
+				"\(interval)" + "h"
+		}
+		
+		interval = NSCalendar.currentCalendar().components(.Minute, fromDate: self, toDate: NSDate(), options: []).minute
+		if interval > 0 {
+			return interval == 1 ? "\(interval)" + " " + "minute" :
+				"\(interval)" + " min"
+		}
+		
+		return "a moment ago"
+	}
+}

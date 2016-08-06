@@ -38,6 +38,7 @@ class CommentCell: UITableViewCell {
 		label.text = "4d"
 		label.enabled = false
 		label.font = UIFont.systemFontOfSize(14)
+		label.textAlignment = .Right
 		return label
 	}()
 	
@@ -74,7 +75,7 @@ class CommentCell: UITableViewCell {
 		
 		timestampLabel.rightAnchor.constraintEqualToAnchor(self.rightAnchor, constant: -8).active = true
 		timestampLabel.centerYAnchor.constraintEqualToAnchor(self.centerYAnchor, constant: -16).active = true
-		timestampLabel.widthAnchor.constraintLessThanOrEqualToConstant(50).active = true
+		timestampLabel.widthAnchor.constraintLessThanOrEqualToConstant(100).active = true
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
@@ -93,7 +94,9 @@ class CommentCell: UITableViewCell {
 			let timestamp = NSDate(timeIntervalSince1970: dateAsDouble)
 			let dateFormatter = NSDateFormatter()
 			dateFormatter.dateFormat = "MM/dd"
-			timestampLabel.text = dateFormatter.stringFromDate(timestamp)
+//			timestampLabel.text = dateFormatter.stringFromDate(timestamp)
+//			print(timestamp.getElapsedInterval())
+			timestampLabel.text = timestamp.getElapsedInterval()
 		}
 	}
 }
