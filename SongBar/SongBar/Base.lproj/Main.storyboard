@@ -737,7 +737,7 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="Xik-zD-YrH">
-                        <barButtonItem key="rightBarButtonItem" title="Settings" id="VXQ-X7-NaD">
+                        <barButtonItem key="rightBarButtonItem" image="more" id="VXQ-X7-NaD">
                             <connections>
                                 <action selector="handleSettings:" destination="tld-ee-fPM" id="hyi-ek-62O"/>
                             </connections>
@@ -804,6 +804,7 @@
     <resources>
         <image name="activity_feed" width="25" height="25"/>
         <image name="default_profile" width="300" height="300"/>
+        <image name="more" width="25" height="25"/>
         <image name="neutral_user" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>

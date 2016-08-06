@@ -29,7 +29,7 @@ class SettingsLauncher: NSObject, UICollectionViewDelegate, UICollectionViewData
 	}()
 	
 	let settings: [Setting] = {
-		return [Setting(title: "Take a picture"), Setting(title: "Upload from library"), Setting(title: "Settings"), Setting(title: "Sign Out")]
+		return [Setting(title: "Take a picture"), Setting(title: "Upload from library"), Setting(title: "Sign Out")]
 	}()
 	
 	let cellHeight: CGFloat = 50
