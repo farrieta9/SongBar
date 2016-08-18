@@ -36,6 +36,7 @@
 		8CFAA96C1D380C500094A726 /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFAA96B1D380C500094A726 /* BaseCell.swift */; };
 		8CFAA96E1D380C620094A726 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFAA96D1D380C620094A726 /* SettingsCell.swift */; };
 		8CFAA9701D380C760094A726 /* SettingsLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFAA96F1D380C760094A726 /* SettingsLauncher.swift */; };
+		8CFCE9901D651B90006E034B /* CommentInputContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFCE98F1D651B90006E034B /* CommentInputContainerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +72,7 @@
 		8CFAA96B1D380C500094A726 /* BaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
 		8CFAA96D1D380C620094A726 /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		8CFAA96F1D380C760094A726 /* SettingsLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsLauncher.swift; sourceTree = "<group>"; };
+		8CFCE98F1D651B90006E034B /* CommentInputContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentInputContainerView.swift; sourceTree = "<group>"; };
 		E0DCA9773AF3D7BB1C335731 /* Pods-SongBar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SongBar.release.xcconfig"; path = "Pods/Target Support Files/Pods-SongBar/Pods-SongBar.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -161,6 +163,7 @@
 				8CDB3AC11D3891E400D0A46C /* ContentCell.swift */,
 				8C4EC9431D3EE3E000AE8AD7 /* FeedCell.swift */,
 				8C31C6F31D50343F008A8B8E /* CommentCell.swift */,
+				8CFCE98F1D651B90006E034B /* CommentInputContainerView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8CE827171D3AA639006485AF /* SpotifyTrack.swift in Sources */,
+				8CFCE9901D651B90006E034B /* CommentInputContainerView.swift in Sources */,
 				8C2DB1791D5003D800E27753 /* CommentController.swift in Sources */,
 				8CE827151D3AA61E006485AF /* SpotifyAPI.swift in Sources */,
 				8C4EC9441D3EE3E000AE8AD7 /* FeedCell.swift in Sources */,

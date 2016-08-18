@@ -94,8 +94,6 @@ class CommentCell: UITableViewCell {
 			let timestamp = NSDate(timeIntervalSince1970: dateAsDouble)
 			let dateFormatter = NSDateFormatter()
 			dateFormatter.dateFormat = "MM/dd"
-//			timestampLabel.text = dateFormatter.stringFromDate(timestamp)
-//			print(timestamp.getElapsedInterval())
 			timestampLabel.text = timestamp.getElapsedInterval()
 		}
 	}

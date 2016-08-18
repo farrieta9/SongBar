@@ -15,53 +15,10 @@ class CommentController: UITableViewController {
 	lazy var commentKey: String = ""
 	var tableData = [Comment]()
 	
-	lazy var inputTextField: UITextField = {
-		let textField = UITextField()
-		textField.placeholder = "Add comment..."
-		textField.translatesAutoresizingMaskIntoConstraints = false
-		textField.delegate = self
-		return textField
-	}()
-	
-	lazy var inputContainerView: UIView = {
-		let contentView = UIView()
-		contentView.backgroundColor = UIColor.whiteColor()
-		contentView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50)
-		
-		contentView.addSubview(self.inputTextField)
-		
-		let sendButton = UIButton(type: .System)
-		sendButton.setTitle("Send", forState: .Normal)
-		sendButton.translatesAutoresizingMaskIntoConstraints = false
-		sendButton.titleLabel?.font = UIFont.boldSystemFontOfSize(16)
-		
-		sendButton.addTarget(self, action: #selector(handleSend), forControlEvents: .TouchUpInside)
-		
-		contentView.addSubview(sendButton)
-		
-		let seperatorView = UIView()
-		seperatorView.backgroundColor = UIColor.rgb(220, green: 220, blue: 220)
-		seperatorView.translatesAutoresizingMaskIntoConstraints = false
-		contentView.addSubview(seperatorView)
-		
-		self.inputTextField.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant: 8).active = true
-		self.inputTextField.centerYAnchor.constraintEqualToAnchor(contentView.centerYAnchor).active = true
-		self.inputTextField.rightAnchor.constraintEqualToAnchor(sendButton.leftAnchor).active = true
-		self.inputTextField.heightAnchor.constraintEqualToAnchor(contentView.heightAnchor).active = true
-		
-		seperatorView.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor).active = true
-		seperatorView.topAnchor.constraintEqualToAnchor(contentView.topAnchor).active = true
-		seperatorView.widthAnchor.constraintEqualToAnchor(contentView.widthAnchor).active = true
-		seperatorView.heightAnchor.constraintEqualToConstant(1).active = true
-		
-		sendButton.rightAnchor.constraintEqualToAnchor(contentView.rightAnchor).active = true
-		sendButton.centerYAnchor.constraintEqualToAnchor(contentView.centerYAnchor).active = true
-		sendButton.widthAnchor.constraintEqualToConstant(80).active = true
-		sendButton.heightAnchor.constraintEqualToAnchor(contentView.heightAnchor).active = true
-		
+	lazy var inputContainerView: CommentInputContainerView = {
+		let contentView = CommentInputContainerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
 		return contentView
 	}()
-	
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -70,6 +27,8 @@ class CommentController: UITableViewController {
 		tableView.registerClass(CommentCell.self, forCellReuseIdentifier: cellId)
 		tableView.separatorInset = UIEdgeInsetsZero
 		fetchComments()
+		inputContainerView.inputTextField.delegate = self
+		inputContainerView.sendButton.addTarget(self, action: #selector(handleSend), forControlEvents: .TouchUpInside)
 	}
 	
 	override var inputAccessoryView: UIView? {
@@ -105,11 +64,12 @@ class CommentController: UITableViewController {
 	func handleSend() {
 		let date = String(Int(NSDate().timeIntervalSince1970))
 		
-		let comment = inputTextField.text!
+//		let comment = inputTextField.text!
+		let comment = inputContainerView.inputTextField.text!
 		let username = CurrentUser.username!
 		FIRDatabase.database().reference().child("comments/\(commentKey)/comments").child(date).setValue(["comment": comment, "username": username])
 		
-		inputTextField.text = ""
+		inputContainerView.inputTextField.text = ""
 	}
 	
 	func fetchComments() {
