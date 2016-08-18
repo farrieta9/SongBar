@@ -19,34 +19,17 @@ class ShareController: UIViewController {
 	var inputContainerBottomAnchor: NSLayoutConstraint?
 	var hideMusicPlayer: Bool = false
 	
-	let textField: UITextField = {
-		let tf = UITextField()
-		tf.placeholder = "Add a thought..."
-		tf.returnKeyType = .Done
-		tf.translatesAutoresizingMaskIntoConstraints = false
-		return tf
-	}()
-	
-	let inputContainerView: UIView = {
-		let view = UIView()
-		view.backgroundColor = UIColor(white: 0.97, alpha: 1.0)
-		view.translatesAutoresizingMaskIntoConstraints = false
-		return view
+	lazy var inputContainerView: CommentInputContainerView = {
+		let contentView = CommentInputContainerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
+		return contentView
 	}()
 	
     override func viewDidLoad() {
         super.viewDidLoad()
 
 		setUpView()
-		setUpKeyboardObservers()
 		fetchFans()
     }
-	
-	override func viewDidDisappear(animated: Bool) {
-		super.viewDidDisappear(animated)
-		
-		NSNotificationCenter.defaultCenter().removeObserver(self)  // To prevent memory leak
-	}
 	
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
@@ -62,31 +45,6 @@ class ShareController: UIViewController {
 		
 		if hideMusicPlayer == true {
 			MusicPlayer.playView?.hidden = false
-		}
-	}
-	
-	func setUpKeyboardObservers() {
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.handleKeyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.handleKeyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
-	}
-	
-	func handleKeyboardWillShow(notification: NSNotification) {
-		let keyboardFrame = notification.userInfo?[UIKeyboardFrameBeginUserInfoKey]?.CGRectValue()
-		let keyboardDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey]?.doubleValue
-		
-		// Move inputContainerView up
-		inputContainerBottomAnchor?.constant = -keyboardFrame!.height
-		UIView.animateWithDuration(keyboardDuration!) {
-			self.view.layoutIfNeeded()
-		}
-	}
-	
-	
-	func handleKeyboardWillHide(notification: NSNotification) {
-		let keyboardDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey]?.doubleValue
-		inputContainerBottomAnchor?.constant = -50
-		UIView.animateWithDuration(keyboardDuration!) {
-			self.view.layoutIfNeeded()
 		}
 	}
 	
@@ -139,7 +97,7 @@ class ShareController: UIViewController {
 		}
 
 		let date = String(Int(NSDate().timeIntervalSince1970))
-		let comment = textField.text!
+		let comment = inputContainerView.inputTextField.text!
 		
 		let ref = FIRDatabase.database().reference().child("comments").childByAutoId()
 		ref.child("initial").setValue(["date": date, "comment": comment, "username": username])
@@ -162,27 +120,23 @@ class ShareController: UIViewController {
 		navigationController?.popViewControllerAnimated(true)
 	}
 	
+	override var inputAccessoryView: UIView? {
+		get {
+			return inputContainerView
+		}
+	}
+	
+	override func canBecomeFirstResponder() -> Bool {
+		return true
+	}
+	
 	func setUpView() {
 		tableView.dataSource = self
 		tableView.delegate = self
-		textField.delegate = self
 		tableView.allowsMultipleSelection = true
 		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Send", style: .Plain, target: self, action: #selector(self.handleSend))
 		self.navigationItem.title = "Fans"
-		
-		view.addSubview(inputContainerView)
-		inputContainerView.addSubview(textField)
-		
-		inputContainerView.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
-		inputContainerBottomAnchor = inputContainerView.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: -50)
-		inputContainerBottomAnchor?.active = true
-		inputContainerView.widthAnchor.constraintEqualToAnchor(view.widthAnchor).active = true
-		inputContainerView.heightAnchor.constraintEqualToConstant(50).active = true
-		
-		textField.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
-		textField.centerYAnchor.constraintEqualToAnchor(inputContainerView.centerYAnchor).active = true
-		textField.widthAnchor.constraintEqualToAnchor(inputContainerView.widthAnchor, constant: -16).active = true
-		textField.heightAnchor.constraintEqualToConstant(50).active = true
+		inputContainerView.inputTextField.delegate = self
 	}
 }
 
